@@ -2,6 +2,12 @@
   text-align: center;
 }
 
+.page {
+  height: 100vh;
+  width: 100vh;
+  background-color: lightgray;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -15,13 +21,17 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 5vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+.App-page {
+  min-height: 95vh;
+  background-color: lightgray;
 }
 
 .App-link {
