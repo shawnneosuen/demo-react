@@ -21,5 +21,5 @@ export async function query(sql: string) {
     if (error){
         console.error(error);
     }
-    return queryData
+    return queryData;
 }

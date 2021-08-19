@@ -1,4 +1,7 @@
 import React from "react";
+
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
