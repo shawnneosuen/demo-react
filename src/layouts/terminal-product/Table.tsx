@@ -23,7 +23,6 @@ export default class Tabel extends React.Component<Props, State> {
     let sql = "SELECT MAT_NO FROM UACS_SCHEDULE_COIL";
     try {
       let data = await api.query(sql);
-      console.log("data1", data);
 
       return data;
     } catch (e) {
@@ -32,8 +31,9 @@ export default class Tabel extends React.Component<Props, State> {
   }
 
   async componentDidMount() {
-    let data = this.data;
-    if (data && (await data).length) {
+    let data: [];
+    data = this.data;
+    if (data && data?.length) {
       let dataGroup: Model[] = [];
       console.log("data2", data);
 
