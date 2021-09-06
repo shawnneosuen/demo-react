@@ -12,19 +12,17 @@ interface State {
   rowData: Model[];
 }
 export default class Tabel extends React.Component<Props, State> {
-  data: Promise<any[]>;
   constructor(props: Props) {
     super(props);
     this.state = { rowData: [] };
-    this.data = this.queryData();
   }
 
   async queryData() {
     let sql = "SELECT MAT_NO FROM UACS_SCHEDULE_COIL";
     try {
       let data = await api.query(sql);
-
-      return data;
+      return JSON.stringify(data);
+      console.log('data1', data)
     } catch (e) {
       throw e;
     }
@@ -32,7 +30,7 @@ export default class Tabel extends React.Component<Props, State> {
 
   async componentDidMount() {
     let data: [];
-    data = this.data;
+    data = JSON.parse(await this.queryData());
     if (data && data?.length) {
       let dataGroup: Model[] = [];
       console.log("data2", data);

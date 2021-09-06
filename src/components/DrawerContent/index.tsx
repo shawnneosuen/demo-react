@@ -4,6 +4,7 @@ import { makeStyles, createStyles, Theme} from '@material-ui/core/styles'
 import { useStatusContext } from "../../context/BasePageStatus";
 import { useNavigate } from "react-router-dom";
 import InboxIcon  from '@material-ui/icons/Inbox'
+import NavigaterLink from "../NavigaterLink";
 
 
 const drawerWidth = 240
@@ -57,19 +58,20 @@ const BaseDrawer = (props: Props) => {
         >
             <Toolbar/>
             <div className={classes.drawerContainer}>
-                <List component="nav" aria-label="main mailbox folders">
-                    {
-                    title.map(temp => <ListItem button key={temp} onClick={() => {
-                        onClickTitle(temp)
-                    }}>
-                         <ListItemIcon>
-                            <InboxIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={temp}/>
+                {/*<List component="nav" aria-label="main mailbox folders">*/}
+                {/*    {*/}
+                {/*    title.map(temp => <ListItem button key={temp} onClick={() => {*/}
+                {/*        onClickTitle(temp)*/}
+                {/*    }}>*/}
+                {/*         <ListItemIcon>*/}
+                {/*            <InboxIcon />*/}
+                {/*            </ListItemIcon>*/}
+                {/*            <ListItemText primary={temp}/>*/}
 
-                    </ListItem>)
-                    }       
-                </List>
+                {/*    </ListItem>)*/}
+                {/*    }       */}
+                {/*</List>*/}
+                <NavigaterLink/>
        
             </div>
               

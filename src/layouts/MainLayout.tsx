@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import * as React from 'react'
-=======
-import React from "react";
-
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -77,4 +73,3 @@ export const MainLayout = () => {
     </div>
   );
 };
->>>>>>> fa0fcadd12515bf42511c818b6cb7ce0882560b7
