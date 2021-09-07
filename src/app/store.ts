@@ -3,7 +3,7 @@ import { updateYard } from "pages/yard-monitor/yardSlice";
 export default configureStore({
 
     reducer: {
-        counter: updateYard
+        yard: updateYard
     }
 })
 

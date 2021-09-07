@@ -1,6 +1,9 @@
 import { createStyles, makeStyles, styled, Theme } from "@material-ui/core";
+import store from "app/store";
 import React from "react";
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
+import { Yard } from "./yard";
+import { selectYard } from "./yardSlice";
 
 const classes = {
     Header:{
@@ -8,14 +11,24 @@ const classes = {
     }
 }
 
-class Index extends React.Component{
 
-    render(){
-        return (<div>
-            <div style={classes.Header}></div>
-           
-        </div>)
-    }
+
+const Index = () =>{
+  
+    
+        return (<Provider store={store}>
+            <GetYard/>
+        </Provider>)
+
 }
-
+const  GetYard = () => {
+    const testGetState =useSelector(selectYard)
+    console.log(testGetState);
+    
+   return <div style={classes.Header}>
+    <h1>{testGetState}</h1>
+    <h1>{testGetState}</h1>    
+    <h1>{testGetState}</h1>
+    </div> 
+}
 export default Index
