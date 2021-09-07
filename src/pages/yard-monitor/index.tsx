@@ -1,5 +1,6 @@
 import { createStyles, makeStyles, styled, Theme } from "@material-ui/core";
 import React from "react";
+import { Provider } from 'react-redux'
 
 const classes = {
     Header:{
@@ -11,7 +12,7 @@ class Index extends React.Component{
 
     render(){
         return (<div>
-            <div className={classes.Header}></div>
+            <div style={classes.Header}></div>
            
         </div>)
     }
