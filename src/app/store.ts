@@ -1,9 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { updateYard } from "pages/yard-monitor/yardSlice";
-export default configureStore({
-
+import yardReducer from "pages/yard-monitor/store/yardSlice";
+export  const store = configureStore({
     reducer: {
-        yard: updateYard
+        yard: yardReducer
+
     }
 })
-
