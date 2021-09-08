@@ -4825,6 +4825,14 @@
     "readable-stream" "^2.0.0"
     "stream-shift" "^1.0.0"
 
+"echarts@^5.2.0":
+  "integrity" "sha512-7CrCKGRjFdpLIJ/Yt1gpHeqs5PiCem2GHPdWZPwKl7WSYeZu0Qzm1bcCFe9/b4dfVaL1zlY4JmdzaVwKksVeqg=="
+  "resolved" "https://registry.npmjs.org/echarts/-/echarts-5.2.0.tgz"
+  "version" "5.2.0"
+  dependencies:
+    "tslib" "2.3.0"
+    "zrender" "5.2.0"
+
 "ee-first@1.1.1":
   "integrity" "sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0="
   "resolved" "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz"
@@ -7080,6 +7088,7 @@
     "jest-snapshot" "^26.6.2"
 
 "jest-resolve@*":
+  "integrity" "sha512-tRAz2bwraHufNp+CCmAD8ciyCpXCs1NQxB5EJAmtCFy6BN81loFEGWKzYu26Y62lAJJe4X4jg36Kf+NsQyiStQ=="
   "version" "26.6.0"
   dependencies:
     "@jest/types" "^26.6.0"
@@ -11582,7 +11591,7 @@
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   "version" "1.14.1"
 
-"tslib@^2.0.3":
+"tslib@^2.0.3", "tslib@2.3.0":
   "integrity" "sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.3.0.tgz"
   "version" "2.3.0"
@@ -12488,3 +12497,10 @@
   "integrity" "sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q=="
   "resolved" "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz"
   "version" "0.1.0"
+
+"zrender@5.2.0":
+  "integrity" "sha512-87v3gvB0lcWy48ObA/DwrhQ95ADMMRhECVrXmHDFCBNvbxHFfEDZtrZh4VmVjLAeFAjimY4PyZ65rbLCivdszA=="
+  "resolved" "https://registry.npmjs.org/zrender/-/zrender-5.2.0.tgz"
+  "version" "5.2.0"
+  dependencies:
+    "tslib" "2.3.0"

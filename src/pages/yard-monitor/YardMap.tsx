@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import ZoneComponent from './components/ZoneComponent'
 import { selectYard } from "./store/yardSlice";
 import {Crane, Parking, Zone} from './model'
+
 interface Props {
     bayId: string
 }

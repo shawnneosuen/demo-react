@@ -6,6 +6,7 @@ import { Yard } from "./model";
 import { selectYard, getAllBayId, selectBayIds } from "./store/yardSlice";
 import ZoneComponent from './components/ZoneComponent'
 import YardMap from './YardMap'
+import BarChart from "./components/charts/BarChart";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     Header:{
@@ -45,6 +46,7 @@ const  GetYard = () => {
                 </div>)
            })
        }
+        <BarChart/>
     </div> 
 }
 export default Index
