@@ -6,7 +6,7 @@ import ZY from './ZY'
 
 const initialState: Yard = {
     bayIds: ['PY', 'ZY', 'LY'],
-    bays:{LY, PY, ZY}
+    bays: new Map([['LY',LY], ['PY',PY] ,['ZY',ZY]])
 }
 export const yardSlice = createSlice({
     name: 'yard',

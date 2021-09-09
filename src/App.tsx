@@ -19,6 +19,8 @@ import RouterConfig from "./routes"
 import {About} from './pages/About';
 import {ColorPicker} from './pages/tools/ColorPicker'
 import {Tools} from './pages/tools'
+import { Provider } from 'react-redux';
+import { store } from 'app/store';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     MainPage: {
@@ -31,8 +33,9 @@ export default function ClippedDrawer() {
 
     const classes = useStyles()
     return (
-        
+      
         <div>
+            <Provider store={store}>
             <CssBaseline/>
             <Header/>
             <Toolbar/>
@@ -55,6 +58,7 @@ export default function ClippedDrawer() {
                     </Routes>
                 </main>
             </Router>
+            </Provider>
         </div>
     );
 }

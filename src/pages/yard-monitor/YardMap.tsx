@@ -4,7 +4,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import ZoneComponent from './components/ZoneComponent'
 import { selectYard } from "./store/yardSlice";
-import {Crane, Parking, Zone} from './model'
+import {Crane, Parking, Zone, StockSaddle} from './model'
+import CraneMap from "./components/CraneMap";
 
 interface Props {
     bayId: string
@@ -16,9 +17,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 const Index = ({bayId}: Props) => {
     const classes = useStyles()
-    const bay = useSelector(selectYard).bays[bayId]
+    const bay = useSelector(selectYard).bays.get(bayId)
     const safetyZones = bay.safetyZones;
     const parkingZones = bay.parkings;
+    const stockSaddles = bay.stockSaddles
     const cranes = bay.cranes
     const baseHeight =  270;
     const baseWidth = 1780;
@@ -33,8 +35,9 @@ const Index = ({bayId}: Props) => {
                 parkingZones.map((parking:Parking) => <ZoneComponent key={parking.id} className={'zone'} width={parking.width} height={parking.height} px={px} py={py} left={parking.left} top={parking.top} clickable={true} label={parking.label} locked={parking.locked} horizontal={parking.horizontal}></ZoneComponent>)
             }
             {
-                cranes.map((crane: Crane) => <ZoneComponent key={crane.id} className={'zone'} width={crane.width} height={crane.height} px={px} py={py} left={crane.left} top={crane.top} clickable={true} label={crane.label} ></ZoneComponent>)
+                stockSaddles.map((stockSaddle: StockSaddle) => <ZoneComponent key={stockSaddle.id} className={'zone'} width={stockSaddle.width} height={stockSaddle.height} px={px} py={py} left={stockSaddle.left} top={stockSaddle.top} clickable={true} ></ZoneComponent>)
             }
+            <CraneMap cranes={cranes} px={px} py={py} key={bayId}></CraneMap>
         </ZoneComponent>
     </div>
 }

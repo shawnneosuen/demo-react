@@ -41,8 +41,8 @@ const  GetYard = () => {
        {
            bayIds.map((bayId: string) => {
                return(
-                <div style={{width:'1780px',height: '270px', marginBottom:"20px"}} key={bayId}>
-                    <YardMap bayId={bayId}></YardMap>
+                <div style={{width:'1780px',height: '270px', marginBottom:"30px"}} key={bayId}>
+                    <YardMap bayId={bayId} key={bayId}></YardMap>
                 </div>)
            })
        }

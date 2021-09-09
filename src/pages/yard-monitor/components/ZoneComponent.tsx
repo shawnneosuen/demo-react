@@ -3,7 +3,7 @@ import { Label, Lock } from "@material-ui/icons";
 import React, { ReactNode } from "react";
 
 interface Props{
-    className?:string | 'yard' | 'zone' | undefined ,
+    className?:string | 'yard' | 'zone' | undefined,
     width?: number,
     height?:number,
     px?: number,
@@ -13,8 +13,14 @@ interface Props{
     label?: string,
     locked?: boolean,
     horizontal?:boolean,
+    callStyles?:{
+        border?:string,
+        textAlign?:string,
+        paddingTop?:string
+    },
     clickable?: boolean,
     children?: ReactNode,
+  
 }
 
 const useStyles = makeStyles((theme:Theme) => createStyles({
@@ -43,23 +49,22 @@ const useStyles = makeStyles((theme:Theme) => createStyles({
     }
 }))
 
-const Index = ({className, width, height, px, py, top, left, label, locked, horizontal, clickable, children}: Props) => {
+const Index = ({className, width, height, px, py, top, left, label, locked, horizontal,callStyles, clickable, children}: Props) => {
     const classes = useStyles()
 
-    const styles = {
-        thisStyles:{
-            height: height && py ? height * py + 'px':'100%',
-            width: width && px ? width * px + 'px':'100%',
-            left :left && px ? left * px + 'px' : 0 , 
-            top: top &&  py ? top * py + 'px' : 0,
-        }
+    const thisStyles = {
+        height: height && py ? height * py + 'px':'100%',
+        width: width && px ? width * px + 'px':'100%',
+        left :left && px ? left * px + 'px' : 0 , 
+        top: top &&  py ? top * py + 'px' : 0,
+        border: callStyles?.border,
+        paddingTop: callStyles?.paddingTop
     }
    
-    return <div className={className === 'zone' ? classes.zone : classes.yard} style={styles.thisStyles} onClick={() => {
+    return <div className={className === 'zone' ? classes.zone : classes.yard} style={thisStyles} onClick={() => {
         if (!clickable){
             return
         }
-        console.log(1234)
     }}> 
     {
         locked ? <Lock color={"disabled"} fontSize={"small"}></Lock> : ''

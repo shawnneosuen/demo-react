@@ -1,6 +1,6 @@
 export interface Yard{
     bayIds: string[],
-    bays: {}
+    bays:Map<string, Bay>
 }
 export interface Bay {
     bayId: string,
@@ -10,7 +10,8 @@ export interface Bay {
     },
     parkings: Parking[],
     safetyZones: Zone[],
-    cranes: Crane[]
+    cranes: Crane[],
+    stockSaddles: StockSaddle[],
 }
 export interface Zone{
     id: string,
@@ -56,3 +57,6 @@ export interface Crane {
     tagProps: any[],
 }
 
+export interface StockSaddle{
+     id: string, label: string, left: number, top: number, width: number, height: number 
+}
