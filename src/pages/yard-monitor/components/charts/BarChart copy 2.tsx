@@ -20,7 +20,7 @@ const chartData = [
 const Index = () => {
   return (
     <div>
-      <Chart data={chartData} height={200} width={200}>
+      <Chart data={chartData}>
         <ValueScale name="value" />
 
         <ArgumentAxis />
