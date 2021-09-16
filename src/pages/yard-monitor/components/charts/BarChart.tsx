@@ -1,43 +1,43 @@
-import React from "react";
-import Paper from "@material-ui/core/Paper";
+import React from 'react'
+import Paper from '@material-ui/core/Paper'
 import {
-  Chart,
-  ArgumentAxis,
-  ValueAxis,
-  BarSeries,
-  SplineSeries,
-  Legend,
-  Title,
-} from "@devexpress/dx-react-chart-material-ui";
-import { ValueScale, Animation } from "@devexpress/dx-react-chart";
+	Chart,
+	ArgumentAxis,
+	ValueAxis,
+	BarSeries,
+	SplineSeries,
+	Legend,
+	Title,
+} from '@devexpress/dx-react-chart-material-ui'
+import { ValueScale, Animation } from '@devexpress/dx-react-chart'
 
 const chartData = [
-  { name: "PY", value: 20 },
-  { name: "ZY", value: 20 },
-  { name: "LY", value: 20 },
-];
+	{ name: 'PY', value: 20 },
+	{ name: 'ZY', value: 20 },
+	{ name: 'LY', value: 20 },
+]
 
 const Index = () => {
-  return (
-    <div>
-      <Chart data={chartData} height={200} width={200}>
-        <ValueScale name="value" />
+	return (
+		<div>
+			<Chart data={chartData} height={200} width={200}>
+				<ValueScale name='value' />
 
-        <ArgumentAxis />
-        <ValueAxis scaleName="value" showGrid={false} showLine />
+				<ArgumentAxis />
+				<ValueAxis scaleName='value' showGrid={false} showLine />
 
-        <BarSeries
-          name="Units Sold"
-          valueField="value"
-          argumentField="name"
-          scaleName="value"
-        />
+				<BarSeries
+					name='Units Sold'
+					valueField='value'
+					argumentField='name'
+					scaleName='value'
+				/>
 
-        <Animation />
-        <Title text={"库容量"}></Title>
-      </Chart>
-    </div>
-  );
-};
+				<Animation />
+				<Title text={'库容量'}></Title>
+			</Chart>
+		</div>
+	)
+}
 
-export default Index;
+export default Index
