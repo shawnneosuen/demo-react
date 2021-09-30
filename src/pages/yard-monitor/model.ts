@@ -1,3 +1,11 @@
+/*
+ * @Description: 模型建立
+ * @Version: 2.0
+ * @Autor: Shawnneosuen@outlook.com
+ * @Date: 2021-09-08 20:26:28
+ * @LastEditors: Shawnneosuen@outlook.com
+ * @LastEditTime: 2021-09-30 17:09:58
+ */
 export interface Yard{
     bayIds: string[],
     bays:Map<string, Bay>
@@ -58,5 +66,5 @@ export interface Crane {
 }
 
 export interface StockSaddle{
-     id: string, label: string, left: number, top: number, width: number, height: number 
+     id: string, label: string, left: number, top: number, width: number, height: number , static: boolean
 }

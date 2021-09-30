@@ -11,7 +11,7 @@ import { createStyles, makeStyles } from "@material-ui/styles";
 import React from "react";
 import { useSelector } from "react-redux";
 import ZoneComponent from "./components/ZoneComponent";
-import { selectYard } from "./store/yardSlice";
+import { selectYard } from "../../store/yardSlice";
 import { Crane, Parking, Zone, StockSaddle } from "./model";
 import CraneMap from "./components/CraneMap";
 

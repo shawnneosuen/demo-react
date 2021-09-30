@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-09-30 01:55:57
+ * @LastEditTime: 2021-09-30 16:57:58
  */
 import {
   Button,
@@ -19,7 +19,7 @@ import { store } from "app/store";
 import React from "react";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { Yard } from "./model";
-import { selectYard, getAllBayId, selectBayIds } from "./store/yardSlice";
+import { selectYard, getAllBayId, selectBayIds } from "../../store/yardSlice";
 import ZoneComponent from "./components/ZoneComponent";
 import YardMap from "./YardMap";
 import BarChart from "./components/charts/BarChart";

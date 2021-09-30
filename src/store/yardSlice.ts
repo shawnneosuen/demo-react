@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Bay, Yard } from '../model'
+import { Yard } from '../pages/yard-monitor/model'
 import LY from './LY'
 import PY from './PY'
 import ZY from './ZY'

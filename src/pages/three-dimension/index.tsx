@@ -19,7 +19,7 @@ import {
 import SceneComponent from "babylonjs-hook"; // if you install 'babylonjs-hook' NPM.
 import "./app.css";
 import { useSelector } from "react-redux";
-import { selectYard } from "pages/yard-monitor/store/yardSlice";
+import { selectYard } from "store/yardSlice";
 import { StockSaddle, Yard } from "pages/yard-monitor/model";
 import { CameraAlt, Height } from "@material-ui/icons";
 import { AdvancedDynamicTexture, Control, TextBlock } from "@babylonjs/gui";
