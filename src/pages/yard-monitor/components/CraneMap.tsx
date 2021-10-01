@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-09-09 09:52:48
+ * @LastEditTime: 2021-09-30 23:12:42
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /demo-react/src/pages/yard-monitor/components/CraneMap.tsx
+ */
 import { Theme } from '@material-ui/core'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import React, { ReactNode } from 'react'
@@ -80,8 +88,8 @@ const Index = ({ cranes, px, py, xMax }: Props) => {
 						></ZoneComponent>
 						<CraneMapLabel
 							left={crane.left}
-							top={crane.top + crane.height}
-							width={crane.width + 10}
+							top={crane.top + 90}
+							width={crane.width}
 							px={px}
 							py={py}
 							key={crane.id + 'label'}
