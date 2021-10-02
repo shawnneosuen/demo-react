@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-23 13:20:23
- * @LastEditTime: 2021-10-02 02:26:34
+ * @LastEditTime: 2021-10-02 07:39:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/routes/index.tsx
@@ -20,7 +20,6 @@ const Routers = () => {
 			path: '/',
 			main: <YardMonitor />,
 		},
-
 		{
 			path: '/terminal-product',
 			main: <TerminalProduct />,
