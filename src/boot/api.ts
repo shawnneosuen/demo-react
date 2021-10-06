@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-08-23 11:13:09
- * @LastEditTime: 2021-10-05 09:14:48
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-10-06 23:31:16
+ * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/boot/api.ts
  */
@@ -11,7 +11,7 @@ import axios from 'axios'
 const NODE_ENV = 'local'
 
 const ip = {
-	local: 'localhost',
+	local: '10.25.105.104',
 	development: '10.25.105.104',
 	production: '10.0.1.10',
 }
