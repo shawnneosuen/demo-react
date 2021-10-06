@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-08-23 11:13:09
+ * @LastEditTime: 2021-10-06 13:05:12
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /demo-react/src/components/NavigaterLink.tsx
+ */
 import React from 'react'
 import { List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core'
 import ThreeDRotationIcon from '@material-ui/icons/ThreeDRotation'
@@ -23,6 +31,11 @@ const links = [
 		icon: <DriveEtaIcon />,
 		title: '装载管理',
 		path: '/terminal-transport',
+	},
+	{
+		icon: <DriveEtaIcon />,
+		title: '行车画面',
+		path: '/terminal-crane',
 	},
 	{
 		icon: <ThreeDRotationIcon />,

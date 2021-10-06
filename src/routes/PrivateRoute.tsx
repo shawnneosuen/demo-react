@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-10-02 07:48:04
- * @LastEditTime: 2021-10-02 09:22:43
- * @LastEditors: your name
+ * @LastEditTime: 2021-10-04 08:08:15
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/routes/PrivateRoute.tsx
  */
@@ -18,8 +18,16 @@ interface Props {
 const PrivateElement: React.FC<Props> = ({ element }) => {
 	let location = useLocation()
 	const { auth, setAuth } = useAuthContext()
+	let user = localStorage.getItem('userConfig') ?? ''
+	// if (user && !auth) {
+	// 	setAuth(user)
+	// }
 
-	return auth ? element : <Navigate to='/login' state={{ from: location }} />
+	return user != '' ? (
+		element
+	) : (
+		<Navigate to='/login' state={{ from: location }} />
+	)
 }
 
 export const PrivateRoute: React.FC<Props> = ({ element, ...rest }) => {

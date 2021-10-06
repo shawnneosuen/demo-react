@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-02 01:41:17
+ * @LastEditTime: 2021-10-05 09:25:33
  */
 import {
 	Button,
@@ -28,7 +28,7 @@ import BarChart from './components/charts/BarChart'
 import PieChart from './components/charts/PieChart'
 import OperHistory from './components/OperHistory'
 import CraneCard from 'pages/yard-monitor/components/CraneCard'
-import EspecialBay from './EspecialBay'
+// import EspecialBay from './EspecialBay'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({

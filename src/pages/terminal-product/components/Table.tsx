@@ -228,38 +228,46 @@ export default function ReactVirtualizedTable() {
 
 	const debounceParam = useDebounce(rows, 2000)
 	useEffect(() => {
-		const sql = 'select * from UACS_WEB_USER_RECORD'
+		const sql = 'select * from UACS_SCHEDULE_COIL'
 		let queryData = query(sql)
 		console.log(queryData)
 	}, [debounceParam])
 
+	const thisStyle = () => {
+		let width = document.body.clientWidth - 60
+		let height = window.innerHeight * 0.7
+		console.log(width, height)
+
+		return { width: width, height: height }
+	}
+
 	return (
-		<Paper style={{ height: 400, width: 560 }}>
+		<Paper style={thisStyle()}>
 			<VirtualizedTable
 				rowCount={rows.length}
 				rowGetter={({ index }) => rows[index]}
 				columns={[
 					{
 						width: 200,
-						label: '模块',
-						dataKey: 'dessert',
+						label: '钢卷号',
+						dataKey: 'COIL_NO',
 					},
 					{
 						width: 120,
-						label: '操作人',
-						dataKey: 'calories',
+						label: '鞍座位',
+						dataKey: 'STOCK_NO',
 						numeric: true,
 					},
 					{
 						width: 120,
-						label: '事件',
-						dataKey: 'fat',
+						label: '去向',
+						dataKey: 'DESTINATION',
 						numeric: true,
 					},
 					{
 						width: 120,
-						label: '时间',
-						dataKey: 'carbs',
+						label: '重量',
+						dataKey: 'WEIGHT',
 						numeric: true,
 					},
 				]}

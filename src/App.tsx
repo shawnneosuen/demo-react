@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-02 09:31:21
+ * @LastEditTime: 2021-10-04 08:09:22
  */
 import React, { useEffect, useState } from 'react'
 import { CssBaseline, Toolbar, Card } from '@material-ui/core'
@@ -24,6 +24,7 @@ import WMSLogin from 'pages/wms-login'
 import { useAuthContext } from 'auth-content/BasePageStatus'
 import { PrivateRoute } from 'routes/PrivateRoute'
 import NotFound from 'pages/Error'
+import LoadComponent from 'components/LoadComponent'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -38,8 +39,24 @@ export default function ClippedDrawer() {
 	const classes = useStyles()
 	const { auth, setAuth } = useAuthContext()
 	const navigate = useNavigate()
+
+	useEffect(() => {
+		const test = localStorage.getItem('userConfig')
+		console.log(test)
+		if (auth) {
+			return
+		}
+		if (test) {
+			setAuth(JSON.parse(test))
+		}
+	})
+
+	// useEffect(() => {
+	// setAuth(JSON.parse(localStorage.getItem('userConfig') ?? ''))
+	// })
 	return (
 		<div>
+			<LoadComponent></LoadComponent>
 			<Provider store={store}>
 				<CssBaseline />
 				<Header />

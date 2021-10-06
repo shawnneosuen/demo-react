@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-01 22:19:43
+ * @LastEditTime: 2021-10-03 09:07:35
  */
 export interface Yard {
 	bayIds: string[]
@@ -102,4 +102,10 @@ export interface CircleZone {
 	upperRightCircle: boolean
 	bottomLeftCircle: boolean
 	bottomRightCircle: boolean
+}
+
+export interface User {
+	username: string
+	password: string
+	role: 'admin' | 'dev' | 'user' | 'stranger'
 }
