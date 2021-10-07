@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-07 01:17:17
+ * @LastEditTime: 2021-10-07 17:14:31
  */
 import {
   Button,
@@ -25,9 +25,9 @@ import { selectYard, getAllBayId, selectBayIds } from "../../store/yardSlice";
 import ZoneComponent from "./components/ZoneComponent";
 import YardMap from "./YardMap";
 import BarChart from "./components/charts/BarChart";
-import PieChart from "./components/charts/PieChart";
 import OperHistory from "./components/OperHistory";
 import CraneCard from "pages/yard-monitor/components/CraneCard";
+import PieChart from "./components/charts/PieChart";
 // import EspecialBay from './EspecialBay'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -59,6 +59,9 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: "10vh",
       display: "flex",
     },
+    GridStyle: {
+      flexGrow: 1,
+    },
     bayStyle: {
       border: "1px solid grey",
     },
@@ -82,7 +85,7 @@ const GetYard = () => {
   const [check, setCheck] = useState<boolean>(false);
   const dispatch = useDispatch();
   const baseHeight = 180;
-  const baseWidth = 1780;
+  const baseWidth = 1900;
   const classes = useStyles();
   const bayIds = useSelector(selectBayIds);
 
@@ -152,9 +155,20 @@ const GetYard = () => {
           );
         })}
       <div className={classes.chartsArea}>
-        <BarChart />
-        <PieChart />
-        <OperHistory style={{ height: 500, width: 500, marginRight: 0 }} />
+        <Grid container className={classes.GridStyle}>
+          <Grid item xs={3}>
+            {" "}
+            <BarChart />
+          </Grid>
+          <Grid item xs={3}>
+            {" "}
+            <PieChart />
+          </Grid>
+          <Grid item xs={6}>
+            {" "}
+            <OperHistory style={{ height: 500, width: 800, marginRight: 0 }} />
+          </Grid>
+        </Grid>
       </div>
     </div>
   );

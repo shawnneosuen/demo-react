@@ -1,17 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2021-08-23 11:13:09
- * @LastEditTime: 2021-10-06 23:31:16
+ * @LastEditTime: 2021-10-07 14:39:01
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/boot/api.ts
  */
 import axios from 'axios'
 
-const NODE_ENV = 'local'
+const NODE_ENV = 'development'
 
 const ip = {
-	local: '10.25.105.104',
+	local: 'localhost',
 	development: '10.25.105.104',
 	production: '10.0.1.10',
 }

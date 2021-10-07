@@ -4,51 +4,63 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-30 02:07:01
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-09-30 02:41:23
+ * @LastEditTime: 2021-10-08 01:10:02
  */
 
-import { Button } from "@material-ui/core";
+import { Button, Theme } from "@material-ui/core";
 import React from "react";
 
 import { useCallback, useEffect, useState } from "react";
 import "./styles.css";
 import { Command } from "./models";
 import CommandButton from "components/CommandButton";
+import { useStatusContext } from "context/BasePageStatus";
+import { createStyles, makeStyles } from "@material-ui/styles";
 interface Props {
-  CommandButtons: Command[];
+  CommandButtons?: Command[];
+  show?: boolean;
+  x?: number;
+  y?: number;
 }
-const Index = () => {
-  const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
-  const [show, setShow] = useState(false); // hide menu
 
-  const handleContextMenu = useCallback(
-    (event) => {
-      event.preventDefault();
-      setAnchorPoint({ x: event.pageX, y: event.pageY });
-      setShow(true);
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    ContextMenu: {
+      zIndex: 1001,
+      "& div": {
+        zIndex: 1002,
+      },
     },
-    [setAnchorPoint]
+  })
+);
+const Index = ({ CommandButtons, show, x, y }: Props) => {
+  const classes = useStyles();
+  const {
+    anchorPoint,
+    setArchorPointStatus,
+    contextMenuStatus,
+    setContextMenuStatus,
+  } = useStatusContext();
+  const handleClick = useCallback(
+    () => (show ? setContextMenuStatus(false) : null),
+    [show]
   );
-
-  const handleClick = useCallback(() => (show ? setShow(false) : null), [show]);
-
   useEffect(() => {
     document.addEventListener("click", handleClick);
-    document.addEventListener("contextmenu", handleContextMenu);
     return () => {
       document.removeEventListener("click", handleClick);
-      document.removeEventListener("contextmenu", handleContextMenu);
     };
   });
-
   return (
     <div>
       {show ? (
         <ul
-          className="menu"
+          className={"menu"}
           style={{
-            top: anchorPoint.y,
-            left: anchorPoint.x,
+            position: "absolute",
+            top: anchorPoint?.y,
+            left: anchorPoint?.x,
+            zIndex: 1002,
           }}
         >
           <CommandButton name={"Share to.."} fullWidth={true}></CommandButton>

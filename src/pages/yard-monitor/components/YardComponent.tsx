@@ -1,25 +1,10 @@
-import {
-  makeStyles,
-  Theme,
-  createStyles,
-  Typography,
-  Button,
-} from "@material-ui/core";
+import { makeStyles, Theme, createStyles, Typography } from "@material-ui/core";
 import { Label, Lock } from "@material-ui/icons";
-import CommandButton from "components/CommandButton";
-
 import ContextMenu from "components/ContextMenu";
 import { setContextMenu } from "context/Action";
 import { useStatusContext } from "context/BasePageStatus";
 import { ContextModel } from "context/model";
-import React, {
-  MenuHTMLAttributes,
-  MouseEventHandler,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { ReactNode, useCallback, useEffect, useState } from "react";
 
 interface Props {
   className?: string | "yard" | "zone" | undefined;
@@ -96,22 +81,7 @@ const Index = ({
     border: callStyles?.border,
     paddingTop: callStyles?.paddingTop,
   };
-  //   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
 
-  const { anchorPoint, setArchorPointStatus } = useStatusContext();
-
-  const { contextMenuStatus, setContextMenuStatus } = useStatusContext();
-
-  const onContextMenu = (event: {
-    preventDefault: () => void;
-    pageX: number;
-    pageY: number;
-  }) => {
-    event.preventDefault();
-    console.log(event);
-    setArchorPointStatus({ x: event.pageX, y: event.pageY });
-    setContextMenuStatus(true);
-  };
   return (
     <div
       className={className === "zone" ? classes.zone : classes.yard}
@@ -121,7 +91,6 @@ const Index = ({
           return;
         }
       }}
-      onContextMenu={onContextMenu}
     >
       {locked ? <Lock color={"disabled"} fontSize={"small"}></Lock> : ""}
 

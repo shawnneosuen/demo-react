@@ -30,7 +30,7 @@ const NY: Bay = {
 			trolleyHeight: 1000, // 小车在缩略图上的高度, 固定值
 			status: MAX_NUMBER,
 			occupied: false,
-			wmsMode: 999999,
+			wmsMode: 2,
 			activityStatus: 0,
 			rotateAngleAct: 0,
 			pawActWidth: 0,
@@ -68,7 +68,7 @@ const NY: Bay = {
 			trolleyHeight: 1000,
 			status: MAX_NUMBER,
 			occupied: false,
-			wmsMode: 999999,
+			wmsMode: 2,
 			activityStatus: 0,
 			rotateAngleAct: 0,
 			pawActWidth: 0,
@@ -96,26 +96,6 @@ const NY: Bay = {
 		},
 	],
 	parkings: [
-		{
-			id: 'LTR01',
-			label: 'LTR01',
-			left: 177433,
-			top: 24792,
-			width: 15151,
-			height: 4623,
-			horizontal: true,
-			locked: false,
-		},
-		{
-			id: 'LTR02',
-			label: 'LTR02',
-			left: 202844,
-			top: 24792,
-			width: 15151,
-			height: 4623,
-			horizontal: true,
-			locked: false,
-		},
 	],
 	//675
 	safetyZones: [

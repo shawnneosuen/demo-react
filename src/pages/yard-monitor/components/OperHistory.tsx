@@ -136,7 +136,7 @@ class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> 
     const { classes, columns, rowHeight, headerHeight, ...tableProps } =
       this.props;
     return (
-      <AutoSizer>
+      <AutoSizer size={"small"}>
         {({ height, width }) => (
           <Table
             height={height}
@@ -226,15 +226,19 @@ export default function ReactVirtualizedTable({ style }: Props) {
   const debounceParam = useDebounce(rows, 3);
   useEffect(() => {
     const sql =
-      "select MODULE, USER_ID, ACTION, REC_TIME from UACS_WEB_USER_RECORD";
+      "select MODULE, USER_ID, ACTION, REC_TIME from UACS_WEB_USER_RECORD order by REC_TIME desc fetch first 200 rows only";
     let queryData = query(sql).then((data) => {
-      console.log(data.data);
       let rowsTemp: Data[] = [];
-      for (const subData of data.data) {
-        rowsTemp.push(
-          createData(subData[0], subData[1], subData[2], subData[3])
-        );
+      if (data) {
+        for (const subData of data.data) {
+          if (subData) {
+            rowsTemp.push(
+              createData(subData[0], subData[1], subData[2], subData[3])
+            );
+          }
+        }
       }
+
       setRows(rowsTemp);
     });
   }, [debounceParam]);
@@ -246,7 +250,7 @@ export default function ReactVirtualizedTable({ style }: Props) {
         rowGetter={({ index }) => rows[index]}
         columns={[
           {
-            width: 150,
+            width: 250,
             label: "模块",
             dataKey: "MODULE",
           },
