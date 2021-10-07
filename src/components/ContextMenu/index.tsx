@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-30 02:07:01
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-08 01:23:48
+ * @LastEditTime: 2021-10-08 02:53:45
  */
 
 import { Button, Theme, Typography } from "@material-ui/core";
@@ -71,6 +71,7 @@ const Index = ({ CommandButtons, show, x, y }: Props) => {
                 name={command.Name}
                 fullWidth={true}
                 action={command.action}
+                key={command.Id}
               ></CommandButton>
             ))
           ) : (
