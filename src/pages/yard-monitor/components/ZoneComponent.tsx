@@ -9,6 +9,7 @@ import { Label, Lock } from "@material-ui/icons";
 import CommandButton from "components/CommandButton";
 
 import ContextMenu from "components/ContextMenu";
+import { Command } from "components/ContextMenu/models";
 import { setContextMenu } from "context/Action";
 import { useStatusContext } from "context/BasePageStatus";
 import { ContextModel } from "context/model";
@@ -98,9 +99,20 @@ const Index = ({
   };
   //   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
 
-  const { anchorPoint, setArchorPointStatus } = useStatusContext();
+  const {
+    anchorPoint,
+    setArchorPointStatus,
+    contextMenuStatus,
+    setContextMenuStatus,
+    contextMenuCommands,
+    setContextMenuCommands,
+  } = useStatusContext();
 
-  const { contextMenuStatus, setContextMenuStatus } = useStatusContext();
+  const openDetailPage: Command = {
+    Id: "Detial",
+    Name: "区域详细",
+    action: () => {},
+  };
 
   const onContextMenu = (event: {
     preventDefault: () => void;
@@ -108,9 +120,9 @@ const Index = ({
     pageY: number;
   }) => {
     event.preventDefault();
-    console.log(event);
     setArchorPointStatus({ x: event.pageX, y: event.pageY });
     setContextMenuStatus(true);
+    setContextMenuCommands([openDetailPage]);
   };
   return (
     <div

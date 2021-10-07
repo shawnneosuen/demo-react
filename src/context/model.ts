@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-10-07 19:42:43
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-08 00:49:21
+ * @LastEditTime: 2021-10-08 02:16:43
  */
 
 
@@ -23,3 +23,9 @@ export interface AnchorPointModel{
     x:number,
     y:number
 }
+
+export interface SnackbarModel{
+    type?: Color;
+    msg?:string
+}
+export type Color = 'success' | 'info' | 'warning' | 'error';

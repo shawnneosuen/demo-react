@@ -1,4 +1,13 @@
-import { AnchorPointModel, ContextModel } from "./model"
+/*
+ * @Description: 
+ * @Version: 2.0
+ * @Autor: Shawnneosuen@outlook.com
+ * @Date: 2021-09-08 20:26:28
+ * @LastEditors: Shawnneosuen@outlook.com
+ * @LastEditTime: 2021-10-08 01:49:42
+ */
+import { Command } from "components/ContextMenu/models"
+import { AnchorPointModel, ContextModel, SnackbarModel } from "./model"
 
 export const openCloseDialog = async(data: boolean | null) => {
     return !data
@@ -19,5 +28,19 @@ export const setArchorPointStatus = async(data: AnchorPointModel | null) => {
     return data
 }
 export const getArchorPointStatus = async(data: AnchorPointModel) => {
+    return data
+}
+
+export const setContextMenuCommands = async(data: Command[] | null) => {
+    return data
+}
+export const getContextMenuCommands = async(data: Command[]) => {
+    return data
+}
+
+export const setSnackbar = async(data: SnackbarModel | null) => {
+    return data
+}
+export const getSnackbar = async(data: SnackbarModel) => {
     return data
 }

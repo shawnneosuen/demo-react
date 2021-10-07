@@ -17,6 +17,7 @@ import {
 } from "react-virtualized";
 import { useDebounce } from "utils";
 import { query } from "boot/api";
+import { useStatusContext } from "context/BasePageStatus";
 
 declare module "@material-ui/core/styles/withStyles" {
   // Augment the BaseCSSProperties so that we can control jss-rtl
@@ -203,17 +204,22 @@ function createData(
 export default function ReactVirtualizedTable() {
   const [rows, setRows] = useState<Data[]>([]);
 
+  const { snackbar, setSnackbar } = useStatusContext();
+
   const debounceParam = useDebounce(rows, 2000);
   useEffect(() => {
     const sql = "select MAT_NO from UACS_SCHEDULE_COIL";
     let queryData = query(sql).then((data) => {
-      let rowsTemp: Data[] = [];
-      for (const subData of data.data) {
-        rowsTemp.push(createData(subData[0], "", "", "", ""));
+      if (data) {
+        let rowsTemp: Data[] = [];
+        for (const subData of data.data) {
+          rowsTemp.push(createData(subData[0], "", "", "", ""));
+        }
+        setRows(rowsTemp);
+      } else {
+        setSnackbar({ msg: "网络连接失败", type: "error" });
       }
-      setRows(rowsTemp);
     });
-    console.log(queryData);
   }, [debounceParam]);
 
   const thisStyle = () => {

@@ -1,6 +1,15 @@
+/*
+ * @Description:
+ * @Version: 2.0
+ * @Autor: Shawnneosuen@outlook.com
+ * @Date: 2021-09-08 20:26:28
+ * @LastEditors: Shawnneosuen@outlook.com
+ * @LastEditTime: 2021-10-08 01:52:43
+ */
+import { Command } from "components/ContextMenu/models";
 import React, { ReactNode, useState } from "react";
 import * as action from "./Action";
-import { AnchorPointModel, ContextModel } from "./model";
+import { AnchorPointModel, ContextModel, SnackbarModel } from "./model";
 
 const StatusContext = React.createContext<
   | {
@@ -19,6 +28,12 @@ const StatusContext = React.createContext<
       getArchorPointStatus: (
         anchorPoint: AnchorPointModel
       ) => Promise<AnchorPointModel>;
+      contextMenuCommands: Command[] | null;
+      setContextMenuCommands: (anchorPoint: Command[] | null) => Promise<void>;
+      getContextMenuCommands: (anchorPoint: Command[]) => Promise<Command[]>;
+      snackbar: SnackbarModel | null;
+      setSnackbar: (snackBar: SnackbarModel | null) => Promise<void>;
+      getSnackbar: (snackBar: SnackbarModel) => Promise<SnackbarModel>;
     }
   | undefined
 >(undefined);
@@ -45,6 +60,21 @@ export const BaseStatusProvider = ({ children }: { children: ReactNode }) => {
   const getArchorPointStatus = (anchorPoint: AnchorPointModel) =>
     action.getArchorPointStatus(anchorPoint);
 
+  const [contextMenuCommands, setContextMenuCommandsModel] = useState<
+    Command[] | null
+  >(null);
+  const setContextMenuCommands = (contextMenuCommands: Command[] | null) =>
+    action
+      .setContextMenuCommands(contextMenuCommands)
+      .then(setContextMenuCommandsModel);
+  const getContextMenuCommands = (contextMenuCommands: Command[]) =>
+    action.getContextMenuCommands(contextMenuCommands);
+
+  const [snackbar, setSnackBarModel] = useState<SnackbarModel | null>(null);
+  const setSnackbar = (snackbar: SnackbarModel | null) =>
+    action.setSnackbar(snackbar).then(setSnackBarModel);
+  const getSnackbar = (snackbar: SnackbarModel) => action.getSnackbar(snackbar);
+
   const value = {
     drawerFlag,
     openCloseDialog,
@@ -55,6 +85,12 @@ export const BaseStatusProvider = ({ children }: { children: ReactNode }) => {
     anchorPoint,
     setArchorPointStatus,
     getArchorPointStatus,
+    contextMenuCommands,
+    setContextMenuCommands,
+    getContextMenuCommands,
+    snackbar,
+    setSnackbar,
+    getSnackbar,
   };
   return <StatusContext.Provider children={children} value={value} />;
 };

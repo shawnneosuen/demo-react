@@ -4,10 +4,10 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-30 02:07:01
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-08 01:10:02
+ * @LastEditTime: 2021-10-08 01:23:48
  */
 
-import { Button, Theme } from "@material-ui/core";
+import { Button, Theme, Typography } from "@material-ui/core";
 import React from "react";
 
 import { useCallback, useEffect, useState } from "react";
@@ -40,6 +40,8 @@ const Index = ({ CommandButtons, show, x, y }: Props) => {
     setArchorPointStatus,
     contextMenuStatus,
     setContextMenuStatus,
+    contextMenuCommands,
+    setContextMenuCommands,
   } = useStatusContext();
   const handleClick = useCallback(
     () => (show ? setContextMenuStatus(false) : null),
@@ -63,13 +65,19 @@ const Index = ({ CommandButtons, show, x, y }: Props) => {
             zIndex: 1002,
           }}
         >
-          <CommandButton name={"Share to.."} fullWidth={true}></CommandButton>
-          <Button>Cut</Button>
-          <Button>Copy</Button>
-          <Button>Paste</Button>
-          <hr className="divider" />
-          <Button>Refresh</Button>
-          <Button>Exit</Button>
+          {contextMenuCommands != null ? (
+            contextMenuCommands.map((command: Command) => (
+              <CommandButton
+                name={command.Name}
+                fullWidth={true}
+                action={command.action}
+              ></CommandButton>
+            ))
+          ) : (
+            <div style={{ flexGrow: 1 }}>
+              <Typography> 未设置按钮</Typography>
+            </div>
+          )}
         </ul>
       ) : (
         <> </>

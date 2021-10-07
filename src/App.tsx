@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-08 01:04:47
+ * @LastEditTime: 2021-10-08 01:44:07
  */
 import React, { useEffect, useState } from "react";
 import { CssBaseline, Toolbar, Card } from "@material-ui/core";
@@ -26,7 +26,7 @@ import { PrivateRoute } from "routes/PrivateRoute";
 import NotFound from "pages/Error";
 import LoadComponent from "components/LoadComponent";
 import { useStatusContext } from "context/BasePageStatus";
-
+import MySnackbar from "./components/MySnackbar";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     MainPage: {
@@ -82,6 +82,7 @@ export default function ClippedDrawer() {
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ContextMenu show={contextMenuStatus}></ContextMenu>
+          <MySnackbar></MySnackbar>
         </main>
       </Provider>
     </div>

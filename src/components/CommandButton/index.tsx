@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-30 02:24:20
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-09-30 02:40:45
+ * @LastEditTime: 2021-10-08 01:23:13
  */
 
 import { Button } from "@material-ui/core";
@@ -20,12 +20,7 @@ interface Props {
 const Index = ({ name, label, action, fullWidth = true }: Props) => {
   return (
     <div>
-      <Button
-        fullWidth={fullWidth}
-        onClick={() => {
-          console.log("点击按钮" + name);
-        }}
-      >
+      <Button fullWidth={fullWidth} onClick={() => action}>
         {name}
       </Button>
     </div>
