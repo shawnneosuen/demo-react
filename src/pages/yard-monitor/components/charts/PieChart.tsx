@@ -4,36 +4,15 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-14 14:27:55
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-07 17:46:21
+ * @LastEditTime: 2021-10-08 02:43:34
  */
 import React, { useEffect, useState } from "react";
-import Paper from "@material-ui/core/Paper";
-import {
-  Chart,
-  ArgumentAxis,
-  ValueAxis,
-  BarSeries,
-  SplineSeries,
-  Legend,
-  Title,
-} from "@devexpress/dx-react-chart-material-ui";
-import { ValueScale, Animation, PieSeries } from "@devexpress/dx-react-chart";
-import {
-  createStyles,
-  makeStyles,
-  styled,
-  Theme,
-  withStyles,
-} from "@material-ui/core";
-import { useSelector, useStore } from "react-redux";
-import { selectYard } from "store/yardSlice";
+import { Chart, Legend } from "@devexpress/dx-react-chart-material-ui";
+import { Animation, PieSeries } from "@devexpress/dx-react-chart";
+import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import { useSelector } from "react-redux";
+import { selectBayIds } from "store/yardSlice";
 import { useDebounce } from "utils";
-
-const chartData = [
-  { name: "PY", value: 20 },
-  { name: "ZY", value: 20 },
-  { name: "LY", value: 20 },
-];
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,7 +41,7 @@ interface DataModel {
 
 const Index = () => {
   const classes = useStyles();
-  const bayIds = useSelector(selectYard).bayIds;
+  const bayIds: string[] = useSelector(selectBayIds);
   const [chartData, setChartData] = useState<DataModel[]>([]);
 
   const debounceParam = useDebounce(chartData, 3000);

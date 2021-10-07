@@ -1,10 +1,6 @@
 import { makeStyles, Theme, createStyles, Typography } from "@material-ui/core";
-import { Label, Lock } from "@material-ui/icons";
-import ContextMenu from "components/ContextMenu";
-import { setContextMenu } from "context/Action";
-import { useStatusContext } from "context/BasePageStatus";
-import { ContextModel } from "context/model";
-import React, { ReactNode, useCallback, useEffect, useState } from "react";
+import { Lock } from "@material-ui/icons";
+import React, { ReactNode } from "react";
 
 interface Props {
   className?: string | "yard" | "zone" | undefined;
@@ -99,7 +95,7 @@ const Index = ({
           className={classes.zoneLabel}
           align={"center"}
           display={"block"}
-          style={horizontal == false ? { width: "1px" } : {}}
+          style={horizontal === false ? { width: "1px" } : {}}
         >
           {label}
         </Typography>

@@ -4,25 +4,20 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-07 17:14:31
+ * @LastEditTime: 2021-10-08 02:40:33
  */
 import {
-  Button,
-  Container,
   createStyles,
   FormControlLabel,
   Grid,
   makeStyles,
-  styled,
   Switch,
   Theme,
 } from "@material-ui/core";
 import { store } from "app/store";
 import React, { useState } from "react";
-import { Provider, useDispatch, useSelector, useStore } from "react-redux";
-import { Crane, Yard } from "./model";
-import { selectYard, getAllBayId, selectBayIds } from "../../store/yardSlice";
-import ZoneComponent from "./components/ZoneComponent";
+import { Provider, useSelector } from "react-redux";
+import { selectYard, selectBayIds } from "../../store/yardSlice";
 import YardMap from "./YardMap";
 import BarChart from "./components/charts/BarChart";
 import OperHistory from "./components/OperHistory";
@@ -76,14 +71,11 @@ const Index = () => {
   );
 };
 const GetYard = () => {
-  const bay = useSelector(selectYard).bays;
-  console.log(bay);
   const cranes = useSelector(selectYard).cranes;
 
   const craneIds = useSelector(selectYard).craneIds;
 
   const [check, setCheck] = useState<boolean>(false);
-  const dispatch = useDispatch();
   const baseHeight = 180;
   const baseWidth = 1900;
   const classes = useStyles();

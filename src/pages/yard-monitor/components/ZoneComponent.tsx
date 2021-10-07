@@ -1,26 +1,8 @@
-import {
-  makeStyles,
-  Theme,
-  createStyles,
-  Typography,
-  Button,
-} from "@material-ui/core";
-import { Label, Lock } from "@material-ui/icons";
-import CommandButton from "components/CommandButton";
-
-import ContextMenu from "components/ContextMenu";
+import { makeStyles, Theme, createStyles, Typography } from "@material-ui/core";
+import { Lock } from "@material-ui/icons";
 import { Command } from "components/ContextMenu/models";
-import { setContextMenu } from "context/Action";
 import { useStatusContext } from "context/BasePageStatus";
-import { ContextModel } from "context/model";
-import React, {
-  MenuHTMLAttributes,
-  MouseEventHandler,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { ReactNode } from "react";
 
 interface Props {
   className?: string | "yard" | "zone" | undefined;
@@ -97,16 +79,9 @@ const Index = ({
     border: callStyles?.border,
     paddingTop: callStyles?.paddingTop,
   };
-  //   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
 
-  const {
-    anchorPoint,
-    setArchorPointStatus,
-    contextMenuStatus,
-    setContextMenuStatus,
-    contextMenuCommands,
-    setContextMenuCommands,
-  } = useStatusContext();
+  const { setArchorPointStatus, setContextMenuStatus, setContextMenuCommands } =
+    useStatusContext();
 
   const openDetailPage: Command = {
     Id: "Detial",
@@ -142,7 +117,7 @@ const Index = ({
           className={classes.zoneLabel}
           align={"center"}
           display={"block"}
-          style={horizontal == false ? { width: "1px" } : {}}
+          style={horizontal === false ? { width: "1px" } : {}}
         >
           {label}
         </Typography>

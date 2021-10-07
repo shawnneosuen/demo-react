@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-02 00:53:13
- * @LastEditTime: 2021-10-06 23:09:02
+ * @LastEditTime: 2021-10-08 02:47:59
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/wms-login/index.tsx
@@ -12,21 +12,17 @@ import {
   Card,
   createStyles,
   createTheme,
-  Input,
   makeStyles,
   TextField,
   Theme,
   ThemeProvider,
   Typography,
 } from "@material-ui/core";
-import { AgPickerField } from "ag-grid-community/dist/lib/widgets/agPickerField";
 import { useAuthContext } from "auth-content/BasePageStatus";
 import { query } from "boot/api";
 import { User } from "pages/yard-monitor/model";
-import React, { ChangeEventHandler, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import * as fs from "fs";
-import { UserComponentFactory } from "ag-grid-community";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -64,7 +60,6 @@ const Index = () => {
   const classes = useStyles();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [role, setRole] = useState();
   const sqlRef = useRef("");
 
   const onUsernameChange = (event: {
@@ -79,7 +74,7 @@ const Index = () => {
   };
   const navigate = useNavigate();
 
-  const { auth, setAuth } = useAuthContext();
+  const { setAuth } = useAuthContext();
 
   useEffect(() => {
     sqlRef.current = `select ID, PASSWORD, ROLE from UACS_WEB_USER where ID = '${username}' and PASSWORD = '${password}'`;

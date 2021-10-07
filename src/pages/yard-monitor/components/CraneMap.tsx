@@ -1,14 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2021-09-09 09:52:48
- * @LastEditTime: 2021-10-07 16:03:07
+ * @LastEditTime: 2021-10-08 02:33:32
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/yard-monitor/components/CraneMap.tsx
  */
-import { Theme } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/styles";
-import React, { ReactNode } from "react";
+
+import React from "react";
 import { Crane } from "../model";
 import ZoneComponent from "./ZoneComponent";
 import CraneMapLabel from "./CraneMapLabel";
@@ -19,9 +18,6 @@ interface Props {
   py: number;
   xMax?: string;
 }
-const classes = {
-  border: "3px solid #a6a6a6",
-};
 
 const modeColor = (wmsMode: number) => {
   switch (wmsMode) {

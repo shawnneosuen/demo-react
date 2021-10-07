@@ -184,7 +184,6 @@ interface Data {
   ACTION: string;
   REC_TIME: string;
 }
-type DataModel = [string, string, string, string];
 
 // const sample: Sample[] = [
 // ]
@@ -197,25 +196,6 @@ function createData(
 ): Data {
   return { MODULE, USER_ID, ACTION, REC_TIME };
 }
-
-// function createData(
-// 	id: number,
-// 	dessert: string,
-// 	calories: number,
-// 	fat: number,
-// 	carbs: number,
-// 	protein: number
-// ): Data {
-// 	return { id, dessert, calories, fat, carbs, protein }
-// }
-
-// const rows: Data[] = []
-
-// for (let i = 0; i < 200; i += 1) {
-// 	const randomSelection = sample[Math.floor(Math.random() * sample.length)]
-// 	rows.push(createData(i, ...randomSelection))
-// }
-
 interface Props {
   style: Object;
 }
@@ -227,7 +207,7 @@ export default function ReactVirtualizedTable({ style }: Props) {
   useEffect(() => {
     const sql =
       "select MODULE, USER_ID, ACTION, REC_TIME from UACS_WEB_USER_RECORD order by REC_TIME desc fetch first 200 rows only";
-    let queryData = query(sql).then((data) => {
+    query(sql).then((data) => {
       let rowsTemp: Data[] = [];
       if (data) {
         for (const subData of data.data) {

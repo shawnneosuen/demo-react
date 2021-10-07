@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-06 12:58:52
- * @LastEditTime: 2021-10-07 15:48:35
+ * @LastEditTime: 2021-10-08 02:27:50
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/terminal-crane/index.tsx
@@ -18,7 +18,6 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDebounce } from "utils";
 import MarkupTables from "./components/MarkupTables";
-import MarkupTable from "./components/MarkupTables";
 
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({

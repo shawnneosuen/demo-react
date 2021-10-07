@@ -4,13 +4,13 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-08 01:44:07
+ * @LastEditTime: 2021-10-08 02:38:13
  */
-import React, { useEffect, useState } from "react";
-import { CssBaseline, Toolbar, Card } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { CssBaseline, Toolbar } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
-import { Routes, Route, useNavigate, Navigate, RouteProps } from "react-router";
+import { Routes, Route } from "react-router";
 import "./App.css";
 
 import Header from "./components/Header";
@@ -37,26 +37,19 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function ClippedDrawer() {
-  const classes = useStyles();
   const { auth, setAuth } = useAuthContext();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const test = localStorage.getItem("userConfig");
-    console.log(test);
+    const localAuth = localStorage.getItem("userConfig");
     if (auth) {
       return;
     }
-    if (test) {
-      setAuth(JSON.parse(test));
+    if (localAuth) {
+      setAuth(JSON.parse(localAuth));
     }
   });
 
-  const { contextMenuStatus, setContextMenuStatus } = useStatusContext();
-
-  // useEffect(() => {
-  // setAuth(JSON.parse(localStorage.getItem('userConfig') ?? ''))
-  // })
+  const { contextMenuStatus } = useStatusContext();
   return (
     <div>
       <LoadComponent></LoadComponent>

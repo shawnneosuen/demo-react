@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-08 00:28:31
+ * @LastEditTime: 2021-10-08 02:29:50
  */
 import { Theme } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/styles";
@@ -12,10 +12,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ZoneComponent from "./components/ZoneComponent";
 import { selectYard } from "../../store/yardSlice";
-import { Crane, Parking, Zone, StockSaddle, CircleZone } from "./model";
+import { Parking, Zone, CircleZone } from "./model";
 import CraneMap from "./components/CraneMap";
 import CircleZoneComponent from "./components/CircleZoneComponent";
-import ContextMenu from "components/ContextMenu";
 import YardComponent from "./components/YardComponent";
 
 interface Props {
@@ -27,12 +26,10 @@ interface Props {
 const useStyles = makeStyles((theme: Theme) => createStyles({}));
 
 const Index = ({ bayId, baseHeight, baseWidth }: Props) => {
-  const classes = useStyles();
   const bay = useSelector(selectYard).bays.get(bayId);
   const safetyZones = bay.safetyZones;
   const circleZones = bay.circleZones;
   const parkingZones = bay.parkings;
-  const stockSaddles = bay.stockSaddles;
   const cranes = bay.cranes;
 
   const [py, setPy] = useState<number>(0);
