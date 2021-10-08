@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-15 13:42:05
- * @LastEditTime: 2021-10-08 02:45:55
+ * @LastEditTime: 2021-10-08 20:23:19
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: 行车相关信息展示
  * @FilePath: /demo-react/src/pages/yard-monitor/components/CraneCard/index.tsx
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  value: Crane;
+  value: Crane | undefined;
   style?: Object;
 }
 
@@ -72,7 +72,7 @@ const Index = ({ value, style }: Props) => {
               size={"small"}
               className={classes.Button}
               style={{
-                backgroundColor: value.wmsMode === 1 ? color.yellow : "",
+                backgroundColor: value?.wmsMode === 1 ? color.yellow : "",
               }}
             >
               自动
@@ -81,7 +81,7 @@ const Index = ({ value, style }: Props) => {
               size={"small"}
               className={classes.Button}
               style={{
-                backgroundColor: value.wmsMode === 2 ? color.yellow : "",
+                backgroundColor: value?.wmsMode === 2 ? color.yellow : "",
               }}
             >
               手动
@@ -90,7 +90,7 @@ const Index = ({ value, style }: Props) => {
               size={"small"}
               className={classes.Button}
               style={{
-                backgroundColor: value.wmsMode === 3 ? color.yellow : "",
+                backgroundColor: value?.wmsMode === 3 ? color.yellow : "",
               }}
             >
               半自动
@@ -99,7 +99,7 @@ const Index = ({ value, style }: Props) => {
               size={"small"}
               className={classes.Button}
               style={{
-                backgroundColor: value.wmsMode === 99999 ? color.yellow : "",
+                backgroundColor: value?.wmsMode === 99999 ? color.yellow : "",
               }}
             >
               离线

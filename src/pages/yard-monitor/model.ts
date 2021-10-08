@@ -3,16 +3,16 @@
  * @Version: 2.0
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-03 09:07:35
+ * @LastEditors: Shawnneosuen@outlook.com
+ * @LastEditTime: 2021-10-08 21:09:10
  */
 export interface Yard {
 	bayIds: string[]
-	bays: Map<string, Bay>
+	bays: Bay[]
 	craneIds: string[]
-	cranes: Map<string, Crane>
+	cranes: Crane[]
 }
-export interface Bay {
+export type Bay = {
 	bayId: string
 	dimension: {
 		width: number

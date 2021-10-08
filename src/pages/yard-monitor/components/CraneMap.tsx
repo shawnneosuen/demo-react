@@ -1,19 +1,34 @@
 /*
  * @Author: your name
  * @Date: 2021-09-09 09:52:48
- * @LastEditTime: 2021-10-08 02:33:32
+ * @LastEditTime: 2021-10-09 01:55:45
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/yard-monitor/components/CraneMap.tsx
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Crane } from "../model";
 import ZoneComponent from "./ZoneComponent";
 import CraneMapLabel from "./CraneMapLabel";
 import { color } from "boot/utils";
+import { useAppSelector } from "app/hook";
+import {
+  createStyles,
+  Fab,
+  Fade,
+  makeStyles,
+  Paper,
+  Popper,
+  Theme,
+  Tooltip,
+  Typography,
+} from "@material-ui/core";
+import MyTooltip from "components/MyTooltip";
+import AddIcon from "@material-ui/icons/Add";
+import zIndex from "@material-ui/core/styles/zIndex";
 interface Props {
-  cranes: Crane[];
+  craneIds: string[];
   px: number;
   py: number;
   xMax?: string;
@@ -60,10 +75,34 @@ const modeLabel = (wmsMode: number, xMax?: string) => {
   return "离线";
 };
 
-const Index = ({ cranes, px, py, xMax }: Props) => {
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    typography: {
+      padding: theme.spacing(2),
+    },
+    fab: {
+      margin: theme.spacing(2),
+    },
+    absolute: {
+      position: "absolute",
+      zIndex: theme.zIndex.drawer - 2,
+    },
+    tooltip: {
+      zIndex: theme.zIndex.drawer - 1000,
+    },
+  })
+);
+
+const Index = ({ craneIds, px, py, xMax }: Props) => {
+  const classes = useStyles();
+  const [craneList, setCraneList] = useState<Crane[]>([]);
+  const yard = useAppSelector((state) => state.yard);
+  useEffect(() => {
+    setCraneList(yard.cranes.filter((crane) => craneIds.includes(crane.id)));
+  }, [yard]);
   return (
     <div>
-      {cranes.map((crane: Crane) => {
+      {craneList.map((crane: Crane) => {
         const callStyles = {
           border: "3px solid " + modeColor(crane.wmsMode),
         };
@@ -92,6 +131,31 @@ const Index = ({ cranes, px, py, xMax }: Props) => {
             >
               {crane.label}
             </CraneMapLabel>
+            <Tooltip
+              title={
+                <React.Fragment>
+                  <div>{crane.label}</div>
+                  <div>{crane.left} </div>
+                </React.Fragment>
+              }
+              aria-label="add"
+              open={true}
+              className={classes.tooltip}
+              placement="right-start"
+              arrow
+            >
+              <div
+                color="secondary"
+                className={classes.absolute}
+                style={{
+                  top: crane.top * py,
+                  left: crane.left * px,
+                  width: crane.width * px,
+                }}
+              >
+                {/* <AddIcon /> */}
+              </div>
+            </Tooltip>
           </div>
         );
       })}
