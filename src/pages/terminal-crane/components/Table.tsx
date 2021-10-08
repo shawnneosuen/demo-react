@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import {
 	createStyles,
@@ -17,6 +17,7 @@ import {
 } from 'react-virtualized'
 import { useDebounce } from 'utils'
 import { query } from 'boot/api'
+import { useStatusContext } from 'context/BasePageStatus'
 
 declare module '@material-ui/core/styles/withStyles' {
 	// Augment the BaseCSSProperties so that we can control jss-rtl
@@ -93,7 +94,6 @@ class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> 
 
 	cellRenderer: TableCellRenderer = ({ cellData, columnIndex }) => {
 		const { columns, classes, rowHeight, onRowClick } = this.props
-
 		return (
 			<TableCell
 				component='div'
@@ -102,7 +102,11 @@ class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> 
 				})}
 				variant='body'
 				style={{ height: rowHeight }}
-				align={'left'}
+				align={
+					(columnIndex != null && columns[columnIndex].numeric) || false
+						? 'right'
+						: 'left'
+				}
 			>
 				{cellData}
 			</TableCell>
@@ -125,7 +129,7 @@ class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> 
 				)}
 				variant='head'
 				style={{ height: headerHeight }}
-				align={columns[columnIndex].numeric || false ? 'right' : 'left'}
+				align={'left'}
 			>
 				<span>{label}</span>
 			</TableCell>
@@ -136,7 +140,7 @@ class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> 
 		const { classes, columns, rowHeight, headerHeight, ...tableProps } =
 			this.props
 		return (
-			<AutoSizer size={'small'}>
+			<AutoSizer>
 				{({ height, width }) => (
 					<Table
 						height={height}
@@ -179,75 +183,87 @@ const VirtualizedTable = withStyles(styles)(MuiVirtualizedTable)
 // ---
 
 interface Data {
-	MODULE: string
-	USER_ID: string
-	ACTION: string
-	REC_TIME: string
+	COIL_NO: string
+	oper: string
+	user: string
+	ip: string
+	date: string
 }
-
-// const sample: Sample[] = [
-// ]
+type DataModel = [string, string, string, string]
 
 function createData(
-	MODULE: string,
-	USER_ID: string,
-	ACTION: string,
-	REC_TIME: string
+	COIL_NO: string,
+	oper: string,
+	user: string,
+	ip: string,
+	date: string
 ): Data {
-	return { MODULE, USER_ID, ACTION, REC_TIME }
-}
-interface Props {
-	style: Object
+	return { COIL_NO, oper, user, ip, date }
 }
 
-export default function ReactVirtualizedTable({ style }: Props) {
+export default function ReactVirtualizedTable() {
 	const [rows, setRows] = useState<Data[]>([])
 
-	const debounceParam = useDebounce(rows, 3000)
-	useEffect(() => {
-		const sql =
-			'select MODULE, USER_ID, ACTION, REC_TIME from UACS_WEB_USER_RECORDS order by REC_TIME desc fetch first 200 rows only'
-		query(sql).then((data) => {
-			let rowsTemp: Data[] = []
-			if (data) {
-				for (const subData of data.data) {
-					if (subData) {
-						rowsTemp.push(
-							createData(subData[0], subData[1], subData[2], subData[3])
-						)
-					}
-				}
-			}
+	const ref = useRef<HTMLDivElement>(null)
 
-			setRows(rowsTemp)
+	const { snackbar, setSnackbar } = useStatusContext()
+
+	const debounceParam = useDebounce(rows, 2000)
+	useEffect(() => {
+		const sql = 'select MAT_NO from UACS_SCHEDULE_COIL'
+		let queryData = query(sql).then((data) => {
+			if (data) {
+				let rowsTemp: Data[] = []
+				for (const subData of data.data) {
+					rowsTemp.push(createData(subData[0], '', '', '', ''))
+				}
+				setRows(rowsTemp)
+			} else {
+				setSnackbar({ msg: '网络连接失败', type: 'error' })
+			}
 		})
 	}, [debounceParam])
 
+	const thisStyle = () => {
+		let width = '100%'
+		let height = window.innerHeight * 0.6
+
+		return { width: width, height: height }
+	}
+
+	const [itemWidth, setItemWidth] = useState<number>(0)
+	useEffect(() => {
+		setItemWidth(ref.current ? ref.current.offsetWidth / 4 : 0)
+		console.log(itemWidth)
+	}, [ref.current])
 	return (
-		<Paper style={style}>
+		<Paper style={thisStyle()} ref={ref}>
 			<VirtualizedTable
 				rowCount={rows.length}
 				rowGetter={({ index }) => rows[index]}
 				columns={[
 					{
-						width: 250,
-						label: '模块',
-						dataKey: 'MODULE',
+						width: itemWidth,
+						label: '钢卷号',
+						dataKey: 'COIL_NO',
 					},
 					{
-						width: 150,
-						label: '操作人',
-						dataKey: 'USER_ID',
+						width: itemWidth,
+						label: '鞍座位',
+						dataKey: 'STOCK_NO',
+						numeric: true,
 					},
 					{
-						width: 150,
-						label: '事件',
-						dataKey: 'ACTION',
+						width: itemWidth,
+						label: '去向',
+						dataKey: 'DESTINATION',
+						numeric: true,
 					},
 					{
-						width: 250,
-						label: '时间',
-						dataKey: 'REC_TIME',
+						width: itemWidth,
+						label: '重量',
+						dataKey: 'WEIGHT',
+						numeric: true,
 					},
 				]}
 			/>

@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-08-23 11:13:09
- * @LastEditTime: 2021-10-06 13:05:12
- * @LastEditors: your name
+ * @LastEditTime: 2021-10-08 13:30:30
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/components/NavigaterLink.tsx
  */
@@ -27,26 +27,26 @@ const links = [
 		title: '钢卷信息',
 		path: '/terminal-product',
 	},
-	{
-		icon: <DriveEtaIcon />,
-		title: '装载管理',
-		path: '/terminal-transport',
-	},
+	// {
+	// 	icon: <DriveEtaIcon />,
+	// 	title: '装载管理',
+	// 	path: '/terminal-transport',
+	// },
 	{
 		icon: <DriveEtaIcon />,
 		title: '行车画面',
 		path: '/terminal-crane',
 	},
-	{
-		icon: <ThreeDRotationIcon />,
-		title: '3D',
-		path: '/three-dimension',
-	},
-	{
-		icon: <BrushIcon />,
-		title: '绘制库图',
-		path: '/setting/design',
-	},
+	// {
+	// 	icon: <ThreeDRotationIcon />,
+	// 	title: '3D',
+	// 	path: '/three-dimension',
+	// },
+	// {
+	// 	icon: <BrushIcon />,
+	// 	title: '绘制库图',
+	// 	path: '/setting/design',
+	// },
 ]
 const NavigaterLink = () => {
 	let navigate = useNavigate()

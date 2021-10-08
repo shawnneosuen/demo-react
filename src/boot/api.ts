@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-08-23 11:13:09
- * @LastEditTime: 2021-10-07 14:39:01
- * @LastEditors: Shawnneosuen@outlook.com
+ * @LastEditTime: 2021-10-08 10:49:50
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/boot/api.ts
  */
@@ -12,7 +12,7 @@ const NODE_ENV = 'development'
 
 const ip = {
 	local: 'localhost',
-	development: '10.25.105.104',
+	development: '10.25.105.41',
 	production: '10.0.1.10',
 }
 

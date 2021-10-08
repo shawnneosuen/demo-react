@@ -1,18 +1,21 @@
 /*
  * @Author: your name
  * @Date: 2021-09-30 20:37:14
- * @LastEditTime: 2021-10-01 23:01:58
+ * @LastEditTime: 2021-10-08 17:32:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/store/yardSlice.ts
  */
 import { createSlice } from '@reduxjs/toolkit'
-import { Yard } from '../pages/yard-monitor/model'
+import { Crane, Yard } from '../pages/yard-monitor/model'
 import DCLY from './DCLY'
 import NY from './NY'
 import RFBY from './RFBY'
 import RFFY from './RFFY'
 import RMY from './RMY'
+import { enableMapSet } from 'immer'
+
+enableMapSet()
 const initialState: Yard = {
 	bayIds: ['RFBY', 'RFFY', 'DCLY', 'RMY', 'NY'],
 	bays: new Map([
@@ -46,10 +49,19 @@ export const yardSlice = createSlice({
 		getAllBayId: (state: any) => {
 			return state
 		},
+		updateCrane: (state: Yard, action) => {
+			console.log(state)
+
+			let orginCrane = state.cranes.get('51')
+			console.log(orginCrane)
+			if (orginCrane) orginCrane.left += action.payload
+			// state.cranes.get(craneid)
+			return state
+		},
 	},
 })
 export const selectYard = (state: any) => state.yard
 export const selectBayIds = (state: any) => state.yard.bayIds
-export const { updateYard, getAllBayId } = yardSlice.actions
+export const { updateYard, getAllBayId, updateCrane } = yardSlice.actions
 
 export default yardSlice.reducer

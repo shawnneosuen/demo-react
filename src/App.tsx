@@ -3,81 +3,81 @@
  * @Version: 2.0
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
- * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-08 02:38:13
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-10-08 11:25:46
  */
-import React, { useEffect } from "react";
-import { CssBaseline, Toolbar } from "@material-ui/core";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import React, { useEffect } from 'react'
+import { CssBaseline, Toolbar } from '@material-ui/core'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 
-import { Routes, Route } from "react-router";
-import "./App.css";
+import { Routes, Route } from 'react-router'
+import './App.css'
 
-import Header from "./components/Header";
-import DrawerContent from "./components/DrawerContent";
-import RouterConfig from "./routes";
+import Header from './components/Header'
+import DrawerContent from './components/DrawerContent'
+import RouterConfig from './routes'
 
-import { Provider } from "react-redux";
-import { store } from "app/store";
-import ContextMenu from "components/ContextMenu";
-import WMSLogin from "pages/wms-login";
-import { useAuthContext } from "auth-content/BasePageStatus";
-import { PrivateRoute } from "routes/PrivateRoute";
-import NotFound from "pages/Error";
-import LoadComponent from "components/LoadComponent";
-import { useStatusContext } from "context/BasePageStatus";
-import MySnackbar from "./components/MySnackbar";
+import { Provider } from 'react-redux'
+import { store } from 'app/store'
+import ContextMenu from 'components/ContextMenu'
+import WMSLogin from 'pages/wms-login'
+import { useAuthContext } from 'auth-content/BasePageStatus'
+import { PrivateRoute } from 'routes/PrivateRoute'
+import NotFound from 'pages/Error'
+import LoadComponent from 'components/LoadComponent'
+import { useStatusContext } from 'context/BasePageStatus'
+import MySnackbar from './components/MySnackbar'
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    MainPage: {
-      backgroundColor: "#F0F0F0",
-      height: "100vh",
-    },
-  })
-);
+	createStyles({
+		MainPage: {
+			backgroundColor: '#F0F0F0',
+			height: '100vh',
+		},
+	})
+)
 
 export default function ClippedDrawer() {
-  const { auth, setAuth } = useAuthContext();
+	const { auth, setAuth } = useAuthContext()
 
-  useEffect(() => {
-    const localAuth = localStorage.getItem("userConfig");
-    if (auth) {
-      return;
-    }
-    if (localAuth) {
-      setAuth(JSON.parse(localAuth));
-    }
-  });
+	useEffect(() => {
+		const localAuth = localStorage.getItem('userConfig')
+		if (auth) {
+			return
+		}
+		if (localAuth) {
+			setAuth(JSON.parse(localAuth))
+		}
+	})
 
-  const { contextMenuStatus } = useStatusContext();
-  return (
-    <div>
-      <LoadComponent></LoadComponent>
-      <Provider store={store}>
-        <CssBaseline />
-        <Header />
-        <Toolbar />
-        <DrawerContent open={false} />
-        <main>
-          <Routes>
-            {RouterConfig()
-              .filter((router) => router.path != "/login")
-              .map((router) => (
-                <PrivateRoute
-                  path={router.path}
-                  element={router.main}
-                  key={router.path}
-                ></PrivateRoute>
-              ))}
-            <Route path={"/login"} element={<WMSLogin />}>
-              {" "}
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <ContextMenu show={contextMenuStatus}></ContextMenu>
-          <MySnackbar></MySnackbar>
-        </main>
-      </Provider>
-    </div>
-  );
+	const { contextMenuStatus } = useStatusContext()
+	return (
+		<div>
+			<LoadComponent></LoadComponent>
+			<Provider store={store}>
+				<CssBaseline />
+				<Header />
+				<Toolbar />
+				<DrawerContent open={false} />
+				<main>
+					<Routes>
+						{RouterConfig()
+							.filter((router) => router.path != '/login')
+							.map((router) => (
+								<PrivateRoute
+									path={router.path}
+									element={router.main}
+									key={router.path}
+								></PrivateRoute>
+							))}
+						<Route path={'/login'} element={<WMSLogin />}>
+							{' '}
+						</Route>
+						<Route path='*' element={<NotFound />} />
+					</Routes>
+					<ContextMenu show={contextMenuStatus}></ContextMenu>
+					<MySnackbar></MySnackbar>
+				</main>
+			</Provider>
+		</div>
+	)
 }
