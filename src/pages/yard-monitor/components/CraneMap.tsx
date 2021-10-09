@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-09 09:52:48
- * @LastEditTime: 2021-10-09 01:55:45
+ * @LastEditTime: 2021-10-09 10:42:24
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/yard-monitor/components/CraneMap.tsx
@@ -134,8 +134,11 @@ const Index = ({ craneIds, px, py, xMax }: Props) => {
             <Tooltip
               title={
                 <React.Fragment>
-                  <div>{crane.label}</div>
-                  <div>{crane.left} </div>
+                  <div>行车号：{crane.label}</div>
+                  <div>大车位置：{crane.left} </div>
+                  <div>小车位置：</div>
+                  <div>钢卷号： </div>
+                  <div>指令： </div>
                 </React.Fragment>
               }
               aria-label="add"

@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-09 02:30:42
+ * @LastEditTime: 2021-10-09 10:36:24
  */
 import React, { useEffect, useState } from "react";
 import {
@@ -25,8 +25,14 @@ interface DataModel {
 
 const Index = () => {
   const bayIds = useSelector(selectYard).bayIds;
-  const [chartData, setChartData] = useState<DataModel[]>([]);
-  const debounceParam = useDebounce(chartData, 1000);
+  const [chartData, setChartData] = useState<DataModel[]>([
+    { name: "1", value: Math.random() },
+    { name: "2", value: Math.random() },
+    { name: "3", value: Math.random() },
+    { name: "4", value: Math.random() },
+    { name: "5", value: Math.random() },
+  ]);
+  const debounceParam = useDebounce(chartData, 3000);
   const [time, setTime] = useState<string>("");
   const [timeList, setTimeList] = useState<string[]>([
     "1",
@@ -36,39 +42,28 @@ const Index = () => {
     "5",
     "6",
   ]);
-  const timeDebounce = useDebounce(timeList, 1000);
 
   useEffect(() => {
-    setTime(new Date().toLocaleString());
-    if (time) {
-      setTimeList(pop(timeList, time));
-      console.log(timeList);
-    }
-  }, [timeDebounce]);
+    setTime(new Date().toLocaleTimeString());
+  }, [debounceParam]);
   useEffect(() => {
-    if (bayIds.length > 0) {
-      let datasTemp: DataModel[] = [];
-      // for (const temp of timeList) {
-      //   let dataTemp: DataModel = {
-      //     name: temp,
-      //     value: Math.random(),
-      //   };
-      //   datasTemp.push(dataTemp);
-      // }
-      // timeList.forEach((temp) => {
-      //   if (timeList.indexOf(temp) === timeList.length - 1) {
-      //     datasTemp.push({
-      //       name: temp,
-      //       value: Math.random(),
-      //     });
-      //   }
-      // });
-      setChartData(datasTemp);
-    }
-  }, [debounceParam, timeList]);
+    let datasTemp: DataModel[] = [];
+    datasTemp = JSON.parse(JSON.stringify(chartData));
+
+    datasTemp.shift();
+
+    let dataTemp: DataModel = {
+      name: time,
+      value: Math.random(),
+    };
+    datasTemp.push(dataTemp);
+    console.log(chartData);
+
+    setChartData(datasTemp);
+  }, [time]);
   return (
     <div>
-      <Chart data={chartData} height={400} width={400}>
+      <Chart data={chartData} height={400} width={500}>
         <ValueScale name="value" />
 
         <ArgumentAxis />
@@ -81,7 +76,7 @@ const Index = () => {
           scaleName="value"
         />
 
-        <Animation />
+        <Animation duration={1000} />
         <Title text={"自动化率"}></Title>
       </Chart>
     </div>
@@ -89,7 +84,3 @@ const Index = () => {
 };
 
 export default Index;
-
-const pop = (arrayValue: string[], value: string) => {
-  return [...arrayValue.filter((item) => arrayValue.indexOf(item) != 0), value];
-};
