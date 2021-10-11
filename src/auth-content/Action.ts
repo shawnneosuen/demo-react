@@ -1,4 +1,4 @@
-import { User } from 'pages/yard-monitor/model'
+import { User } from 'boot/model'
 
 /*
  * @Author: your name

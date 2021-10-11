@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { color } from "boot/utils";
-import { Crane } from "pages/yard-monitor/model";
+import { Crane } from "boot/model";
 import React from "react";
 
 const useStyles = makeStyles((theme: Theme) =>

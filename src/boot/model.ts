@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-08 21:09:10
+ * @LastEditTime: 2021-10-12 02:04:29
  */
 export interface Yard {
 	bayIds: string[]
@@ -108,4 +108,14 @@ export interface User {
 	username: string
 	password: string
 	role: 'admin' | 'dev' | 'user' | 'stranger'
+}
+
+export interface Commands{
+	commands: Command[]
+}
+
+export interface Command {
+	id: string
+	type: string
+	coilNo: string
 }

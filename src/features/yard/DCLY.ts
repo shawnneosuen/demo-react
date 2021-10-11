@@ -1,4 +1,4 @@
-import { Bay } from 'pages/yard-monitor/model'
+import { Bay } from 'boot/model'
 
 const MAX_NUMBER = 999999
 

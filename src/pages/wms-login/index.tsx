@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-02 00:53:13
- * @LastEditTime: 2021-10-08 02:47:59
+ * @LastEditTime: 2021-10-11 21:50:11
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/wms-login/index.tsx
@@ -20,7 +20,7 @@ import {
 } from "@material-ui/core";
 import { useAuthContext } from "auth-content/BasePageStatus";
 import { query } from "boot/api";
-import { User } from "pages/yard-monitor/model";
+import { User } from "boot/model";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -82,13 +82,20 @@ const Index = () => {
 
   const onHandleClick = async () => {
     let result = await query(sqlRef.current);
+
+    // TODO: 公司服务器和我的服务器后台提供数据方式不一致
     console.log(result);
 
     let user: User = {
-      username: result.data[0][0],
-      password: result.data[0][1],
-      role: result.data[0][2],
+      username: result.ID,
+      password: result.PASSWORD,
+      role: result.ROLE,
     };
+    // let user: User = {
+    //   username: result.data[0][0],
+    //   password: result.data[0][1],
+    //   role: result.data[0][2],
+    // };
     setAuth(user);
     localStorage.setItem("userConfig", JSON.stringify(user));
     navigate("/");

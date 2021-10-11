@@ -20,7 +20,7 @@ import SceneComponent from "babylonjs-hook"; // if you install 'babylonjs-hook' 
 import "./app.css";
 import { useSelector } from "react-redux";
 import { selectYard } from "features/yard/yardSlice";
-import { StockSaddle, Yard } from "pages/yard-monitor/model";
+import { StockSaddle, Yard } from "boot/model";
 import { CameraAlt, Height } from "@material-ui/icons";
 import { AdvancedDynamicTexture, Control, TextBlock } from "@babylonjs/gui";
 import { CreateCrane } from "./components/crane";

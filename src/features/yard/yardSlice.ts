@@ -1,13 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2021-09-30 20:37:14
- * @LastEditTime: 2021-10-09 02:18:11
+ * @LastEditTime: 2021-10-12 02:01:04
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/store/yardSlice.ts
  */
 import { createNextState, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Crane, Yard, Zone } from '../../pages/yard-monitor/model'
+import { Crane, Yard, Zone } from '../../boot/model'
 import DCLY from './DCLY'
 import NY from './NY'
 import RFBY from './RFBY'

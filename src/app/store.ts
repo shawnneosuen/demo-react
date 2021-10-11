@@ -4,13 +4,15 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-08 18:38:23
+ * @LastEditTime: 2021-10-12 02:06:36
  */
 import { configureStore } from "@reduxjs/toolkit";
 import yardReducer from "features/yard/yardSlice";
+import commandsRedducer from "features/commands/commadSlice";
 export  const store = configureStore({
     reducer: {
-        yard: yardReducer
+        yard: yardReducer,
+        commands: commandsRedducer
 
     }
 })

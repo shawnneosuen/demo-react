@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ZoneComponent from "./components/ZoneComponent";
 import { selectYard } from "../../features/yard/yardSlice";
-import { Parking, Zone, CircleZone, Bay, Crane } from "./model";
+import { Parking, Zone, CircleZone, Bay, Crane } from "../../boot/model";
 import CraneMap from "./components/CraneMap";
 import CircleZoneComponent from "./components/CircleZoneComponent";
 import YardComponent from "./components/YardComponent";

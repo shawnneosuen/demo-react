@@ -9,7 +9,7 @@
 
 import { createStyles, makeStyles, Paper, Theme } from "@material-ui/core";
 import Header from "components/Header";
-import { Bay, Zone } from "pages/yard-monitor/model";
+import { Bay, Zone } from "boot/model";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Routes, Route, RouteProps, useParams } from "react-router";

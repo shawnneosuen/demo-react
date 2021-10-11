@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "app/hook";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectYard, updateCrane } from "features/yard/yardSlice";
-import { Crane } from "../model";
+import { Crane } from "../../../boot/model";
 import { useDebounce } from "utils";
 
 const Index = () => {
