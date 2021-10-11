@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-08 11:25:46
+ * @LastEditTime: 2021-10-11 17:09:06
  */
 import React, { useEffect } from 'react'
 import { CssBaseline, Toolbar } from '@material-ui/core'
@@ -30,7 +30,6 @@ import MySnackbar from './components/MySnackbar'
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		MainPage: {
-			backgroundColor: '#F0F0F0',
 			height: '100vh',
 		},
 	})

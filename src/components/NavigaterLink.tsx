@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-23 11:13:09
- * @LastEditTime: 2021-10-08 13:30:30
+ * @LastEditTime: 2021-10-11 10:40:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/components/NavigaterLink.tsx
@@ -18,6 +18,9 @@ import { useStatusContext } from '../context/BasePageStatus'
 
 const links = [
 	{
+		title: '库区管理',
+	},
+	{
 		icon: <OndemandVideoIcon />,
 		title: '主监控',
 		path: '/',
@@ -32,10 +35,19 @@ const links = [
 	// 	title: '装载管理',
 	// 	path: '/terminal-transport',
 	// },
+
 	{
 		icon: <DriveEtaIcon />,
 		title: '行车画面',
 		path: '/terminal-crane',
+	},
+	{
+		title: '指令管理',
+	},
+	{
+		icon: <DriveEtaIcon />,
+		title: '行车指令',
+		path: '/crane-commands',
 	},
 	// {
 	// 	icon: <ThreeDRotationIcon />,
@@ -54,19 +66,28 @@ const NavigaterLink = () => {
 	return (
 		<div>
 			<List>
-				{links.map((link) => (
-					<ListItem
-						button
-						key={link.title}
-						onClick={() => {
-							navigate(link.path)
-							openCloseDialog(drawerFlag).then((r) => r)
-						}}
-					>
-						<ListItemAvatar>{link.icon}</ListItemAvatar>
-						<ListItemText primary={link.title}></ListItemText>
-					</ListItem>
-				))}
+				{links.map((link) =>
+					link.path ? (
+						<ListItem
+							button
+							key={link.title}
+							onClick={() => {
+								navigate(link.path)
+								openCloseDialog(drawerFlag).then((r) => r)
+							}}
+						>
+							<ListItemAvatar>{link.icon}</ListItemAvatar>
+							<ListItemText primary={link.title}></ListItemText>
+						</ListItem>
+					) : (
+						<ListItem key={link.title}>
+							<ListItemText
+								primary={link.title}
+								style={{ color: 'grey' }}
+							></ListItemText>
+						</ListItem>
+					)
+				)}
 			</List>
 		</div>
 	)
