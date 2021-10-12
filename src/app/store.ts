@@ -1,20 +1,19 @@
 /*
- * @Description: 
+ * @Description:
  * @Version: 2.0
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
- * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-12 02:06:36
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-10-12 09:29:09
  */
-import { configureStore } from "@reduxjs/toolkit";
-import yardReducer from "features/yard/yardSlice";
-import commandsRedducer from "features/commands/commadSlice";
-export  const store = configureStore({
-    reducer: {
-        yard: yardReducer,
-        commands: commandsRedducer
-
-    }
+import { configureStore } from '@reduxjs/toolkit'
+import yardReducer from 'features/yard/yardSlice'
+import commandsReducer from 'features/commands/commadSlice'
+export const store = configureStore({
+	reducer: {
+		yard: yardReducer,
+		commands: commandsReducer,
+	},
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

@@ -3,8 +3,8 @@
  * @Version: 2.0
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
- * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-12 02:04:29
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-10-12 09:58:15
  */
 export interface Yard {
 	bayIds: string[]
@@ -110,12 +110,20 @@ export interface User {
 	role: 'admin' | 'dev' | 'user' | 'stranger'
 }
 
-export interface Commands{
+export interface Commands {
 	commands: Command[]
 }
 
 export interface Command {
-	id: string
-	type: string
-	coilNo: string
+	CommandNo: string
+	CommandType: string
+	Priority: number
+	CraneNo: string
+	StartStock: string
+	ToStock: string
+	CommandStatus: number
+	PickupFlag: boolean
+	CoilNo: string
+	BayNo: string
+	UpdateTime: string
 }

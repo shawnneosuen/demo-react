@@ -1,15 +1,15 @@
 /*
  * @Author: your name
  * @Date: 2021-10-11 14:37:08
- * @LastEditTime: 2021-10-11 16:38:50
+ * @LastEditTime: 2021-10-12 17:09:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/components/MySelect/index.tsx
  */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Menu, { MenuProps } from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
+import MenuItem, { MenuItemProps } from '@material-ui/core/MenuItem'
 import { InputAdornment, OutlinedInput } from '@material-ui/core'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 
@@ -33,32 +33,32 @@ const StyledMenu = withStyles({
 	/>
 ))
 
-const StyledMenuItem = withStyles((theme) => ({
-	root: {
-		width: '100%',
-	},
-}))(MenuItem)
-
-interface Props {
+interface Props extends MenuItemProps {
 	value?: string
 	options?: string[]
+	onSelect?: any
+	onClear?: any
 }
 
-const Index = ({ value = '', options }: Props) => {
-	const [selected, setSelected] = useState<string>('')
+const Index = ({
+	value = '',
+	options,
+	onSelect: handleSelect = () => {},
+	onClear: handleClear,
+}: Props) => {
+	const [selectedValue, setSelectedValue] = useState<string>('')
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const inputRef = useRef<HTMLDivElement>()
 	const [itemWidth, setItemWidth] = useState<number>(0)
+
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget)
 	}
 
-	const handleSelectClick = (event: React.MouseEvent<HTMLElement>) => {
-		setSelected('')
-		setSelected(event.currentTarget.innerText)
+	const handleSelectClick = async (event: React.MouseEvent<HTMLElement>) => {
+		setSelectedValue(event.currentTarget.innerText)
 		setAnchorEl(null)
 	}
-
 	const handleClose = () => {
 		setAnchorEl(null)
 	}
@@ -66,11 +66,15 @@ const Index = ({ value = '', options }: Props) => {
 	useEffect(() => {
 		setItemWidth((inputRef.current?.offsetWidth ?? 0) + 40)
 	}, [inputRef.current])
+
+	useEffect(() => {
+		handleSelect(selectedValue)
+	}, [selectedValue])
 	return (
 		<div>
 			<OutlinedInput
 				ref={inputRef}
-				value={selected}
+				value={selectedValue}
 				onClick={handleClick}
 				endAdornment={
 					<InputAdornment position='end'>
@@ -87,17 +91,16 @@ const Index = ({ value = '', options }: Props) => {
 				onClose={handleClose}
 			>
 				{options?.map((option: string) => (
-					<StyledMenuItem
+					<MenuItem
 						style={{ width: itemWidth }}
 						key={option}
 						onClick={handleSelectClick}
 					>
-						{option}
-					</StyledMenuItem>
+						<div> {option}</div>
+					</MenuItem>
 				))}
 			</StyledMenu>
 		</div>
 	)
 }
-
 export default Index
