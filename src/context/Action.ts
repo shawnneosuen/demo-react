@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-08 01:49:42
+ * @LastEditTime: 2021-10-13 03:13:07
  */
 import { Command } from "components/ContextMenu/models"
 import { AnchorPointModel, ContextModel, SnackbarModel } from "./model"
@@ -43,4 +43,8 @@ export const setSnackbar = async(data: SnackbarModel | null) => {
 }
 export const getSnackbar = async(data: SnackbarModel) => {
     return data
+}
+
+export const setDialogStatus = async(data: boolean | null) => {
+    return !data
 }
