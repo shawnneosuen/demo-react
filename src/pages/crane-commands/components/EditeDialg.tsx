@@ -3,8 +3,8 @@
  * @Version: 2.0
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-10-13 03:17:50
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-13 17:30:46
+ * @LastEditors: Shawnneosuen@outlook.com
+ * @LastEditTime: 2021-10-14 07:04:04
  */
 
 import {
@@ -19,7 +19,7 @@ import {
   Theme,
 } from "@material-ui/core";
 import { useAppDispatch, useAppSelector } from "app/hook";
-import { Coil, Command } from "boot/model";
+import { Coil, Command, Commands } from "boot/model";
 import MySelect from "components/MySelect";
 import VirtualScrollSelect from "components/MySelect/VirtualScrollSelect";
 import MyTitle from "components/MyTitle";
@@ -34,9 +34,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-const Index = () => {
-  const { dialogStatus, setDialogStatus } = useStatusContext();
+interface Props {
+  selectedData?: Command[];
+}
+const Index = ({ selectedData }: Props) => {
+  const { editDialogStatus, setEditDialogStatus } = useStatusContext();
   const bayIds = useAppSelector((state) => state.yard).bayIds;
   const craneIds = useAppSelector((state) => state.yard).craneIds;
   const coilNos = useAppSelector((state) => state.coils).coils.map(
@@ -49,16 +51,30 @@ const Index = () => {
   const [command, setCommand] = useState<Command>();
 
   const [commandNo, setCommandNo] = useState<string>(
-    "" + Math.round(Math.random() * 1000000)
+    selectedData ? selectedData[0]?.CommandNo : ""
   );
-  const [priority, setPriority] = useState<string>("");
-  const [bayNo, setBayNo] = useState<string>("");
-  const [craneNo, setCraneNo] = useState<string>("");
-  const [coilNo, setCoilNo] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
-  const [fromStock, setFromStock] = useState<string>("");
+  const [priority, setPriority] = useState<string>(
+    selectedData ? selectedData[0]?.Priority.toString() : ""
+  );
+  const [bayNo, setBayNo] = useState<string>(
+    selectedData ? selectedData[0]?.BayNo : ""
+  );
+  const [craneNo, setCraneNo] = useState<string>(
+    selectedData ? selectedData[0]?.CraneNo : ""
+  );
+  const [coilNo, setCoilNo] = useState<string>(
+    selectedData ? selectedData[0]?.CoilNo : ""
+  );
+  const [status, setStatus] = useState<string>(
+    selectedData ? selectedData[0]?.CommandStatus.toString() : ""
+  );
+  const [fromStock, setFromStock] = useState<string>(
+    selectedData ? selectedData[0]?.StartStock : ""
+  );
 
-  const [toStock, setToStock] = useState<string>("");
+  const [toStock, setToStock] = useState<string>(
+    selectedData ? selectedData[0]?.ToStock : ""
+  );
 
   const [pickupFlag, setPickupFlag] = useState<string>("是");
 
@@ -123,7 +139,7 @@ const Index = () => {
   };
 
   const handleClose = () => {
-    setDialogStatus(dialogStatus);
+    setEditDialogStatus(editDialogStatus);
   };
 
   const [open, setOpen] = useState<boolean>(false);
@@ -131,8 +147,8 @@ const Index = () => {
   useEffect(() => {
     console.log("test");
 
-    setOpen(dialogStatus === true);
-  }, [dialogStatus]);
+    setOpen(editDialogStatus === true);
+  }, [editDialogStatus]);
 
   useEffect(() => {
     let commandTemp: Command = {
@@ -166,7 +182,7 @@ const Index = () => {
     <div>
       <Dialog open={open} maxWidth={"lg"}>
         <Paper style={{ width: "80vh" }} className={classes.root}>
-          <MyTitle fontSize={20} value={"创建指令"}></MyTitle>
+          <MyTitle fontSize={20} value={"修改指令"}></MyTitle>
           <Grid
             container
             spacing={2}
@@ -196,23 +212,10 @@ const Index = () => {
             </Grid>
             <Grid item xs={4}>
               {" "}
-              {/* <TextField
-								fullWidth
-								variant='outlined'
-								label='跨号'
-								value={bayNo}
-								onChange={handleBayNoChange}
-							></TextField> */}
               <MySelect options={bayIds} onSelect={setBayNo}></MySelect>
             </Grid>
             <Grid item xs={4}>
               {" "}
-              {/* <TextField
-								variant='outlined'
-								label='行车号'
-								value={craneNo}
-								onChange={handleCraneNoChange}
-							></TextField> */}
               <MySelect options={craneIds} onSelect={setCraneNo}></MySelect>
             </Grid>
             <Grid item xs={4}>

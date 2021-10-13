@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-13 03:14:04
+ * @LastEditTime: 2021-10-14 06:53:50
  */
 import { Command } from "components/ContextMenu/models";
 import React, { ReactNode, useState } from "react";
@@ -34,8 +34,11 @@ const StatusContext = React.createContext<
       snackbar: SnackbarModel | null;
       setSnackbar: (snackBar: SnackbarModel | null) => Promise<void>;
       getSnackbar: (snackBar: SnackbarModel) => Promise<SnackbarModel>;
+
       dialogStatus: boolean | null;
       setDialogStatus: (dialogStatus: boolean | null) => Promise<void>;
+      editDialogStatus: boolean | null;
+      setEditDialogStatus: (editDialogStatus: boolean | null) => Promise<void>;
     }
   | undefined
 >(undefined);
@@ -81,6 +84,10 @@ export const BaseStatusProvider = ({ children }: { children: ReactNode }) => {
 
   const setDialogStatus = (dialog: boolean | null) =>
     action.setDialogStatus(dialog).then(setDialog);
+  const [editDialogStatus, setEdidialog] = useState<boolean>(false);
+
+  const setEditDialogStatus = (editDialogStatus: boolean | null) =>
+    action.setDialogStatus(editDialogStatus).then(setEdidialog);
   const value = {
     drawerFlag,
     openCloseDialog,
@@ -99,6 +106,8 @@ export const BaseStatusProvider = ({ children }: { children: ReactNode }) => {
     getSnackbar,
     dialogStatus,
     setDialogStatus,
+    editDialogStatus,
+    setEditDialogStatus,
   };
   return <StatusContext.Provider children={children} value={value} />;
 };
