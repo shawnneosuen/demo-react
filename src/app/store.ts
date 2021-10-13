@@ -4,15 +4,17 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-12 09:29:09
+ * @LastEditTime: 2021-10-13 13:37:19
  */
 import { configureStore } from '@reduxjs/toolkit'
 import yardReducer from 'features/yard/yardSlice'
 import commandsReducer from 'features/commands/commadSlice'
+import coilSlice from 'features/coil/coilSlice'
 export const store = configureStore({
 	reducer: {
 		yard: yardReducer,
 		commands: commandsReducer,
+		coils: coilSlice,
 	},
 })
 

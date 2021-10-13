@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-30 20:37:14
- * @LastEditTime: 2021-10-12 09:28:23
+ * @LastEditTime: 2021-10-13 17:29:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/store/yardSlice.ts
@@ -23,7 +23,7 @@ export const commandsSlice = createSlice({
 		},
 		addNewCommand: (state = initialState, action: PayloadAction<Command>) => {
 			let stateTemp = JSON.parse(JSON.stringify(state))
-			stateTemp.push(action.payload)
+			stateTemp.commands.push(action.payload)
 
 			return stateTemp
 		},
@@ -31,6 +31,7 @@ export const commandsSlice = createSlice({
 })
 export const selectYard = (state: any) => state.yard
 export const selectBayIds = (state: any) => state.yard.bayIds
-export const { updateCommand, getCommand } = commandsSlice.actions
+export const { updateCommand, getCommand, addNewCommand } =
+	commandsSlice.actions
 
 export default commandsSlice.reducer

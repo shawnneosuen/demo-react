@@ -7,11 +7,18 @@
  * @FilePath: /demo-react/src/components/Title/index.tsx
  */
 
-import { createStyles, makeStyles, Theme, Typography } from '@material-ui/core'
+import {
+	createStyles,
+	makeStyles,
+	Theme,
+	Typography,
+	TypographyProps,
+} from '@material-ui/core'
 import React from 'react'
 
-interface Props {
+interface Props extends TypographyProps {
 	value?: string
+	fontSize?: number
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -20,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			color: 'grey',
 		},
 		text: {
-			fontSize: 4,
+			// fontSize: 4,
 		},
 	})
 )
