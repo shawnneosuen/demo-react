@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-13 14:42:23
+ * @LastEditTime: 2021-10-14 09:24:29
  */
 export interface Yard {
 	bayIds: string[]
