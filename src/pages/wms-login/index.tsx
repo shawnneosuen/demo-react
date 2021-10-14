@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-10-02 00:53:13
- * @LastEditTime: 2021-10-11 21:50:11
- * @LastEditors: Shawnneosuen@outlook.com
+ * @LastEditTime: 2021-10-14 15:00:50
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/wms-login/index.tsx
  */
@@ -87,9 +87,9 @@ const Index = () => {
 		console.log(result)
 
 		let user: User = {
-			username: result.ID,
-			password: result.PASSWORD,
-			role: result.ROLE,
+			username: 'dev', //result.ID,
+			password: 'dev', //result.PASSWORD,
+			role: 'dev', //result.ROLE,
 		}
 		// let user: User = {
 		//   username: result.data[0][0],

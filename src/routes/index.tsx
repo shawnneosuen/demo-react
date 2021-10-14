@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-23 13:20:23
- * @LastEditTime: 2021-10-12 17:06:38
+ * @LastEditTime: 2021-10-14 15:41:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/routes/index.tsx
@@ -13,6 +13,7 @@ import WMSLogin from 'pages/wms-login'
 import TerminalCrane from 'pages/terminal-crane'
 import ZoneMonitor from 'pages/zone-monitor'
 import CraneCommands from 'pages/crane-commands'
+import EquipmentCommands from 'pages/commands-equipment'
 
 const Routers = () => {
 	return [
@@ -40,6 +41,10 @@ const Routers = () => {
 		{
 			path: '/crane-commands',
 			main: <CraneCommands />,
+		},
+		{
+			path: '/equipment-commands',
+			main: <EquipmentCommands />,
 		},
 	]
 }
