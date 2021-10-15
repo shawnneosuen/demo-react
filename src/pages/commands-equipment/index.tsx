@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 15:38:06
- * @LastEditTime: 2021-10-15 18:19:13
+ * @LastEditTime: 2021-10-15 19:13:26
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/commands-equipment/index.tsx
@@ -41,15 +41,15 @@ const Index = () => {
           <Grid container>
             <Grid item xs={6}>
               {" "}
-              <StockCoilMsgPanel />
+              <StockCoilMsgPanel value={"4"} />
             </Grid>
             <Grid item xs={6}>
               {" "}
-              <StockCoilMsgPanel />
+              <StockCoilMsgPanel value={"3"} />
             </Grid>
           </Grid>
         </div>
-        <div>
+        <div style={{ marginTop: 24 }}>
           <Table></Table>
         </div>
       </Paper>

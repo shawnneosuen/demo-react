@@ -48,50 +48,54 @@ const useStyles = makeStyles((theme: Theme) =>
 const columns: Column[] = [
   {
     field: "EditPriority",
-    headerName: "更改优先级",
+    headerName: "计划内序号",
   },
   {
     field: "CommandNo",
-    headerName: "指令号",
+    headerName: "材料号",
   },
   {
     field: "Priority",
-    headerName: "优先级",
+    headerName: "计划号",
   },
   {
-    headerName: "跨号",
+    headerName: "重量",
     field: "BayNo",
   },
   {
-    headerName: "行车号",
+    headerName: "宽度",
     field: "CraneNo",
   },
   {
-    headerName: "材料号",
+    headerName: "内径",
     field: "CoilNo",
   },
   {
-    headerName: "指令类型",
+    headerName: "外径",
     field: "CommandType",
   },
   {
-    headerName: "起始库位",
+    headerName: "包装状态",
     field: "StartStock",
   },
   {
-    headerName: "卸下库位",
+    headerName: "开卷方向",
     field: "ToStock",
   },
   {
-    headerName: "指令状态",
+    headerName: "鞍座号",
     field: "CommandStatus",
   },
   {
-    headerName: "可吊标志",
+    headerName: "鞍座状态",
     field: "PickupFlag",
   },
   {
-    headerName: "更新时间",
+    headerName: "鞍座类型",
+    field: "UpdateTime",
+  },
+  {
+    headerName: "时间",
     field: "UpdateTime",
   },
 ];
@@ -125,7 +129,7 @@ const Index = () => {
 
   const thisStyle = () => {
     let width = "100%";
-    let height = window.innerHeight * 0.55;
+    let height = window.innerHeight * 0.5;
 
     return { width: width, height: height, border: "1px solid #D0D0D0" };
   };
@@ -158,18 +162,50 @@ const Index = () => {
               headerCheckboxSelection={true}
               headerCheckboxSelectionFilteredOnly={true}
               checkboxSelection={true}
+              headerName={columns[0].headerName}
             ></AgGridColumn>
-            <AgGridColumn field="CommandNo" minWidth={150} />
-            <AgGridColumn field="Priority" />
-            <AgGridColumn field="BayNo" minWidth={150} />
-            <AgGridColumn field="CraneNo" minWidth={150} />
-            <AgGridColumn field="CoilNo" />
-            <AgGridColumn field="CommandType" />
-            <AgGridColumn field="StartStock" />
-            <AgGridColumn field="ToStock" />
-            <AgGridColumn field="CommandStatus" />
-            <AgGridColumn field="PickupFlag" />
-            <AgGridColumn field="UpdateTime" />
+            <AgGridColumn
+              field="CommandNo"
+              minWidth={150}
+              headerName={columns[1].headerName}
+            />
+            <AgGridColumn field="Priority" headerName={columns[2].headerName} />
+            <AgGridColumn
+              field="BayNo"
+              minWidth={150}
+              headerName={columns[3].headerName}
+            />
+            <AgGridColumn
+              field="CraneNo"
+              minWidth={150}
+              headerName={columns[4].headerName}
+            />
+            <AgGridColumn field="CoilNo" headerName={columns[5].headerName} />
+            <AgGridColumn
+              field="CommandType"
+              headerName={columns[6].headerName}
+            />
+            <AgGridColumn
+              field="StartStock"
+              headerName={columns[7].headerName}
+            />
+            <AgGridColumn field="ToStock" headerName={columns[8].headerName} />
+            <AgGridColumn
+              field="CommandStatus"
+              headerName={columns[9].headerName}
+            />
+            <AgGridColumn
+              field="PickupFlag"
+              headerName={columns[10].headerName}
+            />
+            <AgGridColumn
+              field="UpdateTime"
+              headerName={columns[11].headerName}
+            />
+            <AgGridColumn
+              field="UpdateTime"
+              headerName={columns[12].headerName}
+            />
           </AgGridReact>
         </div>
       </div>

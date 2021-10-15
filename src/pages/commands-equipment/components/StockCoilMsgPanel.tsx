@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-15 14:53:06
- * @LastEditTime: 2021-10-15 18:21:34
+ * @LastEditTime: 2021-10-15 19:24:45
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/commands-equipment/components/StockCoilMsgPanel.tsx
@@ -30,7 +30,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Index = () => {
+interface Props {
+  value?: string;
+}
+
+const Index = ({ value }: Props) => {
   const classes = useStyles();
   const coilInStock = useCoilModel();
 
@@ -38,14 +42,19 @@ const Index = () => {
     <div>
       <Grid container className={classes.root}>
         <Grid item xs={12}>
-          <MyTitle value={"4号机组"}></MyTitle>
+          <MyTitle value={value + "号机组"}></MyTitle>
         </Grid>
       </Grid>
       <MyDivider />
       <Grid
         container
         spacing={4}
-        style={{ width: "100%", flexGrow: 1, marginTop: 2 }}
+        style={{
+          width: "100%",
+          flexGrow: 1,
+          marginTop: 2,
+          border: "1px solid grey",
+        }}
       >
         <Grid item xs={4} style={{ padding: "auto" }}>
           <StockModel label={"RMI1"}>{coilInStock}</StockModel>

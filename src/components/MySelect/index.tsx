@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-11 14:37:08
- * @LastEditTime: 2021-10-12 23:11:04
+ * @LastEditTime: 2021-10-15 23:31:22
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/components/MySelect/index.tsx
@@ -10,7 +10,12 @@ import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Menu, { MenuProps } from "@material-ui/core/Menu";
 import MenuItem, { MenuItemProps } from "@material-ui/core/MenuItem";
-import { IconButton, InputAdornment, OutlinedInput } from "@material-ui/core";
+import {
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { Clear } from "@material-ui/icons";
 
@@ -39,6 +44,7 @@ interface Props extends MenuItemProps {
   options?: string[];
   onSelect?: any;
   onClear?: any;
+  label?: string;
 }
 
 const Index = ({
@@ -46,6 +52,7 @@ const Index = ({
   options,
   onSelect: handleSelect = () => {},
   onClear: handleClear,
+  label,
 }: Props) => {
   const [selectedValue, setSelectedValue] = useState<string>("");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -78,7 +85,9 @@ const Index = ({
   }, [selectedValue]);
   return (
     <div>
+      <InputLabel htmlFor={"MySelectInput"}>{label}</InputLabel>
       <OutlinedInput
+        id="MySelectInput"
         ref={inputRef}
         value={selectedValue}
         onClick={handleClick}
