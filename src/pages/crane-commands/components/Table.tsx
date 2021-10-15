@@ -20,12 +20,13 @@ import {
 	GridReadyEvent,
 	RowClickedEvent,
 } from 'ag-grid-community'
-import { createStyles, makeStyles, Theme } from '@material-ui/core'
+import { Button, createStyles, makeStyles, Theme } from '@material-ui/core'
 import { Command } from 'boot/model'
 import { FilterCondition } from '../context/model'
 import { useAppSelector } from 'app/hook'
 import { useTabelStatusContext } from '../context/TableStatus'
 import { useStatusContext } from 'context/BasePageStatus'
+import { CommandMapping } from 'boot/utils/mapping'
 
 interface Column {
 	field: string
@@ -102,7 +103,7 @@ const columns: Column[] = [
 interface Data extends Command {
 	id: number
 	Selected: boolean
-	EditPriority: string[]
+	EditPriority: any[]
 }
 
 interface Props {
@@ -150,7 +151,17 @@ const Index = ({ onSelected: handleSelect }: Props) => {
 					id: index++,
 					Selected: false,
 					EditPriority: ['提升', '取消'],
-					...item,
+					CommandType: CommandMapping(item.CommandType),
+					CommandNo: item.CommandNo,
+					Priority: item.Priority,
+					CraneNo: item.CraneNo,
+					StartStock: item.StartStock,
+					ToStock: item.ToStock,
+					CommandStatus: item.CommandStatus,
+					PickupFlag: item.PickupFlag,
+					CoilNo: item.CoilNo,
+					BayNo: item.BayNo,
+					UpdateTime: item.UpdateTime,
 				}
 				rowsTemp.push(itemTemp)
 			}
@@ -160,12 +171,6 @@ const Index = ({ onSelected: handleSelect }: Props) => {
 
 	useEffect(() => {
 		gridApi?.onFilterChanged()
-		gridApi?.onFilterChanged()
-		gridApi?.onFilterChanged()
-		console.log(1111111111111)
-		// setTimeout(() => {
-		//   setTest(() => doesExternalFilterPass);
-		// }, 1000);
 	}, [filter])
 	//   setTest(() => doesExternalFilterPass);
 
@@ -223,7 +228,7 @@ const Index = ({ onSelected: handleSelect }: Props) => {
 							headerCheckboxSelection={true}
 							headerCheckboxSelectionFilteredOnly={true}
 							checkboxSelection={true}
-						/>
+						></AgGridColumn>
 						<AgGridColumn field='CommandNo' minWidth={150} />
 						<AgGridColumn field='Priority' />
 						<AgGridColumn field='BayNo' minWidth={150} />
@@ -270,7 +275,7 @@ const useFilter = (commands: Command[], filter: FilterCondition | null) => {
 			}
 			if (filter.CommandTypeFilter) {
 				commandsTemp = commands.filter((temp: Command) =>
-					temp.CommandType.includes(filter.BayNo)
+					temp.CommandType.includes(filter.CommandTypeFilter)
 				)
 			}
 			if (filter.CraneNoFileter) {

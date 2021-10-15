@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-11 09:53:31
- * @LastEditTime: 2021-10-14 13:43:45
+ * @LastEditTime: 2021-10-15 14:45:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/crane-commands/components/CommandPanel.tsx
@@ -21,6 +21,7 @@ import {
 	Typography,
 } from '@material-ui/core'
 import { useAppDispatch, useAppSelector } from 'app/hook'
+import { commandCodes } from 'boot/utils/mapping'
 import MySelect from 'components/MySelect'
 import MyTitle from 'components/MyTitle'
 import { setDialogStatus } from 'context/Action'
@@ -129,6 +130,7 @@ const CommandFilter = () => {
 	const changeHandle = (event: React.ChangeEvent<{ value: unknown }>) => {
 		setSelectBayId(event.target.value as string)
 	}
+	const commandsCodes: string[] = commandCodes
 
 	const onCoilNoChange = (event: {
 		target: { value: React.SetStateAction<string> }
@@ -160,7 +162,7 @@ const CommandFilter = () => {
 				| ''
 		) =>
 		(selectedValue: string) => {
-			if (filter) {
+			if (filter && selectedValue) {
 				let temp: FilterCondition = JSON.parse(JSON.stringify(filter))
 				if (field === 'ZoneFilter') {
 					temp.ZoneFilter = selectedValue
@@ -227,7 +229,7 @@ const CommandFilter = () => {
 				<Grid item xs={3}>
 					指令类型：
 					<MySelect
-						options={bayIds}
+						options={commandsCodes}
 						onSelect={handleSelect('CommandTypeFilter')}
 					></MySelect>
 				</Grid>

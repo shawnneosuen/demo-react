@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-10-13 03:17:50
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-14 14:22:11
+ * @LastEditTime: 2021-10-15 14:14:47
  */
 
 import {
@@ -26,6 +26,7 @@ import MyTitle from 'components/MyTitle'
 import { useStatusContext } from 'context/BasePageStatus'
 import React, { useEffect, useState } from 'react'
 import { addNewCommand } from 'features/commands/commadSlice'
+import { commandCodes } from 'boot/utils/mapping'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -45,10 +46,11 @@ const Index = () => {
 	const coils = useAppSelector((state) => state.coils).coils
 	const classes = useStyles()
 	const commands = useAppSelector((state) => state.commands)
+	const commandsCodes = commandCodes
 	const dispatch = useAppDispatch()
 
+	// 初始化数据
 	const [command, setCommand] = useState<Command>()
-
 	const [commandNo, setCommandNo] = useState<string>(
 		'' + Math.round(Math.random() * 1000000)
 	)
@@ -57,10 +59,9 @@ const Index = () => {
 	const [craneNo, setCraneNo] = useState<string>('')
 	const [coilNo, setCoilNo] = useState<string>('')
 	const [status, setStatus] = useState<string>('')
+	const [commandType, setCommandType] = useState<string>('')
 	const [fromStock, setFromStock] = useState<string>('')
-
 	const [toStock, setToStock] = useState<string>('')
-
 	const [pickupFlag, setPickupFlag] = useState<string>('是')
 
 	const onHandleCommandNoChange = (event: {
@@ -116,6 +117,11 @@ const Index = () => {
 		setPickupFlag(event.target.value)
 	}
 
+	// const handleCommandTypeChange = (event: {
+	// 	target: { value: React.SetStateAction<string> }
+	// }) => {
+	// 	setCommandType(event.targe.value)
+	// }t
 	const handleConfirm = () => {
 		if (command) {
 			dispatch(addNewCommand(command))
@@ -130,8 +136,6 @@ const Index = () => {
 	const [open, setOpen] = useState<boolean>(false)
 
 	useEffect(() => {
-		console.log('test')
-
 		setOpen(dialogStatus === true)
 	}, [dialogStatus])
 
@@ -148,7 +152,7 @@ const Index = () => {
 			PickupFlag: !!pickupFlag,
 			UpdateTime: new Date().toLocaleString(),
 
-			CommandType: '',
+			CommandType: commandType,
 		}
 		setCommand(commandTemp)
 	}, [
@@ -166,8 +170,7 @@ const Index = () => {
 	useEffect(() => {
 		let coilTemp = coils.find((coil) => coil.MAT_NO === command?.CoilNo)
 		setFromStock(coilTemp && coilTemp.ST_NO ? coilTemp.ST_NO : '')
-		// setFromStock
-	}, [coilNo])
+	}, [coilNo, fromStock])
 	return (
 		<div>
 			<Dialog open={open} maxWidth={'lg'}>
@@ -219,13 +222,10 @@ const Index = () => {
 						</Grid>
 						<Grid item xs={4}>
 							{' '}
-							<TextField
-								fullWidth
-								variant='outlined'
-								label={'指令状态'}
-								value={status}
-								onChange={handleStatusChange}
-							></TextField>
+							<MySelect
+								options={commandCodes}
+								onSelect={setCommandType}
+							></MySelect>
 						</Grid>
 						<Grid item xs={4}>
 							{' '}

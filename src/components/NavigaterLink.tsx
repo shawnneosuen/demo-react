@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-23 11:13:09
- * @LastEditTime: 2021-10-11 10:40:08
+ * @LastEditTime: 2021-10-15 10:36:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/components/NavigaterLink.tsx
@@ -48,6 +48,11 @@ const links = [
 		icon: <DriveEtaIcon />,
 		title: '行车指令',
 		path: '/crane-commands',
+	},
+	{
+		icon: <DriveEtaIcon />,
+		title: '机组指令',
+		path: '/equipment-commands',
 	},
 	// {
 	// 	icon: <ThreeDRotationIcon />,
