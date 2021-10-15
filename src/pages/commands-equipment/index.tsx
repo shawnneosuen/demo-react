@@ -1,32 +1,59 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 15:38:06
- * @LastEditTime: 2021-10-15 15:05:55
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-10-15 18:19:13
+ * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/commands-equipment/index.tsx
  */
 
-import { createStyles, makeStyles, Theme } from '@material-ui/core'
-import React from 'react'
-import StockCoilMsgPanel from './components/StockCoilMsgPanel'
+import {
+  createStyles,
+  Grid,
+  makeStyles,
+  Paper,
+  Theme,
+} from "@material-ui/core";
+import React from "react";
+import StockCoilMsgPanel from "./components/StockCoilMsgPanel";
+import Table from "./components/Table";
 
 const useStyles = makeStyles((theme: Theme) =>
-	createStyles({
-		headPanel: {
-			height: '30vh',
-			width: '100%',
-		},
-	})
-)
+  createStyles({
+    root: {
+      padding: theme.spacing(2),
+    },
+    page: {
+      padding: theme.spacing(2),
+    },
+    headPanel: {
+      height: "30vh",
+      width: "100%",
+    },
+  })
+);
 const Index = () => {
-	const classes = useStyles()
-	return (
-		<div>
-			<div className={classes.headPanel}>
-				<StockCoilMsgPanel />
-			</div>
-		</div>
-	)
-}
-export default Index
+  const classes = useStyles();
+  return (
+    <div className={classes.root}>
+      <Paper className={classes.page}>
+        <div className={classes.headPanel}>
+          <Grid container>
+            <Grid item xs={6}>
+              {" "}
+              <StockCoilMsgPanel />
+            </Grid>
+            <Grid item xs={6}>
+              {" "}
+              <StockCoilMsgPanel />
+            </Grid>
+          </Grid>
+        </div>
+        <div>
+          <Table></Table>
+        </div>
+      </Paper>
+    </div>
+  );
+};
+export default Index;
