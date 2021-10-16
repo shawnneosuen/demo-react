@@ -1,271 +1,185 @@
-import React, { useEffect, useRef, useState } from 'react'
-import clsx from 'clsx'
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { render } from "react-dom";
+import { AgGridReact, AgGridColumn } from "ag-grid-react";
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import {
-	createStyles,
-	Theme,
-	withStyles,
-	WithStyles,
-} from '@material-ui/core/styles'
-import TableCell from '@material-ui/core/TableCell'
-import Paper from '@material-ui/core/Paper'
+  RowNode,
+  RowNodeEvent,
+} from "ag-grid-community/dist/lib/entities/rowNode";
 import {
-	AutoSizer,
-	Column,
-	Table,
-	TableCellRenderer,
-	TableHeaderProps,
-} from 'react-virtualized'
-import { useDebounce } from 'utils'
-import { query } from 'boot/api'
-import { useStatusContext } from 'context/BasePageStatus'
+  ColumnApi,
+  GridApi,
+  GridReadyEvent,
+  RowClickedEvent,
+} from "ag-grid-community";
+import { Button, createStyles, makeStyles, Theme } from "@material-ui/core";
+import { Coil, Command } from "boot/model";
+import { useAppSelector } from "app/hook";
+import { CommandMapping } from "boot/utils/mapping";
 
-declare module '@material-ui/core/styles/withStyles' {
-	// Augment the BaseCSSProperties so that we can control jss-rtl
-	interface BaseCSSProperties {
-		/*
-		 * Used to control if the rule-set should be affected by rtl transformation
-		 */
-		flip?: boolean
-	}
+interface Column {
+  field: string;
+  headerName: string;
+  width?: number;
 }
 
-const styles = (theme: Theme) =>
-	createStyles({
-		flexContainer: {
-			display: 'flex',
-			alignItems: 'center',
-			boxSizing: 'border-box',
-		},
-		table: {
-			'& .ReactVirtualized__Table__headerRow': {
-				flip: false,
-				paddingRight: theme.direction === 'rtl' ? '0 !important' : undefined,
-			},
-		},
-		tableRow: {
-			cursor: 'pointer',
-		},
-		tableRowHover: {
-			'&:hover': {
-				backgroundColor: theme.palette.grey[200],
-			},
-		},
-		tableCell: {
-			flex: 1,
-		},
-		noClick: {
-			cursor: 'initial',
-		},
-	})
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    exampleWrapper: {
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+    },
 
-interface ColumnData {
-	dataKey: string
-	label: string
-	numeric?: boolean
-	width: number
+    myGrid: {
+      flex: "1 1 0px",
+      width: "100%",
+    },
+  })
+);
+
+const columns: Column[] = [
+  {
+    field: "MAT_NO",
+    headerName: "钢卷号",
+  },
+  {
+    field: "WEIGHT",
+    headerName: "重量",
+  },
+  {
+    headerName: "宽度",
+    field: "WIDTH",
+  },
+  {
+    headerName: "厚度",
+    field: "THICKNESS",
+  },
+  {
+    headerName: "鞍座",
+    field: "ST_NO",
+  },
+];
+
+interface Data extends Command {
+  id: number;
+  Selected: boolean;
 }
 
-interface Row {
-	index: number
+interface Props {
+  filterValue?: string;
 }
 
-interface MuiVirtualizedTableProps extends WithStyles<typeof styles> {
-	columns: ColumnData[]
-	headerHeight?: number
-	onRowClick?: () => void
-	rowCount: number
-	rowGetter: (row: Row) => Data
-	rowHeight?: number
-}
+const Index = ({ filterValue }: Props) => {
+  const [gridApi, setGridApi] = useState<GridApi>();
+  const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>();
+  const classes = useStyles();
+  const commands = useAppSelector((state) => state.commands);
 
-class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> {
-	static defaultProps = {
-		headerHeight: 48,
-		rowHeight: 48,
-	}
+  const [rowData, setRowData] = useState<any[]>([]);
+  const ref = useRef<HTMLDivElement>(null);
 
-	getRowClassName = ({ index }: Row) => {
-		const { classes, onRowClick } = this.props
+  const onGridReady = (params: RowClickedEvent) => {
+    setGridApi(params.api);
+    setGridColumnApi(params.columnApi);
+    const updateData = (data: React.SetStateAction<any[]>) => {
+      setRowData(data);
+    };
+  };
 
-		return clsx(classes.tableRow, classes.flexContainer, {
-			[classes.tableRowHover]: index !== -1 && onRowClick != null,
-		})
-	}
+  const thisStyle = () => {
+    let width = "100%";
+    let height = window.innerHeight * 0.55;
 
-	cellRenderer: TableCellRenderer = ({ cellData, columnIndex }) => {
-		const { columns, classes, rowHeight, onRowClick } = this.props
-		return (
-			<TableCell
-				component='div'
-				className={clsx(classes.tableCell, classes.flexContainer, {
-					[classes.noClick]: onRowClick == null,
-				})}
-				variant='body'
-				style={{ height: rowHeight }}
-				align={
-					(columnIndex != null && columns[columnIndex].numeric) || false
-						? 'right'
-						: 'left'
-				}
-			>
-				{cellData}
-			</TableCell>
-		)
-	}
+    return { width: width, height: height, border: "1px solid #D0D0D0" };
+  };
 
-	headerRenderer = ({
-		label,
-		columnIndex,
-	}: TableHeaderProps & { columnIndex: number }) => {
-		const { headerHeight, columns, classes } = this.props
+  // Set row styles
+  const changeRowStyle = (params: { data: { CommandStatus: number } }) => {
+    console.log("params", params);
 
-		return (
-			<TableCell
-				component='div'
-				className={clsx(
-					classes.tableCell,
-					classes.flexContainer,
-					classes.noClick
-				)}
-				variant='head'
-				style={{ height: headerHeight }}
-				align={'left'}
-			>
-				<span>{label}</span>
-			</TableCell>
-		)
-	}
+    if (params.data.CommandStatus === 1) {
+      return { backgroundColor: " red" };
+    } else {
+      return { backgroundColor: "white" };
+    }
+  };
 
-	render() {
-		const { classes, columns, rowHeight, headerHeight, ...tableProps } =
-			this.props
-		return (
-			<AutoSizer>
-				{({ height, width }) => (
-					<Table
-						height={height}
-						width={width}
-						rowHeight={rowHeight!}
-						gridStyle={{
-							direction: 'inherit',
-						}}
-						headerHeight={headerHeight!}
-						className={classes.table}
-						{...tableProps}
-						rowClassName={this.getRowClassName}
-					>
-						{columns.map(({ dataKey, ...other }, index) => {
-							return (
-								<Column
-									key={dataKey}
-									headerRenderer={(headerProps) =>
-										this.headerRenderer({
-											...headerProps,
-											columnIndex: index,
-										})
-									}
-									className={classes.flexContainer}
-									cellRenderer={this.cellRenderer}
-									dataKey={dataKey}
-									{...other}
-								/>
-							)
-						})}
-					</Table>
-				)}
-			</AutoSizer>
-		)
-	}
-}
+  const coils = useFilter(
+    useAppSelector((state) => state.coils).coils,
+    filterValue
+  );
 
-const VirtualizedTable = withStyles(styles)(MuiVirtualizedTable)
+  useEffect(() => {
+    setRowData(coils);
+  }, [coils]);
+  return (
+    <div style={thisStyle()}>
+      <div className={classes.exampleWrapper} ref={ref}>
+        {/* <div style={{ marginBottom: "5px" }}></div> */}
+        <div
+          style={{
+            height: "100%",
+            width: "100%",
+          }}
+          className={"ag-theme-alpine " + classes.myGrid}
+        >
+          <AgGridReact
+            defaultColDef={{
+              flex: 1,
+              minWidth: 120,
+              filter: true,
+            }}
+            animateRows={true}
+            onGridReady={onGridReady}
+            rowData={rowData}
+            rowSelection={"single"}
+            getRowStyle={changeRowStyle}
+            // onFilterChanged={}
+          >
+            <AgGridColumn
+              field="MAT_NO"
+              minWidth={150}
+              headerCheckboxSelection={true}
+              headerCheckboxSelectionFilteredOnly={true}
+              checkboxSelection={true}
+            />
+            <AgGridColumn field="WEIGHT" />
+            <AgGridColumn field="WIDTH" minWidth={150} />
+            <AgGridColumn field="THICKNESS" minWidth={150} />
+            <AgGridColumn field="ST_NO" />
+          </AgGridReact>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default Index;
 
-// ---
+const useFilter = (coils: Coil[], filter: string | undefined) => {
+  const [value, setValue] = useState<Coil[]>([]);
+  let coilsTemp: Coil[] = [];
 
-interface Data {
-	COIL_NO: string
-	oper: string
-	user: string
-	ip: string
-	date: string
-}
-type DataModel = [string, string, string, string]
+  useEffect(() => {
+    if (filter) {
+      coilsTemp = coils.filter((temp: Coil) =>
+        temp.MAT_NO.includes(filter + "")
+      );
+    } else {
+      coilsTemp = coils;
+    }
+    console.log(coilsTemp);
 
-function createData(
-	COIL_NO: string,
-	oper: string,
-	user: string,
-	ip: string,
-	date: string
-): Data {
-	return { COIL_NO, oper, user, ip, date }
-}
+    setValue(coilsTemp);
+  }, [filter, coilsTemp]);
 
-export default function ReactVirtualizedTable() {
-	const [rows, setRows] = useState<Data[]>([])
-
-	const { snackbar, setSnackbar } = useStatusContext()
-	const ref = useRef<HTMLDivElement>(null)
-	const debounceParam = useDebounce(rows, 2000)
-	useEffect(() => {
-		const sql = 'select MAT_NO from UACS_SCHEDULE_COIL'
-		let queryData = query(sql).then((data) => {
-			if (data) {
-				let rowsTemp: Data[] = []
-				for (const subData of data.data) {
-					rowsTemp.push(createData(subData[0], '', '', '', ''))
-				}
-				setRows(rowsTemp)
-			} else {
-				setSnackbar({ msg: '网络连接失败', type: 'error' })
-			}
-		})
-	}, [debounceParam])
-
-	const thisStyle = () => {
-		let width = '100%'
-		let height = window.innerHeight * 0.7
-		console.log(width, height)
-
-		return { width: width, height: height }
-	}
-
-	const [itemWidth, setItemWidth] = useState<number>(0)
-	useEffect(() => {
-		setItemWidth(ref.current ? ref.current.offsetWidth / 4 : 0)
-	}, [ref.current])
-
-	return (
-		<Paper style={thisStyle()} ref={ref}>
-			<VirtualizedTable
-				rowCount={rows.length}
-				rowGetter={({ index }) => rows[index]}
-				columns={[
-					{
-						width: itemWidth,
-						label: '钢卷号',
-						dataKey: 'COIL_NO',
-					},
-					{
-						width: itemWidth,
-						label: '鞍座位',
-						dataKey: 'STOCK_NO',
-						numeric: true,
-					},
-					{
-						width: itemWidth,
-						label: '去向',
-						dataKey: 'DESTINATION',
-						numeric: true,
-					},
-					{
-						width: itemWidth,
-						label: '重量',
-						dataKey: 'WEIGHT',
-						numeric: true,
-					},
-				]}
-			/>
-		</Paper>
-	)
-}
+  return value;
+};

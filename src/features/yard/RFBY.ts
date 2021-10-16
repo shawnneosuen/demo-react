@@ -146,6 +146,7 @@ const RFBY: Bay = {
 	parkings: [
 	],
 	//675
+	equipmentStock:[],
 	safetyZones: [
 		{
 			id: 'RFBY1',

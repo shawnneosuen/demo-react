@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-10-13 13:34:36
- * @LastEditTime: 2021-10-13 14:23:36
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-10-17 01:07:50
+ * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/features/coil/coilSlice.ts
  */
@@ -18,8 +18,12 @@ export const coilSlice = createSlice({
 	name: 'coils',
 	initialState,
 	reducers: {
-		updateYard: (state = initialState) => {
-			return state
+		updateCoil: (state = initialState, action: PayloadAction<Coil>) => {
+			let stateTemp = JSON.parse(JSON.stringify(state))
+
+			let index = stateTemp.coils.findIndex((coilTemp : Coil) => coilTemp.MAT_NO === action.payload.MAT_NO)
+			stateTemp.coils[index] = action.payload
+			return stateTemp
 		},
 		getAllBayId: (state = initialState) => {
 			return state
@@ -27,6 +31,6 @@ export const coilSlice = createSlice({
 	},
 })
 export const selectCoils = (state: any) => state
-export const { updateYard, getAllBayId } = coilSlice.actions
+export const { updateCoil, getAllBayId } = coilSlice.actions
 
 export default coilSlice.reducer

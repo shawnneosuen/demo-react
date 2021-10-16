@@ -3,8 +3,8 @@
  * @Version: 2.0
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-14 09:24:29
+ * @LastEditors: Shawnneosuen@outlook.com
+ * @LastEditTime: 2021-10-16 21:13:15
  */
 export interface Yard {
 	bayIds: string[]
@@ -25,6 +25,7 @@ export type Bay = {
 	circleZones: CircleZone[]
 	cranes: Crane[]
 	stockSaddles: StockSaddle[]
+	equipmentStock: StockSaddle[]
 }
 export interface Zone {
 	id: string

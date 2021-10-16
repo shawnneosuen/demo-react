@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-06 12:58:52
- * @LastEditTime: 2021-10-16 21:01:52
+ * @LastEditTime: 2021-10-17 01:21:02
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/terminal-crane/index.tsx
@@ -17,7 +17,7 @@ import {
   ThemeProvider,
 } from "@material-ui/core";
 import { useAppDispatch, useAppSelector } from "app/hook";
-import { Command } from "boot/model";
+import { Coil, Command } from "boot/model";
 import React, { useEffect, useState } from "react";
 import { useDebounce } from "utils";
 import MarkupTables from "./components/MarkupTables";
@@ -29,6 +29,7 @@ import { useTabelStatusContext } from "./context/TableStatus";
 import { FilterCondition } from "./context/model";
 import { useDispatch } from "react-redux";
 import { deleteCommand, updateCommand } from "features/commands/commadSlice";
+import { updateCoil } from "features/coil/coilSlice";
 
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
@@ -185,7 +186,18 @@ interface FootPanelProps {
 const FootPanel = ({ value }: FootPanelProps) => {
   const commands = useAppSelector((state) => state.commands);
   const classes = useFootPanelStyles();
+  const coils = useAppSelector((state) => state.coils);
+  const [targetValue, setTargetValue] = useState<Coil>();
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (value && coils) {
+      setTargetValue(
+        coils.coils.find(
+          (coilTemp: Coil) => coilTemp.MAT_NO === value[0]?.CoilNo
+        )
+      );
+    }
+  }, [value]);
   return (
     <div className={classes.root} style={{ flexGrow: 1 }}>
       <Button
@@ -265,7 +277,14 @@ const FootPanel = ({ value }: FootPanelProps) => {
                   BayNo: value[0].BayNo,
                   UpdateTime: value[0].UpdateTime,
                 })
-              )
+              ) &&
+              (targetValue
+                ? dispatch(
+                    updateCoil(
+                      createCoilData(targetValue, "st_no", value[0].ToStock)
+                    )
+                  )
+                : "")
             : {}
         }
       >
@@ -289,4 +308,19 @@ const FootPanel = ({ value }: FootPanelProps) => {
       </Button>
     </div>
   );
+};
+
+const createCoilData = (coil: Coil, key: string, value: any) => {
+  let coilTemp: Coil = JSON.parse(JSON.stringify(coil));
+
+  if (coil) {
+    switch (key) {
+      case "st_no":
+        coilTemp.ST_NO = value;
+        break;
+      default:
+        coilTemp.ST_NO = "";
+    }
+  }
+  return coilTemp;
 };

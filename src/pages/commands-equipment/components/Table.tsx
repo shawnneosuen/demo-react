@@ -20,9 +20,11 @@ import {
   GridReadyEvent,
   RowClickedEvent,
 } from "ag-grid-community";
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
-import { Command } from "boot/model";
+import { Button, createStyles, makeStyles, Theme } from "@material-ui/core";
+import { Coil, Command } from "boot/model";
 import { useAppSelector } from "app/hook";
+import { CommandMapping } from "boot/utils/mapping";
+import { useDebounce } from "utils";
 
 interface Column {
   field: string;
@@ -47,55 +49,47 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const columns: Column[] = [
   {
-    field: "EditPriority",
-    headerName: "计划内序号",
-  },
-  {
     field: "CommandNo",
-    headerName: "材料号",
+    headerName: "CommandNo",
   },
   {
-    field: "Priority",
-    headerName: "计划号",
+    field: "CommandType",
+    headerName: "CommandType",
   },
   {
-    headerName: "重量",
-    field: "BayNo",
-  },
-  {
-    headerName: "宽度",
-    field: "CraneNo",
-  },
-  {
-    headerName: "内径",
+    headerName: "CoilNo",
     field: "CoilNo",
   },
   {
-    headerName: "外径",
-    field: "CommandType",
+    headerName: "Priority",
+    field: "Priority",
   },
   {
-    headerName: "包装状态",
+    headerName: "StartStock",
     field: "StartStock",
   },
   {
-    headerName: "开卷方向",
+    headerName: "ToStock",
     field: "ToStock",
   },
   {
-    headerName: "鞍座号",
-    field: "CommandStatus",
-  },
-  {
-    headerName: "鞍座状态",
+    headerName: "PickupFlag",
     field: "PickupFlag",
   },
   {
-    headerName: "鞍座类型",
-    field: "UpdateTime",
+    headerName: "CommandStatus",
+    field: "CommandStatus",
   },
   {
-    headerName: "时间",
+    headerName: "CraneNo",
+    field: "CraneNo",
+  },
+  {
+    headerName: "BayNo",
+    field: "BayNo",
+  },
+  {
+    headerName: "UpdateTime",
     field: "UpdateTime",
   },
 ];
@@ -103,18 +97,16 @@ const columns: Column[] = [
 interface Data extends Command {
   id: number;
   Selected: boolean;
-  EditPriority: any[];
 }
 
 interface Props {
-  onSelected?: any;
+  filterValue?: string;
 }
 
-const Index = () => {
+const Index = ({ filterValue }: Props) => {
   const [gridApi, setGridApi] = useState<GridApi>();
   const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>();
   const classes = useStyles();
-  const commands = useAppSelector((state) => state.commands);
 
   const [rowData, setRowData] = useState<any[]>([]);
   const ref = useRef<HTMLDivElement>(null);
@@ -134,10 +126,31 @@ const Index = () => {
     return { width: width, height: height, border: "1px solid #D0D0D0" };
   };
 
+  // Set row styles
+  const changeRowStyle = (params: { data: { CommandStatus: number } }) => {
+    console.log("params", params);
+
+    if (params.data.CommandStatus === 1) {
+      return { backgroundColor: " red" };
+    } else {
+      return { backgroundColor: "white" };
+    }
+  };
+
+  const coils = useFilter(
+    useAppSelector((state) => state.commands).commands,
+    filterValue
+  );
+
+  // const debounceParam = useDebounce(coils, 3000);
+
+  useEffect(() => {
+    setRowData(coils);
+  }, [coils]);
   return (
     <div style={thisStyle()}>
       <div className={classes.exampleWrapper} ref={ref}>
-        <div style={{ marginBottom: "5px" }}></div>
+        {/* <div style={{ marginBottom: "5px" }}></div> */}
         <div
           style={{
             height: "100%",
@@ -152,60 +165,29 @@ const Index = () => {
               filter: true,
             }}
             animateRows={true}
-            isExternalFilterPresent={() => true}
             onGridReady={onGridReady}
             rowData={rowData}
-            rowSelection={"multiple"}
+            rowSelection={"single"}
+            getRowStyle={changeRowStyle}
+            // onFilterChanged={}
           >
-            <AgGridColumn
-              field="EditPriority"
-              headerCheckboxSelection={true}
-              headerCheckboxSelectionFilteredOnly={true}
-              checkboxSelection={true}
-              headerName={columns[0].headerName}
-            ></AgGridColumn>
             <AgGridColumn
               field="CommandNo"
               minWidth={150}
-              headerName={columns[1].headerName}
+              headerCheckboxSelection={true}
+              headerCheckboxSelectionFilteredOnly={true}
+              checkboxSelection={true}
             />
-            <AgGridColumn field="Priority" headerName={columns[2].headerName} />
-            <AgGridColumn
-              field="BayNo"
-              minWidth={150}
-              headerName={columns[3].headerName}
-            />
-            <AgGridColumn
-              field="CraneNo"
-              minWidth={150}
-              headerName={columns[4].headerName}
-            />
-            <AgGridColumn field="CoilNo" headerName={columns[5].headerName} />
-            <AgGridColumn
-              field="CommandType"
-              headerName={columns[6].headerName}
-            />
-            <AgGridColumn
-              field="StartStock"
-              headerName={columns[7].headerName}
-            />
-            <AgGridColumn field="ToStock" headerName={columns[8].headerName} />
-            <AgGridColumn
-              field="CommandStatus"
-              headerName={columns[9].headerName}
-            />
-            <AgGridColumn
-              field="PickupFlag"
-              headerName={columns[10].headerName}
-            />
-            <AgGridColumn
-              field="UpdateTime"
-              headerName={columns[11].headerName}
-            />
-            <AgGridColumn
-              field="UpdateTime"
-              headerName={columns[12].headerName}
-            />
+            <AgGridColumn field="CommandType" />
+            <AgGridColumn field="CoilNo" minWidth={150} />
+            <AgGridColumn field="Priority" minWidth={150} />
+            <AgGridColumn field="StartStock" />
+            <AgGridColumn field="ToStock" />
+            <AgGridColumn field="PickupFlag" />
+            <AgGridColumn field="CommandStatus" />
+            <AgGridColumn field="CraneNo" />
+            <AgGridColumn field="BayNo" />
+            <AgGridColumn field="UpdateTime" />
           </AgGridReact>
         </div>
       </div>
@@ -213,3 +195,22 @@ const Index = () => {
   );
 };
 export default Index;
+
+const useFilter = (commands: Command[], filter: string | undefined) => {
+  const [value, setValue] = useState<Command[]>([]);
+  let commandTemp: Command[] = [];
+
+  useEffect(() => {
+    if (commandTemp) {
+      commandTemp = commands.filter(
+        (temp: Command) =>
+          temp.CommandType.includes("21" + "") ||
+          temp.CommandType.includes("14" + "")
+      );
+
+      setValue(commandTemp);
+    }
+  }, [filter]);
+
+  return value;
+};

@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-08 23:03:55
+ * @LastEditTime: 2021-10-17 01:23:17
  */
 import { Theme } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/styles";
@@ -12,7 +12,15 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ZoneComponent from "./components/ZoneComponent";
 import { selectYard } from "../../features/yard/yardSlice";
-import { Parking, Zone, CircleZone, Bay, Crane } from "../../boot/model";
+import {
+  Parking,
+  Zone,
+  CircleZone,
+  Bay,
+  Crane,
+  StockSaddle,
+  Coil,
+} from "../../boot/model";
 import CraneMap from "./components/CraneMap";
 import CircleZoneComponent from "./components/CircleZoneComponent";
 import YardComponent from "./components/YardComponent";
@@ -30,6 +38,7 @@ const Index = ({ bayId, baseHeight, baseWidth }: Props) => {
   const yard = useAppSelector((state) => state.yard);
   const [bay, setBay] = useState<Bay>();
   const [bayIds, setBayIds] = useState<string[]>([]);
+  const coils = useAppSelector((state) => state.coils).coils;
 
   useEffect(() => {
     setBayIds(yard.bayIds);
@@ -38,6 +47,8 @@ const Index = ({ bayId, baseHeight, baseWidth }: Props) => {
 
   const safetyZones = bay?.safetyZones;
   const circleZones = bay?.circleZones;
+
+  const equipmentStock = bay?.equipmentStock;
   const parkingZones = bay?.parkings;
   const [cranes, setCranes] = useState<string[]>([]);
 
@@ -50,6 +61,7 @@ const Index = ({ bayId, baseHeight, baseWidth }: Props) => {
       setPx(baseWidth / bay.dimension.width);
     }
   }, [bay]);
+
   return (
     <div>
       <YardComponent
@@ -95,6 +107,35 @@ const Index = ({ bayId, baseHeight, baseWidth }: Props) => {
             isBottomRightCircle={circleZone.bottomRightCircle}
           />
         ))}
+        {equipmentStock?.map((stockSaddle: StockSaddle) => (
+          <ZoneComponent
+            key={stockSaddle.id}
+            className={"zone"}
+            width={stockSaddle.width}
+            height={stockSaddle.height}
+            px={px}
+            py={py}
+            left={stockSaddle.left}
+            top={stockSaddle.top}
+            clickable={true}
+            callStyles={
+              coils.find((coilTemp: Coil) => coilTemp.ST_NO === stockSaddle.id)
+                ? {
+                    border: undefined,
+                    textAlign: undefined,
+                    paddingTop: undefined,
+                    backgroundColor: "red",
+                  }
+                : {
+                    border: undefined,
+                    textAlign: undefined,
+                    paddingTop: undefined,
+                    backgroundColor: "",
+                  }
+            }
+          ></ZoneComponent>
+        ))}
+
         {parkingZones?.map((parking: Parking) => (
           <ZoneComponent
             key={parking.id}
@@ -111,6 +152,7 @@ const Index = ({ bayId, baseHeight, baseWidth }: Props) => {
             horizontal={parking.horizontal}
           ></ZoneComponent>
         ))}
+
         {cranes ? (
           <CraneMap
             craneIds={cranes}

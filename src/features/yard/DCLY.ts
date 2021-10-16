@@ -82,6 +82,7 @@ const DCLY: Bay = {
 		},
 	],
 	circleZones: [],
+	equipmentStock:[],
 	stockSaddles: [
 		{
 			id: 'LY122D2',

@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-10-15 10:40:08
- * @LastEditTime: 2021-10-15 14:34:09
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-10-17 03:34:13
+ * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/boot/utils/commandmap.ts
  */

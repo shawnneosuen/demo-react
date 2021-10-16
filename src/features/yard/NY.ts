@@ -128,6 +128,7 @@ const NY: Bay = {
 		},
 	],
 	circleZones: [],
+	equipmentStock:[],
 	stockSaddles: [
 		{
 			id: 'LY122D2',

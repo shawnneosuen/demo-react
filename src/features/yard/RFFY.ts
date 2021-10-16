@@ -196,6 +196,7 @@ const RFFY: Bay = {
 			lockStatus: -1,
 		},
 	],
+	equipmentStock:[],
 	circleZones: [
 		{
 			id: 'ROFB1L',
