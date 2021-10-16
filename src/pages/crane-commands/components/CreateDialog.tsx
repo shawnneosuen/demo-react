@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-10-13 03:17:50
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-15 23:52:10
+ * @LastEditTime: 2021-10-16 20:56:27
  */
 
 import {
@@ -59,7 +59,7 @@ const Index = () => {
   const [bayNo, setBayNo] = useState<string>("");
   const [craneNo, setCraneNo] = useState<string>("");
   const [coilNo, setCoilNo] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState<string>("0");
   const [commandType, setCommandType] = useState<string>("");
   const [fromStock, setFromStock] = useState<string>("");
   const [toStock, setToStock] = useState<string>("");
@@ -141,6 +141,10 @@ const Index = () => {
   }, [dialogStatus]);
 
   useEffect(() => {
+    setCommandNo("" + Math.round(Math.random() * 1000000));
+  }, [coilNo]);
+
+  useEffect(() => {
     let commandTemp: Command = {
       CommandNo: commandNo,
       Priority: Number.parseInt(priority),
@@ -171,6 +175,7 @@ const Index = () => {
     fromStock,
     toStock,
     pickupFlag,
+    commandType,
   ]);
 
   useEffect(() => {

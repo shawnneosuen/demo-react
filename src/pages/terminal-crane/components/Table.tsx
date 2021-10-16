@@ -1,272 +1,290 @@
-import React, { useEffect, useRef, useState } from 'react'
-import clsx from 'clsx'
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { render } from "react-dom";
+import { AgGridReact, AgGridColumn } from "ag-grid-react";
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import {
-	createStyles,
-	Theme,
-	withStyles,
-	WithStyles,
-} from '@material-ui/core/styles'
-import TableCell from '@material-ui/core/TableCell'
-import Paper from '@material-ui/core/Paper'
+  RowNode,
+  RowNodeEvent,
+} from "ag-grid-community/dist/lib/entities/rowNode";
 import {
-	AutoSizer,
-	Column,
-	Table,
-	TableCellRenderer,
-	TableHeaderProps,
-} from 'react-virtualized'
-import { useDebounce } from 'utils'
-import { query } from 'boot/api'
-import { useStatusContext } from 'context/BasePageStatus'
+  ColumnApi,
+  GridApi,
+  GridReadyEvent,
+  RowClickedEvent,
+} from "ag-grid-community";
+import { Button, createStyles, makeStyles, Theme } from "@material-ui/core";
+import { Command } from "boot/model";
+import { FilterCondition } from "../context/model";
+import { useAppSelector } from "app/hook";
+import { useTabelStatusContext } from "../context/TableStatus";
+import { useStatusContext } from "context/BasePageStatus";
+import { CommandMapping } from "boot/utils/mapping";
 
-declare module '@material-ui/core/styles/withStyles' {
-	// Augment the BaseCSSProperties so that we can control jss-rtl
-	interface BaseCSSProperties {
-		/*
-		 * Used to control if the rule-set should be affected by rtl transformation
-		 */
-		flip?: boolean
-	}
+interface Column {
+  field: string;
+  headerName: string;
+  width?: number;
 }
 
-const styles = (theme: Theme) =>
-	createStyles({
-		flexContainer: {
-			display: 'flex',
-			alignItems: 'center',
-			boxSizing: 'border-box',
-		},
-		table: {
-			'& .ReactVirtualized__Table__headerRow': {
-				flip: false,
-				paddingRight: theme.direction === 'rtl' ? '0 !important' : undefined,
-			},
-		},
-		tableRow: {
-			cursor: 'pointer',
-		},
-		tableRowHover: {
-			'&:hover': {
-				backgroundColor: theme.palette.grey[200],
-			},
-		},
-		tableCell: {
-			flex: 1,
-		},
-		noClick: {
-			cursor: 'initial',
-		},
-	})
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    exampleWrapper: {
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+    },
 
-interface ColumnData {
-	dataKey: string
-	label: string
-	numeric?: boolean
-	width: number
+    myGrid: {
+      flex: "1 1 0px",
+      width: "100%",
+    },
+  })
+);
+
+const columns: Column[] = [
+  {
+    field: "CommandNo",
+    headerName: "指令号",
+  },
+  {
+    field: "Priority",
+    headerName: "优先级",
+  },
+  {
+    headerName: "跨号",
+    field: "BayNo",
+  },
+  {
+    headerName: "行车号",
+    field: "CraneNo",
+  },
+  {
+    headerName: "材料号",
+    field: "CoilNo",
+  },
+  {
+    headerName: "指令类型",
+    field: "CommandType",
+  },
+  {
+    headerName: "起始库位",
+    field: "StartStock",
+  },
+  {
+    headerName: "卸下库位",
+    field: "ToStock",
+  },
+  {
+    headerName: "指令状态",
+    field: "CommandStatus",
+  },
+  {
+    headerName: "可吊标志",
+    field: "PickupFlag",
+  },
+  {
+    headerName: "更新时间",
+    field: "UpdateTime",
+  },
+];
+
+interface Data extends Command {
+  id: number;
+  Selected: boolean;
 }
 
-interface Row {
-	index: number
+interface Props {
+  onSelected?: any;
 }
 
-interface MuiVirtualizedTableProps extends WithStyles<typeof styles> {
-	columns: ColumnData[]
-	headerHeight?: number
-	onRowClick?: () => void
-	rowCount: number
-	rowGetter: (row: Row) => Data
-	rowHeight?: number
-}
+const Index = ({ onSelected: handleSelect }: Props) => {
+  const [gridApi, setGridApi] = useState<GridApi>();
+  const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>();
+  const classes = useStyles();
+  const commands = useAppSelector((state) => state.commands);
+  const { filter, setFilterConditon, getFilterCondifion } =
+    useTabelStatusContext();
 
-class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> {
-	static defaultProps = {
-		headerHeight: 48,
-		rowHeight: 48,
-	}
+  const [rowData, setRowData] = useState<any[]>([]);
+  const ref = useRef<HTMLDivElement>(null);
 
-	getRowClassName = ({ index }: Row) => {
-		const { classes, onRowClick } = this.props
+  const onGridReady = (params: RowClickedEvent) => {
+    setGridApi(params.api);
+    setGridColumnApi(params.columnApi);
+    const updateData = (data: React.SetStateAction<any[]>) => {
+      setRowData(data);
+    };
+    handleSelect(gridApi?.getSelectedRows);
+  };
 
-		return clsx(classes.tableRow, classes.flexContainer, {
-			[classes.tableRowHover]: index !== -1 && onRowClick != null,
-		})
-	}
+  const onSelectionChanged = () => {
+    handleSelect(gridApi?.getSelectedRows());
+  };
 
-	cellRenderer: TableCellRenderer = ({ cellData, columnIndex }) => {
-		const { columns, classes, rowHeight, onRowClick } = this.props
-		return (
-			<TableCell
-				component='div'
-				className={clsx(classes.tableCell, classes.flexContainer, {
-					[classes.noClick]: onRowClick == null,
-				})}
-				variant='body'
-				style={{ height: rowHeight }}
-				align={
-					(columnIndex != null && columns[columnIndex].numeric) || false
-						? 'right'
-						: 'left'
-				}
-			>
-				{cellData}
-			</TableCell>
-		)
-	}
+  const thisStyle = () => {
+    let width = "100%";
+    let height = window.innerHeight * 0.55;
 
-	headerRenderer = ({
-		label,
-		columnIndex,
-	}: TableHeaderProps & { columnIndex: number }) => {
-		const { headerHeight, columns, classes } = this.props
+    return { width: width, height: height, border: "1px solid #D0D0D0" };
+  };
 
-		return (
-			<TableCell
-				component='div'
-				className={clsx(
-					classes.tableCell,
-					classes.flexContainer,
-					classes.noClick
-				)}
-				variant='head'
-				style={{ height: headerHeight }}
-				align={'left'}
-			>
-				<span>{label}</span>
-			</TableCell>
-		)
-	}
+  const filterData = useFilter(commands.commands, filter);
+  useEffect(() => {
+    console.log("filtedAtas", filterData);
 
-	render() {
-		const { classes, columns, rowHeight, headerHeight, ...tableProps } =
-			this.props
-		return (
-			<AutoSizer>
-				{({ height, width }) => (
-					<Table
-						height={height}
-						width={width}
-						rowHeight={rowHeight!}
-						gridStyle={{
-							direction: 'inherit',
-						}}
-						headerHeight={headerHeight!}
-						className={classes.table}
-						{...tableProps}
-						rowClassName={this.getRowClassName}
-					>
-						{columns.map(({ dataKey, ...other }, index) => {
-							return (
-								<Column
-									key={dataKey}
-									headerRenderer={(headerProps) =>
-										this.headerRenderer({
-											...headerProps,
-											columnIndex: index,
-										})
-									}
-									className={classes.flexContainer}
-									cellRenderer={this.cellRenderer}
-									dataKey={dataKey}
-									{...other}
-								/>
-							)
-						})}
-					</Table>
-				)}
-			</AutoSizer>
-		)
-	}
-}
+    let rowsTemp: Data[] = [];
+    let index = 0;
+    if (filterData) {
+      console.log(2222222);
 
-const VirtualizedTable = withStyles(styles)(MuiVirtualizedTable)
+      for (const item of filterData) {
+        console.log(item);
 
-// ---
+        let itemTemp: Data = {
+          id: index++,
+          Selected: false,
+          CommandType: CommandMapping(item.CommandType),
+          CommandNo: item.CommandNo,
+          Priority: item.Priority,
+          CraneNo: item.CraneNo,
+          StartStock: item.StartStock,
+          ToStock: item.ToStock,
+          CommandStatus: item.CommandStatus,
+          PickupFlag: item.PickupFlag,
+          CoilNo: item.CoilNo,
+          BayNo: item.BayNo,
+          UpdateTime: item.UpdateTime,
+        };
+        rowsTemp.push(itemTemp);
+      }
+    }
+    setRowData(rowsTemp);
+  }, [filterData, commands.commands]);
 
-interface Data {
-	COIL_NO: string
-	oper: string
-	user: string
-	ip: string
-	date: string
-}
-type DataModel = [string, string, string, string]
+  useEffect(() => {
+    gridApi?.onFilterChanged();
+  }, [filter]);
+  //   setTest(() => doesExternalFilterPass);
 
-function createData(
-	COIL_NO: string,
-	oper: string,
-	user: string,
-	ip: string,
-	date: string
-): Data {
-	return { COIL_NO, oper, user, ip, date }
-}
+  const doesExternalFilterPass = (node: RowNode) => {
+    if (
+      filter &&
+      (!!filter.BayNo ||
+        !!filter.CoilNoFilter ||
+        !!filter.CommandTypeFilter ||
+        !!filter.CraneNoFileter ||
+        !!filter.WorkingTypeFilter ||
+        !!filter.ZoneFilter)
+    ) {
+      let filterTemp = filter;
+      return (
+        node.data?.ZoneFilter == filterTemp?.ZoneFilter ||
+        node.data?.WorkingTypeFilter == filterTemp?.WorkingTypeFilter ||
+        node.data?.CraneNoFileter == filterTemp?.CraneNoFileter ||
+        node.data?.CommandTypeFilter == filterTemp?.CommandTypeFilter ||
+        node.data?.CoilNoFilter == filterTemp?.CoilNoFilter ||
+        node.data?.BayNo == filterTemp?.BayNo
+      );
+    } else {
+      return true;
+    }
+  };
 
-export default function ReactVirtualizedTable() {
-	const [rows, setRows] = useState<Data[]>([])
+  // Set row styles
+  const changeRowStyle = (params: { data: { CommandStatus: number } }) => {
+    console.log("params", params);
 
-	const ref = useRef<HTMLDivElement>(null)
+    if (params.data.CommandStatus === 1) {
+      return { backgroundColor: " red" };
+    } else {
+      return { backgroundColor: "white" };
+    }
+  };
+  return (
+    <div style={thisStyle()}>
+      <div className={classes.exampleWrapper} ref={ref}>
+        <div style={{ marginBottom: "5px" }}></div>
+        <div
+          style={{
+            height: "100%",
+            width: "100%",
+          }}
+          className={"ag-theme-alpine " + classes.myGrid}
+        >
+          <AgGridReact
+            defaultColDef={{
+              flex: 1,
+              minWidth: 120,
+              filter: true,
+            }}
+            animateRows={true}
+            onGridReady={onGridReady}
+            rowData={rowData}
+            rowSelection={"single"}
+            onSelectionChanged={onSelectionChanged}
+            getRowStyle={changeRowStyle}
+            // onFilterChanged={}
+          >
+            <AgGridColumn
+              field="CommandNo"
+              minWidth={150}
+              headerCheckboxSelection={true}
+              headerCheckboxSelectionFilteredOnly={true}
+              checkboxSelection={true}
+            />
+            <AgGridColumn field="Priority" />
+            <AgGridColumn field="BayNo" minWidth={150} />
+            <AgGridColumn field="CraneNo" minWidth={150} />
+            <AgGridColumn field="CoilNo" />
+            <AgGridColumn field="CommandType" />
+            <AgGridColumn field="StartStock" />
+            <AgGridColumn field="ToStock" />
+            <AgGridColumn field="CommandStatus" />
+            <AgGridColumn field="PickupFlag" />
+            <AgGridColumn field="UpdateTime" />
+          </AgGridReact>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default Index;
 
-	const { snackbar, setSnackbar } = useStatusContext()
+const useFilter = (commands: Command[], filter: FilterCondition | null) => {
+  const [value, setValue] = useState<Command[]>([]);
+  let commandsTemp: Command[] = [];
 
-	const debounceParam = useDebounce(rows, 2000)
-	useEffect(() => {
-		const sql = 'select MAT_NO from UACS_SCHEDULE_COIL'
-		let queryData = query(sql).then((data) => {
-			if (data) {
-				let rowsTemp: Data[] = []
-				for (const subData of data.data) {
-					rowsTemp.push(createData(subData[0], '', '', '', ''))
-				}
-				setRows(rowsTemp)
-			} else {
-				setSnackbar({ msg: '网络连接失败', type: 'error' })
-			}
-		})
-	}, [debounceParam])
+  useEffect(() => {
+    if (
+      filter &&
+      commands &&
+      (filter.BayNo !== "" ||
+        filter.CoilNoFilter !== "" ||
+        filter.CommandTypeFilter !== "" ||
+        filter.CraneNoFileter !== "" ||
+        filter.WorkingTypeFilter !== "" ||
+        filter.ZoneFilter !== "")
+    ) {
+      if (filter.CommandTypeFilter) {
+        commandsTemp = commands.filter((temp: Command) =>
+          temp.CommandType.includes(filter.CommandTypeFilter + "")
+        );
+      }
+    } else {
+      commandsTemp = commands;
+    }
+    console.log(commandsTemp);
 
-	const thisStyle = () => {
-		let width = '100%'
-		let height = window.innerHeight * 0.6
+    setValue(commandsTemp);
+  }, [filter, commands]);
 
-		return { width: width, height: height }
-	}
-
-	const [itemWidth, setItemWidth] = useState<number>(0)
-	useEffect(() => {
-		setItemWidth(ref.current ? ref.current.offsetWidth / 4 : 0)
-		console.log(itemWidth)
-	}, [ref.current])
-	return (
-		<Paper style={thisStyle()} ref={ref}>
-			<VirtualizedTable
-				rowCount={rows.length}
-				rowGetter={({ index }) => rows[index]}
-				columns={[
-					{
-						width: itemWidth,
-						label: '钢卷号',
-						dataKey: 'COIL_NO',
-					},
-					{
-						width: itemWidth,
-						label: '鞍座位',
-						dataKey: 'STOCK_NO',
-						numeric: true,
-					},
-					{
-						width: itemWidth,
-						label: '去向',
-						dataKey: 'DESTINATION',
-						numeric: true,
-					},
-					{
-						width: itemWidth,
-						label: '重量',
-						dataKey: 'WEIGHT',
-						numeric: true,
-					},
-				]}
-			/>
-		</Paper>
-	)
-}
+  return value;
+};
