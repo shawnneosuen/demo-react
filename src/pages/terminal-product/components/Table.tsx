@@ -82,7 +82,6 @@ const Index = ({ filterValue }: Props) => {
   const [gridApi, setGridApi] = useState<GridApi>();
   const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>();
   const classes = useStyles();
-  const commands = useAppSelector((state) => state.commands);
 
   const [rowData, setRowData] = useState<any[]>([]);
   const ref = useRef<HTMLDivElement>(null);
