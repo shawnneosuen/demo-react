@@ -211,7 +211,6 @@ const Index = ({ onSelected: handleSelect }: Props) => {
   return (
     <div style={thisStyle()}>
       <div className={classes.exampleWrapper} ref={ref}>
-        <div style={{ marginBottom: "5px" }}></div>
         <div
           style={{
             height: "100%",

@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-16 21:13:15
+ * @LastEditTime: 2021-10-18 16:54:27
  */
 export interface Yard {
 	bayIds: string[]
@@ -178,4 +178,41 @@ export interface Coil {
 	WEIGHT: number | null
 	WIDTH: number | null
 	WOODEN_FLAG: boolean | null
+}
+
+export  type TruckStowageModel ={
+	ID: string,
+	STOWAGE_ID: string,
+	TRUCK_ID: string,
+	UPDATE_TIME:string,
+	PARKING_ID: string,
+	CRAETE_TIME: string,
+} 
+
+export type TruckModel = {
+	ID: string,
+	TRUCK_ID: string,
+	POSITIONS:number,
+	CREATE_TIME: string,
+	UPDATE_TIME: string
+}
+
+export type ParkingModel = {
+	ID: string,
+	PARKING_NO: string,
+	TRUCK_ID: string,
+	STOWAGE_ID: string,
+	UPDATE_TIME: string,
+	CREATE_TIME: string
+}
+
+export type TruckStowageDetailModel = {
+	ID : string,
+	STOWAGE_ID: string,
+	COIL_NO: string,
+	ST_NO: string,
+	POSITION_ON_TRUCK: number,
+	STATUS: number,
+	CREATE_TIME: string,
+	UPDATE_TIME: string,
 }
