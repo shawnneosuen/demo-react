@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-10-17 22:30:39
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-18 17:04:14
+ * @LastEditTime: 2021-10-18 20:31:37
  */
 import {
   Grid,
@@ -15,7 +15,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useAppSelector } from "app/hook";
-import { ParkingModel, TruckStowageModel } from "boot/model";
+import {
+  ParkingModel,
+  TruckStowageDetailModel,
+  TruckStowageModel,
+} from "boot/model";
 import StowageCard from "./components/StowageCard";
 
 import React, { useEffect, useState } from "react";
@@ -56,6 +60,9 @@ const Index = () => {
     useAppSelector((state) => state.parks).parkings
   );
   const [targetPark, setTargetPark] = useState<ParkingModel>();
+  const [targetStowageDetail, setTargetStowageDetail] = useState<
+    TruckStowageDetailModel[]
+  >([]);
 
   useEffect(() => {
     let parkingsTemp = JSON.parse(parkString);
@@ -106,10 +113,16 @@ const Index = () => {
           <StowageCard onSelected={setTargetStowage}></StowageCard>
         </div>
         <div className={classes.mainPanel}>
-          <Table value={targetStowage?.STOWAGE_ID}></Table>
+          <Table
+            value={targetStowage?.STOWAGE_ID}
+            onSetTruckStowage={setTargetStowageDetail}
+          ></Table>
         </div>
         <div className={classes.footPanel}>
-          <ActionPanel></ActionPanel>
+          <ActionPanel
+            value={targetStowageDetail}
+            truckNo={targetPark?.TRUCK_ID}
+          ></ActionPanel>
         </div>
       </Paper>
     </div>

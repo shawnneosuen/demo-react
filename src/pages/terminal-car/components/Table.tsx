@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-10-18 15:40:54
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-18 17:01:09
+ * @LastEditTime: 2021-10-18 20:11:08
  */
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import { ColumnApi, GridApi, RowClickedEvent } from "ag-grid-community";
@@ -31,9 +31,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
   value?: string | undefined;
+  onSetTruckStowage?: any;
 }
 
-const Index = ({ value }: Props) => {
+const Index = ({
+  value,
+  onSetTruckStowage: handleTruckStowage = () => {},
+}: Props) => {
   // Initial table operate
   const [gridApi, setGridApi] = useState<GridApi>();
   const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>();
@@ -66,6 +70,7 @@ const Index = ({ value }: Props) => {
     console.log(truckStowageDetail);
 
     setRowData(truckStowageDetail);
+    handleTruckStowage(truckStowageDetail);
   }, [value]);
 
   // Table Styles

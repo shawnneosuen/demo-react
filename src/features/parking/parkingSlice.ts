@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-10-18 14:06:36
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-18 15:17:34
+ * @LastEditTime: 2021-10-18 20:23:41
  */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { ParkingModel } from "boot/model"
@@ -19,7 +19,13 @@ export const parkingSlice = createSlice({
     initialState,
     reducers:{
         updateParking: (state=initialState, action: PayloadAction<ParkingModel>) => {
-            return state
+            let stateTemp = JSON.parse(JSON.stringify(state))
+            let parking = action.payload;
+            let index = stateTemp.parkings.findIndex((parkingTemp: ParkingModel) => parkingTemp.ID === parking.ID)
+            if (index !== -1){
+                stateTemp.parkings[index] = parking;
+            }
+            return stateTemp
         }
     }
 })

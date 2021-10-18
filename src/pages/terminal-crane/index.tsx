@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-06 12:58:52
- * @LastEditTime: 2021-10-17 01:21:02
+ * @LastEditTime: 2021-10-18 20:43:39
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/terminal-crane/index.tsx
@@ -113,11 +113,16 @@ const ActionPanel = () => {
   };
 
   useEffect(() => {
-    setCommandsType(
-      commands
-        .filter((commandTemp: Command) => commandTemp.CommandType != "")
-        .map((commandTemp: Command) => commandTemp.CommandType)
-    );
+    let allType = commands
+      .filter((commandTemp: Command) => commandTemp.CommandType != "")
+      .map((commandTemp: Command) => commandTemp.CommandType);
+    let typesTemp: string[] = [];
+    for (const type of allType) {
+      if (!typesTemp.includes(type)) {
+        typesTemp.push(type);
+      }
+    }
+    setCommandsType(typesTemp);
   }, [commands]);
   useEffect(() => {
     console.log(selectedCommandType);
