@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-11 17:09:06
+ * @LastEditTime: 2021-10-19 12:04:24
  */
 import React, { useEffect } from 'react'
 import { CssBaseline, Toolbar } from '@material-ui/core'
@@ -55,9 +55,9 @@ export default function ClippedDrawer() {
 			<Provider store={store}>
 				<CssBaseline />
 				<Header />
-				<Toolbar />
+
 				<DrawerContent open={false} />
-				<main>
+				<main style={{ marginTop: 40 }}>
 					<Routes>
 						{RouterConfig()
 							.filter((router) => router.path != '/login')

@@ -50,22 +50,22 @@ const useStyles = makeStyles((theme: Theme) =>
 const columns: Column[] = [
   {
     field: "CommandNo",
-    headerName: "CommandNo",
+    headerName: "指令号",
   },
   {
     field: "CommandType",
-    headerName: "CommandType",
+    headerName: "指令类型",
   },
   {
-    headerName: "CoilNo",
+    headerName: "钢卷号",
     field: "CoilNo",
   },
   {
-    headerName: "Priority",
+    headerName: "优先级",
     field: "Priority",
   },
   {
-    headerName: "StartStock",
+    headerName: "起始an zuo wei起始anzuowei",
     field: "StartStock",
   },
   {
