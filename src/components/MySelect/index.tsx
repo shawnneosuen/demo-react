@@ -45,6 +45,7 @@ interface Props extends MenuItemProps {
   onSelect?: any;
   onClear?: any;
   label?: string;
+  style?: any;
 }
 
 const Index = ({
@@ -53,6 +54,7 @@ const Index = ({
   onSelect: handleSelect = () => {},
   onClear: handleClear,
   label,
+  style,
 }: Props) => {
   const [selectedValue, setSelectedValue] = useState<string>("");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -84,7 +86,7 @@ const Index = ({
     handleSelect(selectedValue);
   }, [selectedValue]);
   return (
-    <div>
+    <div style={style}>
       <InputLabel htmlFor={"MySelectInput"}>{label}</InputLabel>
       <OutlinedInput
         id="MySelectInput"

@@ -111,7 +111,7 @@ const Index = ({
         keepMounted
         style={{
           width: itemWidth,
-          height: 200,
+          height: 400,
         }}
         open={Boolean(anchorEl)}
         onClose={handleClose}
