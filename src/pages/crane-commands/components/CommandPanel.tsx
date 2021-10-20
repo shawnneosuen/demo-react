@@ -195,45 +195,31 @@ const CommandFilter = () => {
   return (
     <div>
       <Grid container spacing={4}>
-        <Grid item xs={3}>
-          库区：
-          <MySelect
-            options={bayIds}
-            onSelect={handleSelect("ZoneFilter")}
-          ></MySelect>
-        </Grid>
-        <Grid item xs={3}>
-          作业类型：
-          <MySelect
-            options={bayIds}
-            onSelect={handleSelect("WorkingTypeFilter")}
-          ></MySelect>
-        </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           行车号：
           <MySelect
             options={craneIds}
             onSelect={handleSelect("CraneNoFileter")}
           ></MySelect>
         </Grid>
-      </Grid>
-      {ref.current}
-      <Grid container spacing={4}>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           跨号：
           <MySelect
             options={bayIds}
             onSelect={handleSelect("BayNo")}
           ></MySelect>
         </Grid>
-        <Grid item xs={3}>
+      </Grid>
+      {ref.current}
+      <Grid container spacing={4}>
+        <Grid item xs={4}>
           指令类型：
           <MySelect
             options={commandsCodes}
             onSelect={handleSelect("CommandTypeFilter")}
           ></MySelect>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           材料号：
           <TextField
             variant={"outlined"}
