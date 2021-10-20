@@ -6,19 +6,32 @@
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/components/Header/index.tsx
  */
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core";
+import {
+  AppBar,
+  Button,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useStatusContext } from "../../context/BasePageStatus";
+import { useDebounce } from "utils";
 
 const Header = () => {
   const { drawerFlag, openCloseDialog } = useStatusContext();
+  const [time, setTime] = useState<string>();
+  const debounceParam = useDebounce(time, 1000);
+
+  useEffect(() => {
+    setTime(new Date().toLocaleString());
+  }, [debounceParam]);
   const classes = useStyles();
 
   return (
     <AppBar position="fixed" className={classes.header}>
-      <Toolbar>
+      <Toolbar style={{ display: "flex" }}>
         <IconButton
           edge="start"
           color="inherit"
@@ -29,7 +42,11 @@ const Header = () => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography>太钢</Typography>
+        <Typography variant={"h6"} style={{ flexGrow: 1 }}>
+          太钢
+        </Typography>
+
+        <Typography>{time}</Typography>
       </Toolbar>
     </AppBar>
   );
@@ -38,6 +55,7 @@ const Header = () => {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     header: {
+      flexGrow: 1,
       backgroundColor: "black",
       zIndex: theme.zIndex.tooltip + 1,
     },
