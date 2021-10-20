@@ -41,3 +41,5 @@ export const color = {
     avade:'#FFF58D',
     default:"#FAFAFA",
 }
+
+export const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));

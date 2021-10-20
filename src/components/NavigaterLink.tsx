@@ -64,6 +64,11 @@ const links = [
     title: "卡车出入库",
     path: "/terminal-car",
   },
+  {
+    icon: <DriveEtaIcon />,
+    title: "TestPage",
+    path: "/test-page",
+  },
   // {
   // 	icon: <ThreeDRotationIcon />,
   // 	title: '3D',

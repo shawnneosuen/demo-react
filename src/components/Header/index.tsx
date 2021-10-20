@@ -6,7 +6,7 @@
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/components/Header/index.tsx
  */
-import React from "react";
+import React, { useRef } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -15,6 +15,7 @@ import { useStatusContext } from "../../context/BasePageStatus";
 const Header = () => {
   const { drawerFlag, openCloseDialog } = useStatusContext();
   const classes = useStyles();
+
   return (
     <AppBar position="fixed" className={classes.header}>
       <Toolbar>

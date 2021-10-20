@@ -15,7 +15,7 @@ import ZoneMonitor from "pages/zone-monitor";
 import CraneCommands from "pages/crane-commands";
 import EquipmentCommands from "pages/commands-equipment";
 import TerminalCar from "pages/terminal-car";
-
+import TestPage from "pages/test-page";
 const Routers = () => {
   return [
     {
@@ -50,6 +50,10 @@ const Routers = () => {
     {
       path: "/terminal-car",
       main: <TerminalCar />,
+    },
+    {
+      path: "/test-page",
+      main: <TestPage></TestPage>,
     },
   ];
 };
