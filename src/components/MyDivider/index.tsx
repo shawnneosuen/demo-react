@@ -34,7 +34,7 @@ const Index = ({ className, height, width, backgroundColor }: Props) => {
   return (
     <div>
       <div
-        style={themeStyle == "vertical" ? verticalStyle : horizontalStyle}
+        style={themeStyle === "vertical" ? verticalStyle : horizontalStyle}
       ></div>
     </div>
   );
