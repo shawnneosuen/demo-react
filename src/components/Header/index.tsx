@@ -11,6 +11,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import {
   AppBar,
   Button,
+  Icon,
   IconButton,
   Toolbar,
   Typography,
@@ -18,6 +19,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import { useStatusContext } from "../../context/BasePageStatus";
 import { useDebounce } from "utils";
+import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 
 const Header = () => {
   const { drawerFlag, openCloseDialog } = useStatusContext();
@@ -42,8 +44,21 @@ const Header = () => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant={"h6"} style={{ flexGrow: 1 }}>
-          太钢
+        <Typography>太钢</Typography>
+        <Typography
+          variant={"h6"}
+          style={{
+            flexGrow: 1,
+            backgroundColor: "white",
+            marginLeft: 20,
+            marginRight: 20,
+            color: "black",
+          }}
+        >
+          <Icon fontSize={"small"}>
+            <NotificationsNoneIcon />
+          </Icon>
+          暂无通知
         </Typography>
 
         <Typography>{time}</Typography>
