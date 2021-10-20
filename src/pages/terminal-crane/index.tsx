@@ -42,7 +42,6 @@ const useStyle = makeStyles((theme: Theme) =>
     },
     table: {
       marginTop: 10,
-      height: "50%",
     },
     footPanel: {
       width: "100%",
@@ -65,24 +64,22 @@ const Index = () => {
     <div className={classes.page}>
       <TableProviders>
         <ThemeProvider theme={theme}>
-          <Grid container className={classes.topPanel}>
+          <Grid container className={classes.topPanel} spacing={1}>
             <Grid item xs={8}>
               {" "}
               <MarkupTables></MarkupTables>{" "}
             </Grid>
-            <Grid item xs={3}>
-              <ActionPanel />
-            </Grid>
-            <Grid item xs={1}>
-              {" "}
-              <DatePanel></DatePanel>
+            <Grid item xs={4}>
+              <div style={{ height: "45%" }}>
+                <ActionPanel />
+              </div>
+              <div className={classes.footPanel}>
+                <FootPanel value={selectedData}></FootPanel>
+              </div>
             </Grid>
           </Grid>
           <div className={classes.table}>
             <Table onSelected={setSelectedData}></Table>
-          </div>
-          <div className={classes.footPanel}>
-            <FootPanel value={selectedData}></FootPanel>
           </div>
         </ThemeProvider>
       </TableProviders>
@@ -177,10 +174,7 @@ const useFootPanelStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       marginTop: 20,
-      display: "flex",
-      flexGrow: 1,
-      justifyContent: "right",
-      alignItems: "right",
+      width: "100%",
     },
   })
 );
@@ -204,113 +198,129 @@ const FootPanel = ({ value }: FootPanelProps) => {
     }
   }, [value]);
   return (
-    <div className={classes.root} style={{ flexGrow: 1 }}>
-      <Button
-        variant="contained"
-        color={"primary"}
-        size={"large"}
-        style={{ margin: 2 }}
-        disabled={
-          commands.commands.findIndex(
-            (command: Command) => command.CommandStatus === 1
-          ) !== -1
-        }
-        onClick={() =>
-          value
-            ? dispatch(
-                updateCommand({
-                  CommandNo: value[0].CommandNo,
-                  CommandType:
-                    commandCodes.find(
-                      (code: string) =>
-                        CommandMapping(code) === value[0].CommandType
-                    ) ?? "",
-                  Priority: value[0].Priority,
-                  CraneNo: value[0].CraneNo,
-                  StartStock: value[0].StartStock,
-                  ToStock: value[0].ToStock,
-                  CommandStatus: 1,
-                  PickupFlag: value[0].PickupFlag,
-                  CoilNo: value[0].CoilNo,
-                  BayNo: value[0].BayNo,
-                  UpdateTime: value[0].UpdateTime,
-                })
-              )
-            : {}
-        }
-      >
-        吊起完成
-      </Button>
-      <Button
-        variant="contained"
-        color={"primary"}
-        size={"large"}
-        style={{ margin: 2 }}
-        disabled={
-          commands.commands.findIndex(
-            (command: Command) => command.CommandStatus === 1
-          ) === -1
-        }
-        onClick={() =>
-          value
-            ? dispatch(
-                updateCommand({
-                  CommandNo: value[0].CommandNo,
-                  CommandType: value[0].CommandType,
-                  Priority: value[0].Priority,
-                  CraneNo: value[0].CraneNo,
-                  StartStock: value[0].StartStock,
-                  ToStock: value[0].ToStock,
-                  CommandStatus: 100,
-                  PickupFlag: value[0].PickupFlag,
-                  CoilNo: value[0].CoilNo,
-                  BayNo: value[0].BayNo,
-                  UpdateTime: value[0].UpdateTime,
-                })
-              ) &&
-              dispatch(
-                deleteCommand({
-                  CommandNo: value[0].CommandNo,
-                  CommandType: value[0].CommandType,
-                  Priority: value[0].Priority,
-                  CraneNo: value[0].CraneNo,
-                  StartStock: value[0].StartStock,
-                  ToStock: value[0].ToStock,
-                  CommandStatus: 100,
-                  PickupFlag: value[0].PickupFlag,
-                  CoilNo: value[0].CoilNo,
-                  BayNo: value[0].BayNo,
-                  UpdateTime: value[0].UpdateTime,
-                })
-              ) &&
-              (targetValue
+    <div className={classes.root}>
+      <Grid container spacing={1}>
+        <Grid item xs={6}>
+          <Button
+            variant="contained"
+            color={"primary"}
+            size={"large"}
+            style={{ margin: 2 }}
+            fullWidth
+            disabled={
+              commands.commands.findIndex(
+                (command: Command) => command.CommandStatus === 1
+              ) !== -1
+            }
+            onClick={() =>
+              value
                 ? dispatch(
-                    updateCoil(
-                      createCoilData(targetValue, "st_no", value[0].ToStock)
-                    )
+                    updateCommand({
+                      CommandNo: value[0].CommandNo,
+                      CommandType:
+                        commandCodes.find(
+                          (code: string) =>
+                            CommandMapping(code) === value[0].CommandType
+                        ) ?? "",
+                      Priority: value[0].Priority,
+                      CraneNo: value[0].CraneNo,
+                      StartStock: value[0].StartStock,
+                      ToStock: value[0].ToStock,
+                      CommandStatus: 1,
+                      PickupFlag: value[0].PickupFlag,
+                      CoilNo: value[0].CoilNo,
+                      BayNo: value[0].BayNo,
+                      UpdateTime: value[0].UpdateTime,
+                    })
                   )
-                : "")
-            : {}
-        }
-      >
-        卸下完成
-      </Button>
-      <Button
-        variant="contained"
-        color={"primary"}
-        size={"large"}
-        style={{ margin: 2 }}
-      >
-        强起完成
-      </Button>
-      <Button
-        variant="contained"
-        color={"primary"}
-        size={"large"}
-        style={{ margin: 2 }}
-      >
-        强卸完成
-      </Button>
+                : {}
+            }
+          >
+            吊起完成
+          </Button>
+        </Grid>
+        <Grid item xs={6}>
+          <Button
+            variant="contained"
+            color={"primary"}
+            size={"large"}
+            style={{ margin: 2 }}
+            fullWidth
+            disabled={
+              commands.commands.findIndex(
+                (command: Command) => command.CommandStatus === 1
+              ) === -1
+            }
+            onClick={() =>
+              value
+                ? dispatch(
+                    updateCommand({
+                      CommandNo: value[0].CommandNo,
+                      CommandType: value[0].CommandType,
+                      Priority: value[0].Priority,
+                      CraneNo: value[0].CraneNo,
+                      StartStock: value[0].StartStock,
+                      ToStock: value[0].ToStock,
+                      CommandStatus: 100,
+                      PickupFlag: value[0].PickupFlag,
+                      CoilNo: value[0].CoilNo,
+                      BayNo: value[0].BayNo,
+                      UpdateTime: value[0].UpdateTime,
+                    })
+                  ) &&
+                  dispatch(
+                    deleteCommand({
+                      CommandNo: value[0].CommandNo,
+                      CommandType: value[0].CommandType,
+                      Priority: value[0].Priority,
+                      CraneNo: value[0].CraneNo,
+                      StartStock: value[0].StartStock,
+                      ToStock: value[0].ToStock,
+                      CommandStatus: 100,
+                      PickupFlag: value[0].PickupFlag,
+                      CoilNo: value[0].CoilNo,
+                      BayNo: value[0].BayNo,
+                      UpdateTime: value[0].UpdateTime,
+                    })
+                  ) &&
+                  (targetValue
+                    ? dispatch(
+                        updateCoil(
+                          createCoilData(targetValue, "st_no", value[0].ToStock)
+                        )
+                      )
+                    : "")
+                : {}
+            }
+          >
+            卸下完成
+          </Button>
+        </Grid>
+      </Grid>
+      <Grid container spacing={1}>
+        <Grid item xs={6}>
+          <Button
+            variant="contained"
+            color={"secondary"}
+            size={"large"}
+            fullWidth
+            style={{ margin: 2 }}
+          >
+            强起完成
+          </Button>
+        </Grid>
+        <Grid item xs={6}>
+          <Button
+            variant="contained"
+            size={"large"}
+            color={"secondary"}
+            fullWidth
+            style={{ margin: 2 }}
+          >
+            强卸完成
+          </Button>
+        </Grid>
+      </Grid>
     </div>
   );
 };

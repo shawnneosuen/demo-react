@@ -22,9 +22,10 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     MarkupTables: {
       flexGrow: 1,
+      display: "flex",
     },
     table: {
-      maxWidth: 600,
+      maxWidth: 300,
     },
   })
 );
@@ -33,8 +34,8 @@ const Index = () => {
   const classes = useStyles();
   return (
     <div>
-      <Grid container className={classes.MarkupTables} spacing={3}>
-        <Grid item xs={3}>
+      <Grid container className={classes.MarkupTables} spacing={2}>
+        <Grid item xs={4}>
           {" "}
           <MarkupTablePLC></MarkupTablePLC>
         </Grid>
@@ -75,6 +76,7 @@ function MarkupTablePLC() {
             </TableCell>
             <TableCell align="right">
               <SignalCellularAltIcon
+                fontSize={"small"}
                 color={rowsPLC[0].VALUE ? "primary" : "error"}
               />
             </TableCell>
@@ -96,7 +98,7 @@ function MarkupTablePLC() {
               {rowsPLC[3].NAME}
             </TableCell>
             <TableCell align="right">
-              <MyLocationIcon />
+              <MyLocationIcon fontSize={"small"} />
             </TableCell>
           </TableRow>
         </TableBody>
