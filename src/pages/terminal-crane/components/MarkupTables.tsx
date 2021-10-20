@@ -58,8 +58,8 @@ function createData(NAME: string, VALUE: any) {
 
 const rowsPLC = [
   createData("PLC信号", false),
-  createData("大车方向", 237),
-  createData("小车方向", 262),
+  createData("大车偏差", 237),
+  createData("小车偏差", 262),
   createData("载荷信号", 305),
 ];
 
