@@ -7,7 +7,13 @@
  * @FilePath: /demo-react/src/pages/crane-commands/index.tsx
  */
 
-import { createStyles, makeStyles, Paper, Theme } from "@material-ui/core";
+import {
+  createStyles,
+  Grid,
+  makeStyles,
+  Paper,
+  Theme,
+} from "@material-ui/core";
 import CommandPanel from "./components/CommandPanel";
 import React, { useEffect, useState } from "react";
 import Table from "./components/Table";
@@ -18,18 +24,16 @@ import EditDialog from "./components/EditeDialg";
 import { useTabelStatusContext } from "./context/TableStatus";
 import { Command } from "boot/model";
 import DeleteDialog from "./components/DeleteDialog";
+import MyNativeSelect from "components/MySelect/MyNativeSelect";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "100%",
-      height: "100%",
       paddingLeft: theme.spacing(3),
       paddingRight: theme.spacing(3),
     },
     page: {
-      widht: "100%",
-      heigth: "100%",
+      padding: theme.spacing(2),
     },
     commandPanel: {
       width: "100%",
@@ -57,19 +61,24 @@ const Index = () => {
   }, [selectedData]);
   return (
     <div className={classes.root}>
-      <TableProviders>
-        <Paper className={classes.page}>
-          <div className={classes.commandPanel}>
-            <CommandPanel></CommandPanel>
-          </div>
-          <div className={classes.tablePanel}>
-            <Table onSelected={setSelectedData}></Table>
-          </div>
-        </Paper>
-      </TableProviders>
-      <CreateDialog></CreateDialog>
-      <EditDialog selectedData={selectedData}></EditDialog>
-      <DeleteDialog selectedData={selectedData}></DeleteDialog>
+      <Paper className={classes.page}>
+        <TableProviders>
+          {/* <div className={classes.commandPanel}> */}
+          <Grid container direction="column" spacing={1}>
+            <Grid item>
+              <CommandPanel></CommandPanel>
+            </Grid>
+            {/* </div> */}
+            <Grid item>
+              <Table onSelected={setSelectedData}></Table>
+            </Grid>
+          </Grid>
+
+          <CreateDialog></CreateDialog>
+          <EditDialog selectedData={selectedData}></EditDialog>
+          <DeleteDialog selectedData={selectedData}></DeleteDialog>
+        </TableProviders>
+      </Paper>
     </div>
   );
 };

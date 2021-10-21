@@ -22,7 +22,9 @@ import {
 } from "@material-ui/core";
 import { useAppDispatch, useAppSelector } from "app/hook";
 import { commandCodes, CommandMapping } from "boot/utils/mapping";
+import MyInputText from "components/MyInputText";
 import MySelect from "components/MySelect";
+import MyNativeSelect from "components/MySelect/MyNativeSelect";
 import MyTitle from "components/MyTitle";
 import { setDialogStatus } from "context/Action";
 import { useStatusContext } from "context/BasePageStatus";
@@ -45,7 +47,7 @@ const Index = () => {
 
   return (
     <div className={classes.root}>
-      <Grid container style={{ border: "2px solid #F0F0F0" }}>
+      <Grid container style={{ border: "2px solid #F0F0F0" }} spacing={2}>
         <Grid item xs={3}>
           <MyTitle value={"指令颜色指示"}></MyTitle>
           <CommandExample></CommandExample>
@@ -82,16 +84,16 @@ const CommandExample = () => {
   const classes = useCommandPanelStyles();
   return (
     <div className={classes.root}>
-      <Grid container spacing={5}>
-        <Grid item className={classes.item}>
+      <Grid container spacing={2}>
+        <Grid item xs={6} className={classes.item}>
           {" "}
           创建指令 <ColorSquare value="#5583b0" />
         </Grid>
-        <Grid item className={classes.item}>
+        <Grid item xs={6} className={classes.item}>
           {" "}
           作业指令 <ColorSquare value={"#98362f"} />
         </Grid>
-        <Grid item className={classes.item}>
+        <Grid item xs={6} className={classes.item}>
           {" "}
           获取指令 <ColorSquare value={"#4b8855"} />
         </Grid>
@@ -195,37 +197,32 @@ const CommandFilter = () => {
   return (
     <div>
       <Grid container spacing={4}>
-        <Grid item xs={4}>
-          行车号：
+        <Grid item xs={6}>
           <MySelect
             options={craneIds}
             onSelect={handleSelect("CraneNoFileter")}
+            label={"行车号"}
           ></MySelect>
         </Grid>
-        <Grid item xs={4}>
-          跨号：
+        <Grid item xs={6}>
           <MySelect
             options={bayIds}
             onSelect={handleSelect("BayNo")}
+            label={"跨号"}
           ></MySelect>
         </Grid>
       </Grid>
       {ref.current}
       <Grid container spacing={4}>
-        <Grid item xs={4}>
-          指令类型：
+        <Grid item xs={6}>
           <MySelect
             options={commandsCodes}
             onSelect={handleSelect("CommandTypeFilter")}
+            label={"指令类型"}
           ></MySelect>
         </Grid>
-        <Grid item xs={4}>
-          材料号：
-          <TextField
-            variant={"outlined"}
-            value={inputCoilNo}
-            // onChange={handleSelect("CoilNoFilter")}
-          ></TextField>
+        <Grid item xs={6}>
+          <MyInputText label={"材料号"}> </MyInputText>
         </Grid>
       </Grid>
     </div>
@@ -246,8 +243,8 @@ const ManageCommands = () => {
   const dispatch = useAppDispatch();
   return (
     <div>
-      <Grid container>
-        <Grid item xs={4}>
+      <Grid container direction="column">
+        <Grid item xs={12}>
           <FormControlLabel
             control={
               <Switch
@@ -259,10 +256,9 @@ const ManageCommands = () => {
             label="自动更新"
           />
         </Grid>
-        <Grid item xs={8} spacing={3} container>
-          <Grid item>
+        <Grid item spacing={3} container>
+          <Grid item xs={6}>
             <Button
-              size={"large"}
               variant={"outlined"}
               color="primary"
               onClick={() => {
@@ -272,14 +268,13 @@ const ManageCommands = () => {
               <Typography style={{ fontSize: "20px" }}>编辑指令</Typography>
             </Button>
           </Grid>
-          <Grid item>
-            <Button size={"large"} variant={"outlined"} color="primary">
+          <Grid item xs={6}>
+            <Button variant={"outlined"} color="primary">
               <Typography style={{ fontSize: "20px" }}> 刷新指令 </Typography>
             </Button>
           </Grid>
-          <Grid item>
+          <Grid item xs={6}>
             <Button
-              size={"large"}
               variant={"outlined"}
               color="primary"
               onClick={() => setDialogStatus(!!dialogStatus)}
@@ -287,9 +282,8 @@ const ManageCommands = () => {
               <Typography style={{ fontSize: "20px" }}> 生成指令 </Typography>
             </Button>
           </Grid>
-          <Grid item>
+          <Grid item xs={6}>
             <Button
-              size={"large"}
               variant={"outlined"}
               color="primary"
               onClick={() => setDeleteDialogStatus(!!deleteDialogStatus)}

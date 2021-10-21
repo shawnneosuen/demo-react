@@ -19,26 +19,6 @@ import {
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { Clear } from "@material-ui/icons";
 
-const StyledMenu = withStyles({
-  paper: {
-    border: "1px solid #d3d4d5",
-  },
-})((props: MenuProps) => (
-  <Menu
-    elevation={0}
-    getContentAnchorEl={null}
-    anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "center",
-    }}
-    transformOrigin={{
-      vertical: "top",
-      horizontal: "center",
-    }}
-    {...props}
-  />
-));
-
 interface Props extends MenuItemProps {
   value?: string;
   options?: string[];
@@ -118,24 +98,6 @@ const Index = ({
           </InputAdornment>
         }
       ></OutlinedInput>
-      <StyledMenu
-        id="customized-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        style={{ width: itemWidth }}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        {options?.map((option: string) => (
-          <MenuItem
-            style={{ width: itemWidth }}
-            key={option}
-            onClick={handleSelectClick}
-          >
-            <div> {option}</div>
-          </MenuItem>
-        ))}
-      </StyledMenu>
     </div>
   );
 };
