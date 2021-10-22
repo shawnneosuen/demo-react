@@ -59,8 +59,8 @@ const Index = ({ value }: Props) => {
   }, [equipmentStocks]);
 
   return (
-    <div>
-      <Grid container className={classes.root}>
+    <Grid container direction={"column"}>
+      <Grid container item className={classes.root}>
         <Grid item xs={12}>
           <MyTitle value={value}></MyTitle>
         </Grid>
@@ -77,13 +77,14 @@ const Index = ({ value }: Props) => {
       >
         {stock.map((stockTemp: StockSaddle) => (
           <Grid item xs={4} style={{ padding: "auto" }} key={stockTemp.id}>
-            <StockModel
-              label={stockTemp.id}
-              value={coils.find((coil: Coil) => coil.ST_NO === stockTemp.id)}
-              key={stockTemp.id}
-            >
+            <StockModel label={stockTemp.id} key={stockTemp.id}>
               {coils.find((coil: Coil) => coil.ST_NO === stockTemp.id) ? (
-                <CoilModel key={stockTemp.id} />
+                <CoilModel
+                  key={stockTemp.id}
+                  value={coils.find(
+                    (coil: Coil) => coil.ST_NO === stockTemp.id
+                  )}
+                />
               ) : (
                 ""
               )}
@@ -91,8 +92,10 @@ const Index = ({ value }: Props) => {
           </Grid>
         ))}
       </Grid>
-      <EquipmentManagePanel></EquipmentManagePanel>
-    </div>
+      <Grid item>
+        <EquipmentManagePanel></EquipmentManagePanel>
+      </Grid>
+    </Grid>
   );
 };
 export default Index;
@@ -100,8 +103,8 @@ export default Index;
 const useStockStyle = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: 152,
-      height: 190,
+      width: 100,
+      height: 120,
       backgroundColor: "white",
       border: "1px dashed black",
     },
@@ -120,13 +123,54 @@ const useStockStyle = makeStyles((theme: Theme) =>
 const StockModel = ({
   children,
   label,
-  value,
 }: {
   children?: ReactNode;
   label?: string;
-  value: Coil | undefined;
 }) => {
   const classes = useStockStyle();
+  return (
+    <div className={classes.root}>
+      <div style={{ height: "80%" }}> {children}</div>
+      <MyDivider></MyDivider>
+      <div style={{ height: "19.9%" }}>
+        <Typography className={classes.label}>
+          <strong> {label}</strong>
+        </Typography>
+      </div>
+    </div>
+  );
+};
+
+const useCoilShapeStyle = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: 100,
+      height: 100,
+      border: "1px solid black",
+      borderRadius: "50%",
+      backgroundColor: "#c1defd",
+      position: "absolute",
+      display: "flex",
+      alignItems: "center",
+      flex: "center",
+      justifyContent: "center",
+    },
+    indiaCoil: {
+      width: 50,
+      height: 50,
+      border: "1px solid black",
+      borderRadius: "50%",
+      backgroundColor: "white",
+    },
+  })
+);
+
+interface CoilModelProps {
+  value: Coil | undefined;
+}
+
+const CoilModel = ({ value }: CoilModelProps) => {
+  const classes = useCoilShapeStyle();
   return (
     <Tooltip
       title={
@@ -139,8 +183,6 @@ const StockModel = ({
           <div>{value ? value.OUTDIA : "--"}</div>
           <div>重量：</div>
           <div>{value ? value.WEIGHT : "--"}</div>
-          <div>下道工序： {"--"}</div>
-          <div>材料验证：{"--"}</div>
         </React.Fragment>
       }
       aria-label="add"
@@ -149,48 +191,9 @@ const StockModel = ({
       arrow
     >
       <div className={classes.root}>
-        <div style={{ height: "80%" }}> {children}</div>
-        <MyDivider></MyDivider>
-        <div style={{ height: "19.9%" }}>
-          <Typography className={classes.label}>
-            <strong> {label}</strong>
-          </Typography>
-        </div>
+        <div className={classes.indiaCoil}></div>
       </div>
     </Tooltip>
-  );
-};
-
-const useCoilShapeStyle = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: 150,
-      height: 150,
-      border: "1px solid black",
-      borderRadius: "50%",
-      backgroundColor: "#c1defd",
-      position: "absolute",
-      display: "flex",
-      alignItems: "center",
-      flex: "center",
-      justifyContent: "center",
-    },
-    indiaCoil: {
-      width: 80,
-      height: 80,
-      border: "1px solid black",
-      borderRadius: "50%",
-      backgroundColor: "white",
-    },
-  })
-);
-
-const CoilModel = () => {
-  const classes = useCoilShapeStyle();
-  return (
-    <div className={classes.root}>
-      <div className={classes.indiaCoil}></div>
-    </div>
   );
 };
 

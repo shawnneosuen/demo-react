@@ -22,15 +22,10 @@ import Table from "./components/Table";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
     },
-    page: {
-      padding: theme.spacing(2),
-    },
-    headPanel: {
-      height: "30vh",
-      width: "100%",
-    },
+    page: { padding: theme.spacing(2) },
   })
 );
 const Index = () => {
@@ -39,8 +34,8 @@ const Index = () => {
   return (
     <div className={classes.root}>
       <Paper className={classes.page}>
-        <Grid container className={classes.headPanel} direction={"column"}>
-          <Grid container item>
+        <Grid container direction={"column"}>
+          <Grid container item xs={12}>
             <Grid item xs={6}>
               {" "}
               <StockCoilMsgPanel value={"4号机组入口"} />
@@ -50,10 +45,10 @@ const Index = () => {
               <StockCoilMsgPanel value={"4号机组出口"} />
             </Grid>
           </Grid>
+          <Grid item xs={12}>
+            <Table></Table>
+          </Grid>
         </Grid>
-        <div style={{ marginTop: 24 }}>
-          <Table></Table>
-        </div>
       </Paper>
     </div>
   );

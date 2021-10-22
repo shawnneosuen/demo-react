@@ -25,6 +25,7 @@ import { Coil, Command } from "boot/model";
 import { useAppSelector } from "app/hook";
 import { CommandMapping } from "boot/utils/mapping";
 import { useDebounce } from "utils";
+import { sleep } from "boot/utils";
 
 interface Column {
   field: string;
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
     exampleWrapper: {
       display: "flex",
       flexDirection: "column",
-      height: "100%",
+      height: window.innerHeight * 0.7,
     },
 
     myGrid: {
@@ -65,31 +66,31 @@ const columns: Column[] = [
     field: "Priority",
   },
   {
-    headerName: "起始an zuo wei起始anzuowei",
+    headerName: "起始鞍座位",
     field: "StartStock",
   },
   {
-    headerName: "ToStock",
+    headerName: "落关鞍座位",
     field: "ToStock",
   },
   {
-    headerName: "PickupFlag",
+    headerName: "起吊标志",
     field: "PickupFlag",
   },
   {
-    headerName: "CommandStatus",
+    headerName: "指令状态",
     field: "CommandStatus",
   },
   {
-    headerName: "CraneNo",
+    headerName: "行车号",
     field: "CraneNo",
   },
   {
-    headerName: "BayNo",
+    headerName: "跨号",
     field: "BayNo",
   },
   {
-    headerName: "UpdateTime",
+    headerName: "更新时间",
     field: "UpdateTime",
   },
 ];
@@ -119,12 +120,25 @@ const Index = ({ filterValue }: Props) => {
     };
   };
 
-  const thisStyle = () => {
-    let width = "100%";
-    let height = window.innerHeight * 0.5;
+  const [height, setHeight] = useState<string | undefined>();
 
-    return { width: width, height: height, border: "1px solid #D0D0D0" };
-  };
+  useEffect(() => {
+    if (!rowData) {
+      return;
+    }
+    sleep(0).then(() => {
+      const elements = document.querySelectorAll("." + "substract");
+      if (!elements) {
+        return;
+      }
+      let height = 360;
+      elements.forEach((element) => {
+        height += element.clientHeight;
+      });
+      height += 16;
+      setHeight(`calc(100vh - ${height}px)`);
+    });
+  }, [rowData]);
 
   // Set row styles
   const changeRowStyle = (params: { data: { CommandStatus: number } }) => {
@@ -148,49 +162,56 @@ const Index = ({ filterValue }: Props) => {
     setRowData(coils);
   }, [coils]);
   return (
-    <div style={thisStyle()}>
-      <div className={classes.exampleWrapper} ref={ref}>
-        {/* <div style={{ marginBottom: "5px" }}></div> */}
-        <div
-          style={{
-            height: "100%",
-            width: "100%",
-          }}
-          className={"ag-theme-alpine " + classes.myGrid}
-        >
-          <AgGridReact
-            defaultColDef={{
-              flex: 1,
-              minWidth: 120,
-              filter: true,
-            }}
-            animateRows={true}
-            onGridReady={onGridReady}
-            rowData={rowData}
-            rowSelection={"single"}
-            getRowStyle={changeRowStyle}
-            // onFilterChanged={}
-          >
-            <AgGridColumn
-              field="CommandNo"
-              minWidth={150}
-              headerCheckboxSelection={true}
-              headerCheckboxSelectionFilteredOnly={true}
-              checkboxSelection={true}
-            />
-            <AgGridColumn field="CommandType" />
-            <AgGridColumn field="CoilNo" minWidth={150} />
-            <AgGridColumn field="Priority" minWidth={150} />
-            <AgGridColumn field="StartStock" />
-            <AgGridColumn field="ToStock" />
-            <AgGridColumn field="PickupFlag" />
-            <AgGridColumn field="CommandStatus" />
-            <AgGridColumn field="CraneNo" />
-            <AgGridColumn field="BayNo" />
-            <AgGridColumn field="UpdateTime" />
-          </AgGridReact>
-        </div>
-      </div>
+    <div
+      style={{
+        height: height,
+        width: "100%",
+      }}
+      className={"ag-theme-alpine " + classes.myGrid}
+    >
+      <AgGridReact
+        defaultColDef={{
+          flex: 1,
+          minWidth: 120,
+          filter: true,
+        }}
+        animateRows={true}
+        onGridReady={onGridReady}
+        rowData={rowData}
+        rowSelection={"single"}
+        getRowStyle={changeRowStyle}
+        // onFilterChanged={}
+      >
+        <AgGridColumn
+          field="CommandNo"
+          minWidth={150}
+          headerCheckboxSelection={true}
+          headerCheckboxSelectionFilteredOnly={true}
+          checkboxSelection={true}
+          headerName={columns[0].headerName}
+        />
+        <AgGridColumn field="CommandType" headerName={columns[1].headerName} />
+        <AgGridColumn
+          field="CoilNo"
+          minWidth={150}
+          headerName={columns[2].headerName}
+        />
+        <AgGridColumn
+          field="Priority"
+          minWidth={150}
+          headerName={columns[3].headerName}
+        />
+        <AgGridColumn field="StartStock" headerName={columns[4].headerName} />
+        <AgGridColumn field="ToStock" headerName={columns[5].headerName} />
+        <AgGridColumn field="PickupFlag" headerName={columns[6].headerName} />
+        <AgGridColumn
+          field="CommandStatus"
+          headerName={columns[7].headerName}
+        />
+        <AgGridColumn field="CraneNo" headerName={columns[8].headerName} />
+        <AgGridColumn field="BayNo" headerName={columns[9].headerName} />
+        <AgGridColumn field="UpdateTime" headerName={columns[10].headerName} />
+      </AgGridReact>
     </div>
   );
 };

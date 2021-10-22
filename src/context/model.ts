@@ -37,3 +37,8 @@ export type DialogModelProps = {
     msg?: string; 
     actions?: any[]
 }
+
+export type MessageModel = {
+    rank?: 'Normal' | 'Warning' | 'Emergency' | 'Dangerous';
+    data: string
+}

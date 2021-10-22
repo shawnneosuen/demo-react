@@ -13,6 +13,7 @@ import {
   AnchorPointModel,
   ContextModel,
   DialogModelProps,
+  MessageModel,
   SnackbarModel,
 } from "./model";
 
@@ -50,6 +51,8 @@ const StatusContext = React.createContext<
       handleDialogModel: (
         dialog: DialogModelProps | undefined
       ) => Promise<void>;
+      message: MessageModel | undefined;
+      handleMessage: (message: MessageModel | undefined) => Promise<void>;
     }
   | undefined
 >(undefined);
@@ -109,6 +112,10 @@ export const BaseStatusProvider = ({ children }: { children: ReactNode }) => {
   const handleDialogModel = (dialogModel: DialogModelProps | undefined) =>
     action.setDialog(dialogModel).then(setDialogModel);
 
+  const [message, setMessage] = useState<MessageModel>();
+  const handleMessage = (message: MessageModel | undefined) =>
+    action.setMessage(message).then(setMessage);
+
   const value = {
     drawerFlag,
     openCloseDialog,
@@ -133,6 +140,8 @@ export const BaseStatusProvider = ({ children }: { children: ReactNode }) => {
     setDeleteDialogStatus,
     dialogModel,
     handleDialogModel,
+    message,
+    handleMessage,
   };
   return <StatusContext.Provider children={children} value={value} />;
 };

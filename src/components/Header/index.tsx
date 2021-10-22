@@ -26,6 +26,8 @@ const Header = () => {
   const [time, setTime] = useState<string>();
   const debounceParam = useDebounce(time, 1000);
 
+  const { message } = useStatusContext();
+
   useEffect(() => {
     setTime(new Date().toLocaleString());
   }, [debounceParam]);
@@ -58,7 +60,7 @@ const Header = () => {
           <Icon fontSize={"small"}>
             <NotificationsNoneIcon />
           </Icon>
-          暂无通知
+          {message ? message.data : "暂无通知"}
         </Typography>
 
         <Typography>{time}</Typography>
