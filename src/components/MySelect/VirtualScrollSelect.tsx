@@ -44,12 +44,14 @@ interface Props extends MenuItemProps {
   options?: string[] | null;
   onSelect?: any;
   onClear?: any;
+  init?: boolean;
   label?: string;
 }
 
 const Index = ({
   value = "",
   options,
+  init,
   onSelect: handleSelect = () => {},
   onClear: handleClear,
   label,
@@ -83,6 +85,12 @@ const Index = ({
   useEffect(() => {
     handleSelect(selectedValue);
   }, [selectedValue]);
+
+  useEffect(() => {
+    if (init) {
+      setSelectedValue("");
+    }
+  });
   return (
     <div>
       <InputLabel htmlFor={"MySelectInput"}>{label}</InputLabel>
@@ -92,6 +100,7 @@ const Index = ({
         value={selectedValue}
         onClick={handleClick}
         label={label}
+        disabled
         endAdornment={
           <InputAdornment position="end">
             <IconButton

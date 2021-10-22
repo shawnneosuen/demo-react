@@ -39,8 +39,8 @@ const Index = () => {
   return (
     <div className={classes.root}>
       <Paper className={classes.page}>
-        <div className={classes.headPanel}>
-          <Grid container>
+        <Grid container className={classes.headPanel} direction={"column"}>
+          <Grid container item>
             <Grid item xs={6}>
               {" "}
               <StockCoilMsgPanel value={"4号机组入口"} />
@@ -50,7 +50,7 @@ const Index = () => {
               <StockCoilMsgPanel value={"4号机组出口"} />
             </Grid>
           </Grid>
-        </div>
+        </Grid>
         <div style={{ marginTop: 24 }}>
           <Table></Table>
         </div>

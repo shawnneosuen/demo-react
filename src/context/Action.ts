@@ -7,7 +7,7 @@
  * @LastEditTime: 2021-10-13 03:13:07
  */
 import { Command } from "components/ContextMenu/models"
-import { AnchorPointModel, ContextModel, SnackbarModel } from "./model"
+import { AnchorPointModel, ContextModel, DialogModelProps, SnackbarModel } from "./model"
 
 export const openCloseDialog = async(data: boolean | null) => {
     return !data
@@ -47,4 +47,8 @@ export const getSnackbar = async(data: SnackbarModel) => {
 
 export const setDialogStatus = async(data: boolean | null) => {
     return !data
+}
+
+export const setDialog = async(data: DialogModelProps | undefined) => {
+    return data
 }

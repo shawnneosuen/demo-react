@@ -19,8 +19,11 @@ import {
   Grid,
   Box,
 } from "@material-ui/core";
+import { useStatusContext } from "context/BasePageStatus";
+import { DialogModelProps } from "context/model";
 import Table from "pages/terminal-product/components/Table";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import ConfirmDialog from "./components/ConfirmDialog";
 import EditDrawContent from "./components/EditDrawContent";
 import SearchPanel from "./components/SearchPanel";
 
@@ -50,6 +53,7 @@ const Index = () => {
   const [filterCondition, setFilterCondition] = useState<string>();
   const [selectedData, setSelectedData] = useState<any>();
   const [open, setOpen] = useState<boolean>();
+
   return (
     <div className={classes.root}>
       <Paper className={classes.page}>
@@ -93,6 +97,7 @@ const Index = () => {
           onOpen={setOpen}
           value={selectedData}
         ></EditDrawContent>
+        <ConfirmDialog />
       </Paper>
     </div>
   );

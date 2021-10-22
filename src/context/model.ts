@@ -29,3 +29,11 @@ export interface SnackbarModel{
     msg?:string
 }
 export type Color = 'success' | 'info' | 'warning' | 'error';
+
+export type DialogModelProps = {
+    title?: string;
+    header?: string;
+    open?: boolean;
+    msg?: string; 
+    actions?: any[]
+}
