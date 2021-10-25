@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-15 14:53:06
- * @LastEditTime: 2021-10-17 04:04:46
+ * @LastEditTime: 2021-10-25 16:57:56
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/commands-equipment/components/StockCoilMsgPanel.tsx
@@ -18,9 +18,13 @@ import {
 } from "@material-ui/core";
 import { useAppSelector } from "app/hook";
 import { Coil, StockSaddle } from "boot/model";
+import { Command } from "components/ContextMenu/models";
 import MyDivider from "components/MyDivider";
 import MyTitle from "components/MyTitle";
+import { useStatusContext } from "context/BasePageStatus";
+import { lockUnlockStockSaddle } from "features/yard/yardSlice";
 import React, { ReactNode, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -77,7 +81,11 @@ const Index = ({ value }: Props) => {
       >
         {stock.map((stockTemp: StockSaddle) => (
           <Grid item xs={4} style={{ padding: "auto" }} key={stockTemp.id}>
-            <StockModel label={stockTemp.id} key={stockTemp.id}>
+            <StockModel
+              label={stockTemp.id}
+              key={stockTemp.id}
+              isStatic={stockTemp.static}
+            >
               {coils.find((coil: Coil) => coil.ST_NO === stockTemp.id) ? (
                 <CoilModel
                   key={stockTemp.id}
@@ -116,23 +124,58 @@ const useStockStyle = makeStyles((theme: Theme) =>
       alignItems: "center",
       marginTop: "auto",
       marginBottom: "auto",
-      backgroundColor: "lightgrey",
     },
   })
 );
 const StockModel = ({
   children,
   label,
+  isStatic,
 }: {
   children?: ReactNode;
   label?: string;
+  isStatic?: boolean;
 }) => {
   const classes = useStockStyle();
+
+  const dispatch = useDispatch();
+
+  let lockUnlockCommand: Command = {
+    Id: "lock",
+    Name: "锁定",
+    Action: () => {
+      if (label) {
+        console.log("label", label);
+
+        dispatch(lockUnlockStockSaddle(label));
+      }
+    },
+  };
+  // 右键或长按弹出框
+  const { setArchorPointStatus, setContextMenuStatus, setContextMenuCommands } =
+    useStatusContext();
+
+  const onContextMenu = (event: {
+    preventDefault: () => void;
+    pageX: any;
+    pageY: any;
+  }) => {
+    event.preventDefault();
+
+    setArchorPointStatus({ x: event.pageX, y: event.pageY });
+    setContextMenuStatus(true);
+    setContextMenuCommands([lockUnlockCommand]);
+  };
+
   return (
-    <div className={classes.root}>
+    <div
+      className={classes.root}
+      onContextMenu={onContextMenu}
+      style={{ backgroundColor: isStatic ? "red" : "" }}
+    >
       <div style={{ height: "80%" }}> {children}</div>
-      <MyDivider></MyDivider>
-      <div style={{ height: "19.9%" }}>
+
+      <div style={{ height: "20%", backgroundColor: "lightgrey" }}>
         <Typography className={classes.label}>
           <strong> {label}</strong>
         </Typography>

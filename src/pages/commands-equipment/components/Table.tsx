@@ -21,17 +21,12 @@ import {
   RowClickedEvent,
 } from "ag-grid-community";
 import { Button, createStyles, makeStyles, Theme } from "@material-ui/core";
-import { Coil, Command } from "boot/model";
+import { Bay, Coil, Command, PlanModel, StockSaddle } from "boot/model";
 import { useAppSelector } from "app/hook";
-import { CommandMapping } from "boot/utils/mapping";
+import { coilOpenDirectionMapping, CommandMapping } from "boot/utils/mapping";
 import { useDebounce } from "utils";
 import { sleep } from "boot/utils";
-
-interface Column {
-  field: string;
-  headerName: string;
-  width?: number;
-}
+import { columns, DataModel } from "./Setup";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,53 +42,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-const columns: Column[] = [
-  {
-    field: "CommandNo",
-    headerName: "指令号",
-  },
-  {
-    field: "CommandType",
-    headerName: "指令类型",
-  },
-  {
-    headerName: "钢卷号",
-    field: "CoilNo",
-  },
-  {
-    headerName: "优先级",
-    field: "Priority",
-  },
-  {
-    headerName: "起始鞍座位",
-    field: "StartStock",
-  },
-  {
-    headerName: "落关鞍座位",
-    field: "ToStock",
-  },
-  {
-    headerName: "起吊标志",
-    field: "PickupFlag",
-  },
-  {
-    headerName: "指令状态",
-    field: "CommandStatus",
-  },
-  {
-    headerName: "行车号",
-    field: "CraneNo",
-  },
-  {
-    headerName: "跨号",
-    field: "BayNo",
-  },
-  {
-    headerName: "更新时间",
-    field: "UpdateTime",
-  },
-];
 
 interface Data extends Command {
   id: number;
@@ -111,6 +59,14 @@ const Index = ({ filterValue }: Props) => {
 
   const [rowData, setRowData] = useState<any[]>([]);
   const ref = useRef<HTMLDivElement>(null);
+  const plans = useAppSelector((state) => state.plan).plans;
+  const coils = useAppSelector((state) => state.coils).coils;
+  const equipmentStocks = useAppSelector(
+    (state) => state.yard
+  ).equipmentSaddles;
+
+  // 设置计算频率
+  const debounceParams = useDebounce(rowData, 3000);
 
   const onGridReady = (params: RowClickedEvent) => {
     setGridApi(params.api);
@@ -131,7 +87,7 @@ const Index = ({ filterValue }: Props) => {
       if (!elements) {
         return;
       }
-      let height = 360;
+      let height = 375;
       elements.forEach((element) => {
         height += element.clientHeight;
       });
@@ -151,16 +107,12 @@ const Index = ({ filterValue }: Props) => {
     }
   };
 
-  const coils = useFilter(
-    useAppSelector((state) => state.commands).commands,
-    filterValue
-  );
-
-  // const debounceParam = useDebounce(coils, 3000);
-
+  const data = useData(plans, coils, equipmentStocks);
   useEffect(() => {
-    setRowData(coils);
-  }, [coils]);
+    if (data) {
+      setRowData(data);
+    }
+  }, [debounceParams]);
   return (
     <div
       style={{
@@ -182,56 +134,96 @@ const Index = ({ filterValue }: Props) => {
         getRowStyle={changeRowStyle}
         // onFilterChanged={}
       >
-        <AgGridColumn
-          field="CommandNo"
-          minWidth={150}
-          headerCheckboxSelection={true}
-          headerCheckboxSelectionFilteredOnly={true}
-          checkboxSelection={true}
-          headerName={columns[0].headerName}
-        />
-        <AgGridColumn field="CommandType" headerName={columns[1].headerName} />
-        <AgGridColumn
-          field="CoilNo"
-          minWidth={150}
-          headerName={columns[2].headerName}
-        />
-        <AgGridColumn
-          field="Priority"
-          minWidth={150}
-          headerName={columns[3].headerName}
-        />
-        <AgGridColumn field="StartStock" headerName={columns[4].headerName} />
-        <AgGridColumn field="ToStock" headerName={columns[5].headerName} />
-        <AgGridColumn field="PickupFlag" headerName={columns[6].headerName} />
-        <AgGridColumn
-          field="CommandStatus"
-          headerName={columns[7].headerName}
-        />
-        <AgGridColumn field="CraneNo" headerName={columns[8].headerName} />
-        <AgGridColumn field="BayNo" headerName={columns[9].headerName} />
-        <AgGridColumn field="UpdateTime" headerName={columns[10].headerName} />
+        {columns.map((column) => (
+          <AgGridColumn
+            field={column.field}
+            headerName={column.headerName}
+            key={column.field}
+          />
+        ))}
       </AgGridReact>
     </div>
   );
 };
 export default Index;
 
-const useFilter = (commands: Command[], filter: string | undefined) => {
-  const [value, setValue] = useState<Command[]>([]);
-  let commandTemp: Command[] = [];
-
+const useData = (
+  plans: PlanModel[],
+  coils: Coil[],
+  stockSaddles: StockSaddle[]
+) => {
+  const [data, setData] = useState<DataModel[]>([]);
   useEffect(() => {
-    if (commandTemp) {
-      commandTemp = commands.filter(
-        (temp: Command) =>
-          temp.CommandType.includes("21" + "") ||
-          temp.CommandType.includes("14" + "")
-      );
-
-      setValue(commandTemp);
+    if (plans.length <= 0) {
+      console.error("为查询到计划");
+      return;
     }
-  }, [filter]);
 
-  return value;
+    let stockIdList: string[] = [];
+    const targetCoils = coils.filter((coil: Coil) => {
+      if (
+        plans
+          .map((planTemp: PlanModel) => planTemp.COIL_NO)
+          .includes(coil.MAT_NO)
+      ) {
+        if (coil.ST_NO) {
+          stockIdList.push(coil.ST_NO);
+        }
+
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    let dataList: DataModel[] = [];
+    let index = 0;
+    targetCoils.forEach((coil: Coil) => {
+      let data: DataModel = {
+        INDEX: index++,
+        MAT_NO: coil.MAT_NO,
+        SCHEDULE_NO:
+          plans.find((planTemp: PlanModel) => planTemp.COIL_NO === coil.MAT_NO)
+            ?.ID ?? "",
+        WEIGHT: coil.WEIGHT ?? 0,
+        WIDTH: coil.WIDTH ?? 0,
+        INDIA: coil.INDIA ?? 0,
+        OUTDIA: coil.OUTDIA ?? 0,
+        PACKAGE_STATUS: coil.PACK_CODE ?? "未知",
+        COIL_OPEN_DIRECTION: coilOpenDirectionMapping(coil.COIL_OPEN_DIRECTION),
+        STOCK_NO: coil.ST_NO ?? "",
+        STOCK_STATUS: coil.ST_NO ? "鞍座占用" : "未知",
+        STOCK_TYPE: !coil.ST_NO
+          ? "未知"
+          : judgeStockType(
+              coil.ST_NO,
+              stockSaddles.map(
+                (stockSaddleTemp: StockSaddle) => stockSaddleTemp.id
+              )
+            ),
+        TIME:
+          plans.find((planTemp: PlanModel) => planTemp.COIL_NO === coil.MAT_NO)
+            ?.TIME ?? "",
+      };
+      dataList.push(data);
+    });
+    setData(dataList);
+  }, [plans]);
+
+  return data;
+};
+
+/**
+ * @description: 判断鞍座类型
+ * @param {string} stockNo
+ * @param {string} equipmentStocks
+ * @return {*}
+ * @author: Shawnneosuen@outlook.com
+ */
+const judgeStockType = (stockNo: string, equipmentStocks: string[]) => {
+  if (equipmentStocks.includes(stockNo)) {
+    return "机组鞍座";
+  } else {
+    return "库区内普通鞍座";
+  }
 };
