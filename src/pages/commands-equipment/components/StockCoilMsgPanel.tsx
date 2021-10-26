@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-15 14:53:06
- * @LastEditTime: 2021-10-25 16:57:56
+ * @LastEditTime: 2021-10-26 10:07:16
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/pages/commands-equipment/components/StockCoilMsgPanel.tsx
@@ -42,11 +42,13 @@ interface Props {
 
 const Index = ({ value }: Props) => {
   const classes = useStyles();
-  const equipmentStocks = useAppSelector((state) => state.yard).bays[3]
-    .equipmentStock;
+  const equipmentStocks = useAppSelector(
+    (state) => state.yard
+  ).equipmentSaddles;
   const [stock, setStock] = useState<StockSaddle[]>([]);
   const coils = useAppSelector((state) => state.coils).coils;
   useEffect(() => {
+    console.log("equipmentStocks", equipmentStocks);
     if (value?.includes("入口")) {
       setStock(
         equipmentStocks.filter((stockTemp: StockSaddle) =>
@@ -141,8 +143,8 @@ const StockModel = ({
   const dispatch = useDispatch();
 
   let lockUnlockCommand: Command = {
-    Id: "lock",
-    Name: "锁定",
+    Id: isStatic ? "unlock" : "lock",
+    Name: isStatic ? "解锁" : "锁定",
     Action: () => {
       if (label) {
         console.log("label", label);
@@ -171,7 +173,7 @@ const StockModel = ({
     <div
       className={classes.root}
       onContextMenu={onContextMenu}
-      style={{ backgroundColor: isStatic ? "red" : "" }}
+      style={{ backgroundColor: isStatic ? "red" : "white" }}
     >
       <div style={{ height: "80%" }}> {children}</div>
 

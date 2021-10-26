@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-30 20:37:14
- * @LastEditTime: 2021-10-25 17:02:32
+ * @LastEditTime: 2021-10-26 10:03:49
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/store/yardSlice.ts
@@ -88,6 +88,7 @@ export const yardSlice = createSlice({
           stockSaddleTemp.label === action.payload
       );
       if (index !== -1) {
+        console.log(stateClone.equipmentSaddles[index]);
         stateClone.equipmentSaddles[index].static =
           !stateClone.equipmentSaddles[index].static;
         console.log(stateClone.equipmentSaddles[index].static);
