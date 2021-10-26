@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-11 14:37:08
- * @LastEditTime: 2021-10-15 23:31:22
+ * @LastEditTime: 2021-10-26 15:45:23
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/components/MySelect/index.tsx
@@ -22,7 +22,7 @@ import { Clear } from "@material-ui/icons";
 interface Props extends MenuItemProps {
   value?: string;
   options?: string[];
-  onSelect?: any;
+  onChange?: any;
   init?: boolean;
   onClear?: any;
   label?: string;
@@ -33,46 +33,33 @@ const Index = ({
   value = "",
   init,
   options,
-  onSelect: handleSelect = () => {},
+  onChange: handleChange = () => {},
   onClear: handleClear,
   label,
   style,
 }: Props) => {
-  const [selectedValue, setSelectedValue] = useState<string>("");
+  const [localValue, setLocalValue] = useState<string>("");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const inputRef = useRef<HTMLDivElement>();
-  const [itemWidth, setItemWidth] = useState<number>(0);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    if (anchorEl == null) {
-      setAnchorEl(event.currentTarget);
-    }
-  };
-
-  const handleSelectClick = async (event: React.MouseEvent<HTMLElement>) => {
-    setSelectedValue(event.currentTarget.innerText);
-    setAnchorEl(null);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleValue = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setLocalValue(event.target.value);
   };
 
   handleClear = () => {
     setAnchorEl(null);
-    setSelectedValue("");
+    setLocalValue("");
   };
 
   useEffect(() => {
-    setItemWidth((inputRef.current?.offsetWidth ?? 0) + 40);
-  }, [inputRef.current]);
-
-  useEffect(() => {
-    handleSelect(selectedValue);
-  }, [selectedValue]);
+    handleChange(localValue);
+  }, [localValue]);
 
   useEffect(() => {
     if (init) {
-      setSelectedValue("");
+      setLocalValue("");
     }
   });
   return (
@@ -82,9 +69,8 @@ const Index = ({
         id="MySelectInput"
         ref={inputRef}
         label={label}
-        value={selectedValue}
-        onClick={handleClick}
-        disabled
+        value={localValue}
+        onChange={handleValue}
         endAdornment={
           <InputAdornment position="end">
             <IconButton

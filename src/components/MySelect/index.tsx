@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-11 14:37:08
- * @LastEditTime: 2021-10-15 23:31:22
+ * @LastEditTime: 2021-10-26 15:29:55
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/components/MySelect/index.tsx
@@ -122,7 +122,7 @@ const Index = ({
         id="customized-menu"
         anchorEl={anchorEl}
         keepMounted
-        style={{ width: itemWidth }}
+        style={{ width: "100%" }}
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >

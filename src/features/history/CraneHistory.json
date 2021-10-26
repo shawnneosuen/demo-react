@@ -1,0 +1,26 @@
+[
+  {
+    "ID": "1",
+    "TIME": "2020/02/20 11:35:54",
+    "CRANE_NO": "32",
+    "CREATE_EVENT": "夹钳空钩起升",
+    "COIL_NO": "10191240502",
+    "COMMAND_CODE": "31",
+    "CRANE_BIG": 272292,
+    "CRANE_SMALL": 5890,
+    "FROM_STOCK": "C176PC1A12",
+    "TO_STOCK": "C1808031"
+  },
+  {
+    "ID": "2",
+    "TIME": "2020/02/20 11:35:54",
+    "CRANE_NO": "32",
+    "CREATE_EVENT": "夹钳重钩打开",
+    "COIL_NO": "10191240502",
+    "COMMAND_CODE": "31",
+    "CRANE_BIG": 272292,
+    "CRANE_SMALL": 5890,
+    "FROM_STOCK": "C176PC1A12",
+    "TO_STOCK": "C1808031"
+  }
+]

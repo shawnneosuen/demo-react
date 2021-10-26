@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-23 13:20:23
- * @LastEditTime: 2021-10-17 22:32:48
+ * @LastEditTime: 2021-10-26 10:58:02
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/routes/index.tsx
@@ -16,6 +16,7 @@ import CraneCommands from "pages/crane-commands";
 import EquipmentCommands from "pages/commands-equipment";
 import TerminalCar from "pages/terminal-car";
 import TestPage from "pages/test-page";
+import HistoryWork from "pages/history-work";
 const Routers = () => {
   return [
     {
@@ -54,6 +55,10 @@ const Routers = () => {
     {
       path: "/test-page",
       main: <TestPage></TestPage>,
+    },
+    {
+      path: "/history-work",
+      main: <HistoryWork />,
     },
   ];
 };

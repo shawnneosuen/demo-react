@@ -4,7 +4,7 @@
  * @Autor: Shawnneosuen@outlook.com
  * @Date: 2021-09-08 20:26:28
  * @LastEditors: Shawnneosuen@outlook.com
- * @LastEditTime: 2021-10-25 16:39:17
+ * @LastEditTime: 2021-10-26 16:05:18
  */
 export interface Yard {
   bayIds: string[];
@@ -224,6 +224,20 @@ export type PlanModel = {
   COIL_NO: string;
   IS_FINISHED: boolean;
   TIME: string;
+};
+
+// 行车历史
+export type CraneHistoryModel = {
+  ID: string;
+  TIME: string;
+  CRANE_NO: string;
+  CREATE_EVENT: string;
+  COIL_NO: string;
+  COMMAND_CODE: string;
+  CRANE_BIG: number;
+  CRANE_SMALL: number;
+  FROM_STOCK: string;
+  TO_STOCK: string;
 };
 
 //组件属性定义

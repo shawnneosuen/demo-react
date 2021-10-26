@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-23 11:13:09
- * @LastEditTime: 2021-10-18 10:49:03
+ * @LastEditTime: 2021-10-26 11:02:08
  * @LastEditors: Shawnneosuen@outlook.com
  * @Description: In User Settings Edit
  * @FilePath: /demo-react/src/components/NavigaterLink.tsx
@@ -17,6 +17,7 @@ import ThreeDRotationIcon from "@material-ui/icons/ThreeDRotation";
 import OndemandVideoIcon from "@material-ui/icons/OndemandVideo";
 import BrushIcon from "@material-ui/icons/Brush";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
+import HistoryIcon from "@material-ui/icons/History";
 import DriveEtaIcon from "@material-ui/icons/DriveEta";
 import { useNavigate } from "react-router-dom";
 import { useStatusContext } from "../context/BasePageStatus";
@@ -65,10 +66,16 @@ const links = [
     path: "/terminal-car",
   },
   {
+    icon: <HistoryIcon />,
+    title: "作业实绩",
+    path: "/history-work",
+  },
+  {
     icon: <DriveEtaIcon />,
     title: "TestPage",
     path: "/test-page",
   },
+
   // {
   // 	icon: <ThreeDRotationIcon />,
   // 	title: '3D',
