@@ -24,9 +24,10 @@ import MyDivider from 'components/MyDivider'
 import MyInputText from 'components/MyInputText'
 import MySelect from 'components/MySelect'
 import MyTitle from 'components/MyTitle'
+import moment from 'moment'
 import { setFilterConditon } from 'pages/crane-commands/context/Action'
 import React, { useEffect, useState } from 'react'
-import { columns, FilterCondition } from './Setup'
+import { columns, FilterCondition, TimeCondition } from './Setup'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -49,6 +50,7 @@ interface Props {
 	disabled?: boolean
 	onEditAction?: any
 	onTableData?: CraneHistoryModel[]
+	onTimeCondition?: any
 }
 
 const Index = ({
@@ -56,6 +58,7 @@ const Index = ({
 	disabled,
 	onEditAction: handleAction = () => {},
 	onTableData,
+	onTimeCondition: handleTimeCondition = () => {},
 }: Props) => {
 	const classes = useStyles()
 
@@ -66,6 +69,15 @@ const Index = ({
 
 	const [craneNo, setCraneNo] = useState<string>()
 	const [commandType, setCommandType] = useState<string>()
+
+	const [forwardTimeCondition, setForwardTimeCondition] = useState<string>(
+		moment(new Date().valueOf() - 24 * 60 * 60 * 1000).format(
+			'YYYY-MM-DDTHH:mm'
+		)
+	)
+	const [rearTimeCondition, setRearTimeCondition] = useState<string>(
+		moment(new Date()).format('YYYY-MM-DDTHH:mm')
+	)
 
 	useEffect(() => {
 		let filterCondition: FilterCondition = {
@@ -79,6 +91,17 @@ const Index = ({
 	useEffect(() => {
 		handleFitler(value)
 	}, [value])
+
+	useEffect(() => {
+		console.log('test')
+		console.log(forwardTimeCondition)
+		console.log(rearTimeCondition)
+
+		handleTimeCondition({
+			forwardTime: forwardTimeCondition,
+			rearTime: rearTimeCondition,
+		})
+	}, [forwardTimeCondition, rearTimeCondition])
 	return (
 		<div style={{ marginBottom: 20 }}>
 			<ThemeProvider theme={theme}>
@@ -86,8 +109,16 @@ const Index = ({
 					{/* 时间排序 */}
 					<Grid item xs={3} style={{ border: '1px dashed lightgrey' }}>
 						<MyTitle value={'时间筛选'}></MyTitle>
-						<MyDateComponent label={'开始时间'} />
-						<MyDateComponent label={'结束时间'} />
+						<MyDateComponent
+							label={'开始时间'}
+							defaultValue={forwardTimeCondition}
+							onConfirmed={setForwardTimeCondition}
+						/>
+						<MyDateComponent
+							label={'结束时间'}
+							defaultValue={rearTimeCondition}
+							onConfirmed={setRearTimeCondition}
+						/>
 					</Grid>
 
 					{/* 类型筛选 */}
@@ -133,7 +164,6 @@ const Index = ({
 										let strData: string = ''
 
 										for (dataKey in dataTemp) {
-											console.log(dataTemp[dataKey])
 											if (dataKey && columns)
 												if (
 													columns.find(

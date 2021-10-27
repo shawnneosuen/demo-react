@@ -7,7 +7,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core'
 import { Coil, Command, CraneHistoryModel } from 'boot/model'
 import { useAppSelector } from 'app/hook'
 import { sleep } from 'boot/utils'
-import { columns, FilterCondition } from './Setup'
+import { columns, FilterCondition, TimeCondition } from './Setup'
 import { CommandMapping } from 'boot/utils/mapping'
 
 interface Column {
@@ -40,12 +40,14 @@ interface Props {
 	filterValue?: FilterCondition
 	onSelectedValue?: any
 	onTableData?: any
+	onTimeCondition?: TimeCondition
 }
 
 const Index = ({
 	filterValue,
 	onSelectedValue: handleSelectedData = () => {},
 	onTableData: handleTableData = () => {},
+	onTimeCondition,
 }: Props) => {
 	const [gridApi, setGridApi] = useState<GridApi>()
 	const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>()
@@ -93,7 +95,10 @@ const Index = ({
 	}
 
 	const history = useAppSelector((state) => state.history).craneHistory
-	const filterHistory = useFilter(history, filterValue)
+	const filterHistory = useTimeFilter(
+		useFilter(history, filterValue),
+		onTimeCondition
+	)
 
 	useEffect(() => {
 		setRowData(filterHistory)
@@ -160,10 +165,32 @@ const useFilter = (
 				(history.COMMAND_CODE = CommandMapping(history.COMMAND_CODE))
 		)
 
-		console.log('filterCraneHistoryClone', filterCraneHistoryClone)
-
 		setValue(filterCraneHistoryClone)
 	}, [craneHistory, filter])
 
+	return value
+}
+
+const useTimeFilter = (
+	craneHistory: CraneHistoryModel[],
+	timeFilterCondition: TimeCondition | undefined
+) => {
+	const [value, setValue] = useState<CraneHistoryModel[]>([])
+	useEffect(() => {
+		if (timeFilterCondition) {
+			let filterCraneHistory = craneHistory
+				.filter(
+					(craneHistoryTemp: CraneHistoryModel) =>
+						new Date(craneHistoryTemp.TIME).valueOf() <
+						new Date(timeFilterCondition?.rearTime).valueOf()
+				)
+				.filter(
+					(craneHistoryTemp: CraneHistoryModel) =>
+						new Date(craneHistoryTemp.TIME).valueOf() >
+						new Date(timeFilterCondition?.forwardTime).valueOf()
+				)
+			setValue(filterCraneHistory)
+		}
+	}, [timeFilterCondition, craneHistory])
 	return value
 }

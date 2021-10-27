@@ -7,69 +7,70 @@
  * @LastEditTime: 2021-10-26 14:38:51
  */
 
-import React, { useEffect, useState } from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import moment from "moment";
+import React, { useEffect, useState } from 'react'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
+import moment from 'moment'
 
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      display: "flex",
-      flexWrap: "wrap",
-    },
-    textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: 230,
-    },
-  })
-);
+	createStyles({
+		container: {
+			display: 'flex',
+			flexWrap: 'wrap',
+		},
+		textField: {
+			marginLeft: theme.spacing(1),
+			marginRight: theme.spacing(1),
+			width: 230,
+		},
+	})
+)
 
 interface Props {
-  label?: string;
-  onConfirmed?: any;
-  defaultValue?: string;
-  variant?: "filled" | "outlined" | "standard" | undefined;
-  size?: "medium" | "small" | undefined;
+	label?: string
+	onConfirmed?: any
+	defaultValue?: string
+	variant?: 'filled' | 'outlined' | 'standard' | undefined
+	size?: 'medium' | 'small' | undefined
 }
 
 export default function DateAndTimePickers({
-  label,
-  onConfirmed: handleConfirmed = () => {},
-  defaultValue = moment(new Date()).format("YYYY-MM-DDTHH:mm"),
-  variant,
-  size = "medium",
+	label,
+	onConfirmed: handleConfirmed = () => {},
+	defaultValue = moment(new Date()).format('YYYY-MM-DDTHH:mm'),
+	variant,
+	size = 'medium',
 }: Props) {
-  const classes = useStyles();
-  console.log(defaultValue);
+	const classes = useStyles()
 
-  const [value, setValue] = useState<string>();
+	const [value, setValue] = useState<string>()
 
-  const handleChange = (event: {
-    target: { value: React.SetStateAction<string | undefined> };
-  }) => {
-    setValue(event.target.value);
-  };
+	const handleChange = (event: {
+		target: { value: React.SetStateAction<string | undefined> }
+	}) => {
+		setValue(event.target.value)
+	}
 
-  useEffect(() => {
-    handleConfirmed(value);
-  }, [value]);
-  return (
-    <form className={classes.container} noValidate>
-      <TextField
-        id="datetime-local"
-        label={label}
-        type="datetime-local"
-        variant={variant}
-        defaultValue={defaultValue}
-        className={classes.textField}
-        onChange={handleChange}
-        fullWidth
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-    </form>
-  );
+	useEffect(() => {
+		if (value) {
+			handleConfirmed(value)
+		}
+	}, [value])
+	return (
+		<form className={classes.container} noValidate>
+			<TextField
+				id='datetime-local'
+				label={label}
+				type='datetime-local'
+				variant={variant}
+				defaultValue={defaultValue}
+				className={classes.textField}
+				onChange={handleChange}
+				fullWidth
+				InputLabelProps={{
+					shrink: true,
+				}}
+			/>
+		</form>
+	)
 }

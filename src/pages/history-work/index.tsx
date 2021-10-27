@@ -25,7 +25,7 @@ import Table from './components/Table'
 import React, { useEffect, useState } from 'react'
 
 import SearchPanel from './components/SearchPanel'
-import { FilterCondition } from './components/Setup'
+import { FilterCondition, TimeCondition } from './components/Setup'
 
 const theme = createTheme({
 	palette: {
@@ -49,8 +49,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Index = () => {
 	const classes = useStyles()
-
 	const [filterCondition, setFilterCondition] = useState<FilterCondition>()
+	const [timeCondition, setTimeCondition] = useState<TimeCondition>()
 	const [selectedData, setSelectedData] = useState<any>()
 	const [open, setOpen] = useState<boolean>()
 	const [tableData, setTableData] = useState()
@@ -84,6 +84,7 @@ const Index = () => {
 						onEditAction={() => setOpen(true)}
 						disabled={!selectedData || selectedData.length !== 1}
 						onTableData={tableData}
+						onTimeCondition={setTimeCondition}
 					></SearchPanel>
 				</Grid>
 				<Grid item>
@@ -92,6 +93,7 @@ const Index = () => {
 							filterValue={filterCondition}
 							onSelectedValue={setSelectedData}
 							onTableData={setTableData}
+							onTimeCondition={timeCondition}
 						></Table>
 					</Box>
 				</Grid>
